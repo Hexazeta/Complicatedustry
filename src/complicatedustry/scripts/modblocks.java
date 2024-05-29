@@ -234,6 +234,7 @@ public class modblocks {
             squareSprite = true;
             size = 5;
             itemCapacity = 50;
+            liquidCapacity = 160f;
             craftTime = 320f;
             hasPower = true;
             hasLiquids = true;
