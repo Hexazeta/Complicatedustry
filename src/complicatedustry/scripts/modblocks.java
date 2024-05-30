@@ -4,8 +4,14 @@ import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.type.*;
 import mindustry.world.*;
+import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.*;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawHeatInput;
+import mindustry.world.draw.DrawHeatOutput;
+import mindustry.world.draw.DrawMulti;
+import mindustry.world.meta.BlockGroup;
 
 import static mindustry.type.ItemStack.*;
 
@@ -14,6 +20,7 @@ public class modblocks {
     public static Block
 
     //stuff here
+    heatRedirector,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
@@ -21,6 +28,17 @@ public class modblocks {
     compoundCrucible, ultralloyCrucible;
 
     public static void load() {
+
+        heatRedirector = new HeatConductor("heat-redirector"){{
+            requirements(Category.crafting, with(Items.graphite, 1));
+
+            researchCostMultiplier = 10f;
+
+            group = BlockGroup.heat;
+            size = 3;
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
+            regionRotated1 = 1;
+        }};
 
         pyratiteMultiMixer = new GenericCrafter("pyratite-multi-mixer") {{
             requirements(Category.crafting, with( Items.graphite, 1));
@@ -166,7 +184,7 @@ public class modblocks {
             consumeLiquid(Liquids.hydrogen, 15f / 60f);
             consumeItems(with(Items.beryllium, 3, Items.tungsten, 3, Items.silicon, 4));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.coal, 2);
+            outputItem = new ItemStack(moditems.forceAlloy, 2);
             heatRequirement = 10f;
         }};
 
@@ -240,7 +258,7 @@ public class modblocks {
             hasLiquids = false;
             consumeItems(with(Items.metaglass, 3, Items.tungsten, 2));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.coal, 2);
+            outputItem = new ItemStack(moditems.reinforcedGlass, 2);
         }};
 
         surgeFoundry = new HeatCrafter("surge-foundry") {{
@@ -257,6 +275,7 @@ public class modblocks {
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.surgeAlloy, 4);
             heatRequirement = 20f;
+            maxEfficiency = 5f;
         }};
 
         cryofluidMultiMixer = new GenericCrafter("cryofluid-multi-mixer") {{
@@ -316,14 +335,14 @@ public class modblocks {
         powerCrucible = new GenericCrafter("power-crucible") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            size = 4;
+            size = 3;
             itemCapacity = 30;
-            craftTime = 208f;
+            craftTime = 169f;
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.blastCompound, 3, Items.pyratite, 5, Items.thorium, 7));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.coal, 2);
+            outputItem = new ItemStack(moditems.powerAlloy, 2);
         }};
 
         compoundCrucible = new HeatCrafter("compound-crucible") {{
@@ -336,8 +355,26 @@ public class modblocks {
             hasLiquids = false;
             consumeItems(with(Items.phaseFabric, 2, Items.plastanium, 3, Items.oxide, 4, Items.carbide, 3));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.coal, 2);
+            outputItem = new ItemStack(moditems.compoundAlloy, 2);
             heatRequirement = 16f;
+            maxEfficiency = 5f;
+        }};
+
+        ultralloyCrucible = new HeatCrafter("ultralloy-crucible") {{
+            requirements(Category.crafting, with( Items.graphite, 1));
+            squareSprite = true;
+            size = 5;
+            itemCapacity = 30;
+            liquidCapacity = 50f;
+            craftTime = 225.25f;
+            hasPower = true;
+            hasLiquids = true;
+            consumeItems(with(Items.surgeAlloy, 4, moditems.forceAlloy, 3, moditems.powerAlloy, 2, moditems.compoundAlloy, 3));
+            consumeLiquid(Liquids.cryofluid, 20f / 60f);
+            consumePower(2f / 3f);
+            outputItem = new ItemStack(Items.coal, 4);
+            heatRequirement = 40f;
+            maxEfficiency = 6f;
         }};
 
     }
