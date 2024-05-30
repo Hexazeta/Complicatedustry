@@ -14,10 +14,10 @@ public class modblocks {
     public static Block
 
     //stuff here
-    pyratiteMultiMixer, siliconFoundry, forge, waterConcentrator, advancedOxidationChamber,
+    pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
-    surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator,
+    surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerCrucible,
     compoundCrucible, ultralloyCrucible;
 
     public static void load() {
@@ -48,6 +48,20 @@ public class modblocks {
             consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 5));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.silicon, 32);
+        }};
+
+        diamondMegaPress = new HeatCrafter("diamond-mega-press"){{
+            requirements(Category.crafting, with( Items.graphite, 1));
+            squareSprite = true;
+            size = 3;
+            itemCapacity = 30;
+            craftTime = 120f;
+            hasPower = true;
+            hasLiquids = false;
+            consumeItems(with(Items.graphite, 7));
+            consumePower(2f / 3f);
+            outputItem = new ItemStack(moditems.diamond, 3);
+            heatRequirement = 25f;
         }};
 
         forge = new GenericCrafter("forge") {{
@@ -297,6 +311,19 @@ public class modblocks {
             consumeItem(Items.scrap, 3);
             consumeLiquid(Liquids.slag, 15f / 60f);
             consumeLiquid(Liquids.water, 6f / 60f);
+        }};
+
+        powerCrucible = new GenericCrafter("power-crucible") {{
+            requirements(Category.crafting, with( Items.graphite, 1));
+            squareSprite = true;
+            size = 4;
+            itemCapacity = 30;
+            craftTime = 208f;
+            hasPower = true;
+            hasLiquids = false;
+            consumeItems(with(Items.blastCompound, 3, Items.pyratite, 5, Items.thorium, 7));
+            consumePower(2f / 3f);
+            outputItem = new ItemStack(Items.coal, 2);
         }};
 
         compoundCrucible = new HeatCrafter("compound-crucible") {{
