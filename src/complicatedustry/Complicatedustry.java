@@ -7,6 +7,7 @@ public class Complicatedustry extends Mod{
     @Override
     public void loadContent() {
         EntityRegistry.register();
+        modliquids.load();
         moditems.load();
         modblocks.load();
     }

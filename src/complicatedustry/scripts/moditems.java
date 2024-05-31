@@ -3,6 +3,7 @@ package complicatedustry.scripts;
 import arc.graphics.Color;
 import mindustry.type.Item;
 
+
 public class moditems {
 
     public static Item diamond,forceAlloy,reinforcedGlass,powerAlloy,compoundAlloy,ultralloy;
@@ -28,5 +29,10 @@ public class moditems {
             compoundAlloy = new Item("compound-alloy"){{
                 color = Color.valueOf("c4417a");
             }};
+
+            ultralloy = new Item("ultralloy"){{
+                color = Color.valueOf("ffffff");
+            }};
+
 
     }}
