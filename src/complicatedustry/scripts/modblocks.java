@@ -1,6 +1,7 @@
 package complicatedustry.scripts;
 
 import arc.graphics.Color;
+import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.type.*;
@@ -66,6 +67,7 @@ public class modblocks {
         siliconFoundry = new GenericCrafter("silicon-foundry") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
+            craftEffect = Fx.smeltsmoke;
             drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault(),new DrawFlame(Color.valueOf("ffef99")), new DrawRegion("-center"));
             size = 4;
             itemCapacity = 90;
@@ -74,7 +76,7 @@ public class modblocks {
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.oil, 10f / 60f);
-            consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 5));
+            consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 2));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.silicon, 32);
         }};
@@ -99,7 +101,8 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             craftTime = 40f;
-            drawer = new DrawMulti(new DrawDefault() , new DrawFlame(Color.valueOf("ffef99")));
+            craftEffect = Fx.smeltsmoke;
+            drawer = new DrawMulti(new DrawDefault() , new DrawFlame(Color.valueOf("ffc099")));
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.sand, 4, Items.lead, 5, Items.pyratite, 1));
@@ -265,13 +268,13 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 10f;
-            craftTime = 180f;
+            craftTime = 165f;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.ozone, 4f / 60f);
-            consumeItems(with(Items.thorium, 3,Items.silicon, 8));
+            consumeLiquid(Liquids.ozone, 9f / 60f);
+            consumeItems(with(Items.thorium, 6,Items.silicon, 16));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.phaseFabric, 2);
+            outputItem = new ItemStack(Items.phaseFabric, 11);
             heatRequirement = 12f;
         }};
 
