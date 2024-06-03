@@ -18,11 +18,8 @@ public class modblocks {
 
     public static Block
 
-    //transports
-    titaniumBridgeConveyor,
-
     //stuff here
-    heatRedirector,
+    smallHeatRedirector,heatRedirector,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
@@ -31,13 +28,15 @@ public class modblocks {
 
     public static void load() {
 
-        titaniumBridgeConveyor = new BufferedItemBridge("titanium-bridge-conveyor"){{
-            requirements(Category.distribution, with(Items.lead, 6, Items.copper, 6, Items.titanium, 6));
-            fadeIn = moveArrows = false;
-            itemCapacity = 20;
-            range = 8;
-            arrowSpacing = 6f;
-            bufferCapacity = 14;
+        smallHeatRedirector = new HeatConductor("small-heat-redirector"){{
+            requirements(Category.crafting, with(Items.graphite, 1));
+
+            researchCostMultiplier = 10f;
+
+            group = BlockGroup.heat;
+            size = 1;
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
+            regionRotated1 = 1;
         }};
 
         heatRedirector = new HeatConductor("heat-redirector"){{
@@ -67,7 +66,7 @@ public class modblocks {
         siliconFoundry = new GenericCrafter("silicon-foundry") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault(), new DrawRegion("-center"));
+            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault(),new DrawFlame(Color.valueOf("ffef99")), new DrawRegion("-center"));
             size = 4;
             itemCapacity = 90;
             liquidCapacity = 35f;
@@ -99,12 +98,13 @@ public class modblocks {
             squareSprite = true;
             size = 3;
             itemCapacity = 30;
-            craftTime = 90f;
+            craftTime = 40f;
+            drawer = new DrawMulti(new DrawDefault() , new DrawFlame(Color.valueOf("ffef99")));
             hasPower = true;
             hasLiquids = false;
-            consumeItems(with(Items.sand, 3, Items.lead, 2, Items.pyratite, 1));
+            consumeItems(with(Items.sand, 4, Items.lead, 5, Items.pyratite, 1));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.metaglass, 3);
+            outputItem = new ItemStack(Items.metaglass, 4);
         }};
 
         waterConcentrator = new GenericCrafter("water-concentrator") {{
@@ -128,7 +128,7 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 20f;
-            craftTime = 180f;
+            craftTime = 150f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.ozone, 6f / 60f);
@@ -144,7 +144,7 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 90f;
-            craftTime = 150f;
+            craftTime = 120f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 36f / 60f);
@@ -174,7 +174,7 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 90;
-            craftTime = 80f;
+            craftTime = 12f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 15f / 60f);
@@ -188,7 +188,7 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 4;
-            itemCapacity = 30;
+            itemCapacity = 50;
             liquidCapacity= 40f;
             craftTime = 120f;
             hasPower = true;
@@ -206,13 +206,13 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 40f;
-            craftTime = 150f;
+            craftTime = 120f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.hydrogen, 15f / 60f);
-            consumeItems(with(Items.pyratite, 3, Items.sporePod, 2));
+            consumeItems(with(Items.pyratite, 3, Items.sporePod, 5));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.blastCompound, 3);
+            outputItem = new ItemStack(Items.blastCompound, 4);
         }};
 
         plastaniumMultiCompressor = new GenericCrafter("plastanium-multi-mixer") {{
@@ -221,7 +221,7 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 50f;
-            craftTime = 90f;
+            craftTime = 40f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.oil, 20f / 60f);
@@ -250,8 +250,8 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
-            itemCapacity = 30;
-            craftTime = 120f;
+            itemCapacity = 40;
+            craftTime = 96f;
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.blastCompound, 7, Items.pyratite, 11, Items.thorium, 13));
@@ -305,13 +305,13 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 5;
-            itemCapacity = 50;
+            itemCapacity = 70;
             liquidCapacity = 160f;
-            craftTime = 210f;
+            craftTime = 120f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.slag, 40f / 60f);
-            consumeItems(with(Items.copper, 5, Items.lead, 6, Items.titanium, 4, Items.silicon, 8));
+            consumeItems(with(Items.copper, 7, Items.lead, 8, Items.titanium, 6, Items.silicon, 14));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.surgeAlloy, 4);
             heatRequirement = 20f;
@@ -376,7 +376,7 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 4;
-            itemCapacity = 30;
+            itemCapacity = 60;
             craftTime = 120f;
             hasPower = true;
             hasLiquids = false;
@@ -391,13 +391,13 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 5;
-            itemCapacity = 40;
+            itemCapacity = 80;
             liquidCapacity = 50f;
-            craftTime = 180f;
+            craftTime = 360f;
             hasPower = true;
             hasLiquids = true;
-            consumeItems(with(Items.surgeAlloy, 8, moditems.forceAlloy, 7, moditems.powerAlloy, 6, moditems.compoundAlloy, 7));
-            consumeLiquid(Liquids.cryofluid, 20f / 60f);
+            consumeItems(with(Items.surgeAlloy, 30, moditems.forceAlloy, 10, moditems.powerAlloy, 5, moditems.compoundAlloy, 15));
+            consumeLiquid(Liquids.cryofluid, 35f / 60f);
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.ultralloy, 4);
             heatRequirement = 40f;
