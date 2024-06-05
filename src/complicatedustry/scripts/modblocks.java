@@ -424,13 +424,14 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 5;
-            itemCapacity = 50;
+            itemCapacity = 70;
             craftTime = 180f;
             hasPower = true;
-            hasLiquids = false;
-            consumeItems(with(Items.copper, 9, Items.lead, 8, Items.sand, 7,
-                    Items.titanium, 6, Items.graphite, 8, Items.thorium, 5,
-                    Items.beryllium, 9, Items.tungsten, 7));
+            hasLiquids = true;
+            consumeLiquid(Liquids.water, 40f / 60f);
+            consumeItems(with(Items.copper, 17, Items.lead, 16, Items.sand, 15,
+                    Items.titanium, 14, Items.graphite, 16, Items.thorium, 13,
+                    Items.beryllium, 17, Items.tungsten, 15));
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.omegalloy, 8);
         }};
