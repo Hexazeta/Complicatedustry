@@ -219,16 +219,19 @@ public class modblocks {
             outputItem = new ItemStack(Items.blastCompound, 4);
         }};
 
-        plastaniumMultiCompressor = new GenericCrafter("plastanium-multi-mixer") {{
+        plastaniumMultiCompressor = new GenericCrafter("plastanium-multi-compressor") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
             itemCapacity = 30;
             liquidCapacity = 50f;
             craftTime = 40f;
+            craftEffect = Fx.formsmoke;
+            updateEffect = Fx.smeltsmoke;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFade());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.oil, 20f / 60f);
+            consumeLiquid(Liquids.oil, 25f / 60f);
             consumeItems(with(Items.titanium, 3));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.plastanium, 2);
