@@ -7,6 +7,7 @@ import mindustry.content.Liquids;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.BufferedItemBridge;
+import mindustry.world.blocks.distribution.StackConveyor;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.*;
@@ -20,7 +21,7 @@ public class modblocks {
     public static Block
 
     //stuff here
-    smallHeatRedirector,heatRedirector,
+    smallHeatRedirector, heatRedirector, surgeConveyor,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
@@ -29,6 +30,25 @@ public class modblocks {
     ultralloyCrucible;
 
     public static void load() {
+
+        surgeConveyor = new StackConveyor("surge-conveyor"){{
+            requirements(Category.distribution, with(Items.surgeAlloy, 1, Items.titanium, 1));
+            health = 130;
+            //TODO different base speed/item capacity?
+            speed = 5f / 60f;
+            itemCapacity = 30;
+
+            outputRouter = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+
+            underBullets = true;
+            baseEfficiency = 1f;
+            consumePower(1f / 60f);
+            researchCost = with(Items.surgeAlloy, 30, Items.tungsten, 80);
+        }};
+
 
         smallHeatRedirector = new HeatConductor("small-heat-redirector"){{
             requirements(Category.crafting, with(Items.graphite, 1));
@@ -58,6 +78,8 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             craftTime = 120f;
+            craftEffect = Fx.coalSmeltsmoke;
+            updateEffect= Fx.coalSmeltsmoke;
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.sand, 8, Items.graphite, 2, Items.lead, 5));
@@ -69,11 +91,14 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             craftEffect = Fx.smeltsmoke;
-            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault(),new DrawFlame(Color.valueOf("ffef99")), new DrawRegion("-center"));
+            updateEffect = Fx.smeltsmoke;
+            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(),
+                    new DrawDefault(),new DrawFlame(Color.valueOf("ffef99")),
+                    new DrawRegion("-center"));
             size = 4;
-            itemCapacity = 90;
+            itemCapacity = 120;
             liquidCapacity = 35f;
-            craftTime = 225f;
+            craftTime = 640f / 9f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.oil, 10f / 60f);
@@ -103,6 +128,7 @@ public class modblocks {
             itemCapacity = 30;
             craftTime = 40f;
             craftEffect = Fx.smeltsmoke;
+            updateEffect = Fx.smeltsmoke;
             drawer = new DrawMulti(new DrawDefault() , new DrawFlame(Color.valueOf("ffc099")));
             hasPower = true;
             hasLiquids = false;
@@ -211,6 +237,8 @@ public class modblocks {
             itemCapacity = 30;
             liquidCapacity = 40f;
             craftTime = 120f;
+            craftEffect = Fx.coalSmeltsmoke;
+            updateEffect = Fx.coalSmeltsmoke;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.hydrogen, 15f / 60f);
@@ -330,8 +358,12 @@ public class modblocks {
             squareSprite = true;
             size = 3;
             itemCapacity = 30;
-            liquidCapacity = 50f;
+            liquidCapacity = 75f;
             craftTime =180f;
+            craftEffect = Fx.steam;
+            updateEffect = Fx.steam;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.hydrogen),
+                    new DrawLiquidRegion(Liquids.ozone), new DrawLiquidRegion(Liquids.cryofluid), new DrawDefault());
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.ozone, 10f / 60f);
