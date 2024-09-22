@@ -330,7 +330,7 @@ public class modblocks {
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.powerAlloy, 5);
         }};
-
+//todo what the fuck is going on
         phaseCatalysis = new HeatCrafter("phase-catalysis") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
