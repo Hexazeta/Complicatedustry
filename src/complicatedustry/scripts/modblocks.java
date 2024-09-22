@@ -4,10 +4,13 @@ import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
+import mindustry.entities.effect.RadialEffect;
+import mindustry.gen.Sounds;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.BufferedItemBridge;
 import mindustry.world.blocks.distribution.StackConveyor;
+import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.*;
@@ -21,7 +24,7 @@ public class modblocks {
     public static Block
 
     //stuff here
-    smallHeatRedirector, heatRedirector, surgeConveyor,
+    smallHeatRedirector, heatRedirector, surgeConveyor, diamondMultiMegaPress, surgeRouter,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
@@ -49,6 +52,20 @@ public class modblocks {
             researchCost = with(Items.surgeAlloy, 30, Items.tungsten, 80);
         }};
 
+        surgeRouter = new StackRouter("surge-router"){{
+            requirements(Category.distribution, with(Items.surgeAlloy, 5, Items.titanium, 1));
+            health = 130;
+
+            speed = 5f / 60f;
+
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            baseEfficiency = 1f;
+            underBullets = true;
+            solid = false;
+            consumePower(3f / 60f);
+        }};
 
         smallHeatRedirector = new HeatConductor("small-heat-redirector"){{
             requirements(Category.crafting, with(Items.graphite, 1));
@@ -121,6 +138,20 @@ public class modblocks {
             heatRequirement = 25f;
         }};
 
+        diamondMultiMegaPress = new HeatCrafter("diamond-multi-mega-press"){{
+            requirements(Category.crafting, with( Items.graphite, 1));
+            squareSprite = true;
+            size = 4;
+            itemCapacity = 40;
+            craftTime = 60f;
+            hasPower = true;
+            hasLiquids = false;
+            consumeItems(with(Items.graphite, 21));
+            consumePower(2f / 3f);
+            outputItem = new ItemStack(moditems.diamond, 6);
+            heatRequirement = 40f;
+        }};
+
         forge = new GenericCrafter("forge") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
@@ -155,7 +186,7 @@ public class modblocks {
         advancedOxidationChamber = new HeatProducer("advanced-oxidation-chamber") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            size = 3;
+            size = 4;
             itemCapacity = 30;
             liquidCapacity = 20f;
             craftTime = 150f;
@@ -185,16 +216,22 @@ public class modblocks {
         carbideFoundry = new HeatCrafter("carbide-foundry") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            size = 3;
+            size = 4;
             itemCapacity = 30;
             liquidCapacity = 30f;
-            craftTime = 90f;
+            craftTime = 180f;
+            updateEffect = Fx.pulverizeMedium;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
+                particles = 40; particleRad = 11f; particleSize = 3.5f; fadeMargin = 0.6f; rotateScl = 2f;}},
+                    new DrawDefault(), new DrawHeatInput());
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.09f;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 5f / 60f);
-            consumeItems(with(Items.tungsten, 3, Items.graphite, 4));
+            consumeLiquid(Liquids.water, 10f / 60f);
+            consumeItems(with(Items.tungsten, 6, Items.graphite, 8));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.carbide, 2);
+            outputItem = new ItemStack(Items.carbide, 4);
             heatRequirement = 14f;
         }};
 
@@ -297,8 +334,8 @@ public class modblocks {
         phaseCatalysis = new HeatCrafter("phase-catalysis") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            size = 3;
-            itemCapacity = 30;
+            size = 4;
+            itemCapacity = 40;
             liquidCapacity = 10f;
             craftTime = 165f;
             hasPower = true;
@@ -343,6 +380,15 @@ public class modblocks {
             itemCapacity = 70;
             liquidCapacity = 160f;
             craftTime = 120f;
+            craftEffect = Fx.smeltsmoke;
+            craftEffect = new RadialEffect(Fx.surgeCruciSmoke, 8, 45f, 9f);
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.9f;
+            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawCircles(){{
+                color = Color.valueOf("ffc073").a(0.24f);strokeMax = 2.5f; radius = 10f;amount = 3;}},
+                    new DrawLiquidRegion(Liquids.slag), new DrawDefault(), new DrawHeatInput(),
+                    new DrawHeatRegion("-vents"){{color.a = 1f;}},
+                    new DrawHeatRegion(){{color = Color.valueOf("ff6060ff");}}, new DrawFlame() );
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.slag, 40f / 60f);
@@ -366,12 +412,12 @@ public class modblocks {
                     new DrawLiquidRegion(Liquids.ozone), new DrawLiquidRegion(Liquids.cryofluid), new DrawDefault());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.ozone, 10f / 60f);
-            consumeLiquid(Liquids.hydrogen, 15f / 60f);
+            consumeLiquid(Liquids.ozone, 12f / 60f);
+            consumeLiquid(Liquids.hydrogen, 18f / 60f);
             consumeItems(with(Items.titanium, 2));
             consumePower(2f / 3f);
             outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.cryofluid, 25f / 60f);
+            outputLiquid = new LiquidStack(Liquids.cryofluid, 30f / 60f);
         }};
 
         fractionator = new Separator("fractionator"){{
