@@ -338,6 +338,17 @@ public class modblocks {
             itemCapacity = 40;
             liquidCapacity = 10f;
             craftTime = 165f;
+            craftEffect = Fx.smeltsmoke;
+            updateEffect = Fx.smeltsmoke;
+            ambientSound = Sounds.techloop;
+            ambientSoundVolume = 0.02f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpikes(){{
+                radius = 8.5f; length = 6.7f; color = Color.valueOf("ffd59e"); stroke = 1.5f;
+                layers = 4; amount = 10; rotateSpeed = 0.5f; layerSpeed = -0.9f;}},
+                    new DrawMultiWeave(){{glowColor = new Color(1f, 0.4f, 0.4f, 0.8f);}},
+                    new DrawDefault(), new DrawHeatInput(), new DrawHeatRegion("-vents"){{
+                color = new Color(1f, 0.4f, 0.3f, 1f);}}
+            );
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.ozone, 9f / 60f);
