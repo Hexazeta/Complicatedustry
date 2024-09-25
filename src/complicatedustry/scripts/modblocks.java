@@ -15,7 +15,9 @@ import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BlockGroup;
+import mindustry.world.meta.Env;
 
 import static mindustry.type.ItemStack.*;
 
@@ -190,6 +192,11 @@ public class modblocks {
             itemCapacity = 30;
             liquidCapacity = 20f;
             craftTime = 150f;
+            updateEffect = Fx.smeltsmoke;
+            rotateDraw = false;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(), new DrawDefault(), new DrawHeatOutput());
+            ambientSound = Sounds.extractLoop;
+            ambientSoundVolume = 0.08f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.ozone, 6f / 60f);
@@ -206,6 +213,9 @@ public class modblocks {
             itemCapacity = 30;
             liquidCapacity = 90f;
             craftTime = 120f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water),
+                    new DrawCultivator(){{spread = 6f; radius = 4.5f; bubbles = 18; sides = 12;}},
+                    new DrawDefault());
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 36f / 60f);
@@ -261,7 +271,7 @@ public class modblocks {
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.hydrogen, 20f / 60f);
-            consumeItems(with(Items.beryllium, 7, Items.tungsten, 6, Items.silicon, 8));
+            consumeItems(with(Items.beryllium, 7, Items.tungsten, 6, Items.silicon, 8, Items.graphite, 7));
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.forceAlloy, 2);
             heatRequirement = 10f;
