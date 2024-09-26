@@ -231,7 +231,7 @@ public class modblocks {
             liquidCapacity = 30f;
             craftTime = 180f;
             updateEffect = Fx.pulverizeMedium;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
+            drawer = new DrawMulti(  new DrawCrucibleFlame(){{
                 particles = 40; particleRad = 11f; particleSize = 3.5f; fadeMargin = 0.6f; rotateScl = 2f;}},
                     new DrawDefault(), new DrawHeatInput());
             ambientSound = Sounds.smelter;
@@ -268,6 +268,8 @@ public class modblocks {
             itemCapacity = 50;
             liquidCapacity= 40f;
             craftTime = 120f;
+            updateEffect = Fx.formsmoke;
+            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawPlasma(),new DrawDefault(), new DrawHeatInput());
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.hydrogen, 20f / 60f);
