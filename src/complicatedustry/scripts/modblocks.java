@@ -31,7 +31,7 @@ public class modblocks {
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
     surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerCrucible,
-    acidSynthesizer, compoundCrucible, liquidMixer, feldsparProcessor, omegalloyCrucible,
+    acidSynthesizer, compoundCrucible, phaseSuperHeater, feldsparProcessor, omegalloyCrucible,
     ultralloyCrucible;
 
     public static void load() {
@@ -231,7 +231,7 @@ public class modblocks {
             liquidCapacity = 30f;
             craftTime = 180f;
             updateEffect = Fx.pulverizeMedium;
-            drawer = new DrawMulti(  new DrawCrucibleFlame(){{
+            drawer = new DrawMulti(  new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
                 particles = 40; particleRad = 11f; particleSize = 3.5f; fadeMargin = 0.6f; rotateScl = 2f;}},
                     new DrawDefault(), new DrawHeatInput());
             ambientSound = Sounds.smelter;
@@ -254,11 +254,11 @@ public class modblocks {
             craftTime = 12f;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 15f / 60f);
-            consumeItems(with(Items.sporePod, 1, Items.sand, 2));
+            consumeLiquid(Liquids.water, 18f / 60f);
+            consumeItems(with(Items.sporePod, 2, Items.sand, 3));
             consumePower(2f / 3f);
             outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.oil, 35f / 60f);
+            outputLiquid = new LiquidStack(Liquids.oil, 90f / 60f);
         }};
 
         forceCrucible = new HeatCrafter("force-crucible") {{
@@ -495,18 +495,15 @@ public class modblocks {
             maxEfficiency = 5f;
         }};
 
-        liquidMixer = new GenericCrafter("liquid-mixer"){{
-            requirements(Category.crafting, with( Items.graphite, 1));
+        phaseSuperHeater = new HeatProducer("phase-super-heater"){{
+            requirements(Category.crafting, with(Items.graphite, 1));
+
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
             size = 3;
-            liquidCapacity = 50f;
-            craftTime = 5f;
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.oil, 10f / 60f);
-            consumeLiquid(Liquids.cryofluid, 20f/ 60f);
-            consumeLiquid(Liquids.cyanogen, 25f / 60f);
-            consumePower(2f / 3f);
-            outputLiquid = new LiquidStack(modliquids.denseFluid, 15f / 60f);
+            heatOutput = 32f;
+            craftTime = 60f * 6f;
+            ambientSound = Sounds.hum;
+            consumeItems(with(Items.phaseFabric, 1, Items.silicon, 2));
         }};
 
         feldsparProcessor = new GenericCrafter("feldspar-Processor"){{
@@ -517,10 +514,10 @@ public class modblocks {
             craftTime = 120;
             hasPower = true;
             hasLiquids = true;
-            consumeItems(with(moditems.feldspar, 20)); //Al4Si3O8
-            consumeLiquid(Liquids.hydrogen, 32f / 60f);
+            consumeItems(with(moditems.feldspar, 10)); //Al4Si3O8
+            consumeLiquid(Liquids.hydrogen, 15f / 60f);
             consumePower(2f / 3f);
-            outputItems = ItemStack.with(moditems.aluminum, 8, Items.silicon, 6);
+            outputItems = ItemStack.with(moditems.aluminum, 8, Items.silicon, 1);
             outputLiquid = new LiquidStack(Liquids.water, 16f/ 60f);
         }};
 
