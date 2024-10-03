@@ -31,7 +31,7 @@ public class modblocks {
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
     surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerCrucible,
-    acidSynthesizer, compoundCrucible, phaseSuperHeater, feldsparProcessor, omegalloyCrucible,
+    supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor, omegalloyCrucible,
     ultralloyCrucible;
 
     public static void load() {
@@ -465,19 +465,19 @@ public class modblocks {
             consumeLiquid(Liquids.water, 6f / 60f);
         }};
 
-        acidSynthesizer = new GenericCrafter("acid-synthesizer"){{
+        supercooler = new GenericCrafter("supercooler"){{
             requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = true;
             size = 3;
-            liquidCapacity = 80f;
-            craftTime = 6.9f;
+            itemCapacity = 50;
+            liquidCapacity = 50f;
+            craftTime = 120;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.hydrogen,10f / 60f);
-            consumeLiquid(Liquids.ozone,30f / 60f);
-            consumeLiquid(Liquids.nitrogen,10f / 60f);
+            consumeItems(with(Items.plastanium, 15)); //Al4Si3O8
+            consumeLiquid(Liquids.cryofluid, 35f / 60f);
+            consumeLiquid(Liquids.cyanogen, 25f / 60f);
             consumePower(2f / 3f);
-            outputLiquid = new LiquidStack(modliquids.acid, 10f / 60f);
+            outputLiquid = new LiquidStack(modliquids.supercooledfluid, 10f/ 60f);
         }};
 
         compoundCrucible = new HeatCrafter("compound-crucible") {{
@@ -506,19 +506,20 @@ public class modblocks {
             consumeItems(with(Items.phaseFabric, 1, Items.silicon, 2));
         }};
 
-        feldsparProcessor = new GenericCrafter("feldspar-Processor"){{
+        quasiconstructor = new GenericCrafter("quasiconstructor"){{
             requirements(Category.crafting, with( Items.graphite, 1));
-            size = 3;
-            itemCapacity = 50;
-            liquidCapacity = 50f;
-            craftTime = 120;
+            squareSprite = true;
+            size = 4;
+            liquidCapacity = 80f;
+            craftTime = 6.9f;
             hasPower = true;
             hasLiquids = true;
-            consumeItems(with(moditems.feldspar, 10)); //Al4Si3O8
-            consumeLiquid(Liquids.hydrogen, 15f / 60f);
+            hasItems = true;
+            consumeLiquid(Liquids.hydrogen,50f / 60f);
+            consumeLiquid(modliquids.supercooledfluid, 30f / 60f);
+            consumeItems(with(Items.phaseFabric, 10));
             consumePower(2f / 3f);
-            outputItems = ItemStack.with(moditems.aluminum, 8, Items.silicon, 1);
-            outputLiquid = new LiquidStack(Liquids.water, 16f/ 60f);
+            outputItem = new ItemStack(moditems.quantum, 2);
         }};
 
         omegalloyCrucible = new GenericCrafter("omegalloy-crucible"){{

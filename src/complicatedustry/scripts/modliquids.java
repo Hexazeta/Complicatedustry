@@ -6,7 +6,7 @@ import mindustry.type.Liquid;
 
 public class modliquids {
 
-    public static Liquid acid,denseFluid;
+    public static Liquid acid,supercooledfluid;
 
         public static void load() {
 
@@ -14,7 +14,7 @@ public class modliquids {
                 color = Color.valueOf("8ffe09");
             }};
 
-            denseFluid = new Liquid("densefluid"){{
+            supercooledfluid = new Liquid("supercooledfluid"){{
                 color = Color.valueOf("5ead98");
             }};
         }}

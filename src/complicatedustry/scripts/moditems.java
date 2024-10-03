@@ -7,7 +7,7 @@ import mindustry.type.Item;
 public class moditems {
 
     public static Item diamond,forceAlloy,reinforcedGlass,powerAlloy,compoundAlloy,ultralloy,
-            feldspar,aluminum,omegalloy;
+            feldspar,aluminum,omegalloy,quantum;
 
         public static void load() {
 
@@ -46,4 +46,9 @@ public class moditems {
             omegalloy = new Item("omegalloy"){{
                 color = Color.valueOf("111111");
             }};
+
+            quantum = new Item("quantum"){{
+                color = Color.valueOf("111111");
+            }};
+
     }}
