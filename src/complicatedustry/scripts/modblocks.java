@@ -121,7 +121,7 @@ public class modblocks {
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.oil, 10f / 60f);
-            consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 2));
+            consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 4));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.silicon, 32);
         }};
@@ -199,10 +199,10 @@ public class modblocks {
             ambientSoundVolume = 0.08f;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.ozone, 6f / 60f);
-            consumeItems(with(Items.copper, 1, Items.beryllium, 2));
+            consumeLiquid(Liquids.ozone, 12f / 60f);
+            consumeItems(with(Items.copper, 2, Items.beryllium, 3));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.oxide, 3);
+            outputItem = new ItemStack(Items.oxide, 7);
             heatOutput = 8;
         }};
 
@@ -500,7 +500,7 @@ public class modblocks {
 
             drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
             size = 3;
-            heatOutput = 32f;
+            heatOutput = 40f;
             craftTime = 60f * 6f;
             ambientSound = Sounds.hum;
             consumeItems(with(Items.phaseFabric, 1, Items.silicon, 2));
