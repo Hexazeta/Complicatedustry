@@ -1,6 +1,7 @@
 package complicatedustry.scripts;
 
 import arc.graphics.Color;
+import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
@@ -26,11 +27,11 @@ public class modblocks {
     public static Block
 
     //stuff here
-    smallHeatRedirector, heatRedirector, surgeConveyor, diamondMultiMegaPress, surgeRouter,
+    smallHeatRedirector, SmallHeatRouter, surgeConveyor, diamondMultiMegaPress, surgeRouter,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
-    surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerCrucible,
+    surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerMixer,
     supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor, omegalloyCrucible,
     ultralloyCrucible;
 
@@ -71,26 +72,18 @@ public class modblocks {
 
         smallHeatRedirector = new HeatConductor("small-heat-redirector"){{
             requirements(Category.crafting, with(Items.graphite, 1));
-
-            researchCostMultiplier = 10f;
-
-            group = BlockGroup.heat;
             size = 1;
             drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
             regionRotated1 = 1;
         }};
 
-        heatRedirector = new HeatConductor("heat-redirector"){{
+        SmallHeatRouter = new HeatConductor("small-heat-router"){{
             requirements(Category.crafting, with(Items.graphite, 1));
-
-            researchCostMultiplier = 10f;
-
-            group = BlockGroup.heat;
-            size = 3;
-            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
+            size = 1;
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(-1, false), new DrawHeatOutput(), new DrawHeatOutput(1, false), new DrawHeatInput("-heat"));
             regionRotated1 = 1;
+            splitHeat = true;
         }};
-
         pyratiteMultiMixer = new GenericCrafter("pyratite-multi-mixer") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
@@ -330,12 +323,27 @@ public class modblocks {
             outputLiquid = new LiquidStack(Liquids.cyanogen, 6f / 60f);
         }};
 
-        powerCrucible = new GenericCrafter("power-crucible") {{
+        powerMixer = new GenericCrafter("power-mixer") {{
             requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 3;
+            squareSprite = false;
+            size = 4;
             itemCapacity = 40;
             craftTime = 96f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),
+                    new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
+                        angleOffset = 90f;horiOffset = 0f;sinOffset = 120f;}},
+                    new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
+                        angleOffset = 90f;horiOffset = -4.5f;sinOffset = 0f;}},
+                    new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
+                        angleOffset = 90f;horiOffset = -9f;sinOffset = 240f;}},
+                    new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
+                        angleOffset = 90f;horiOffset = -13.5f;sinOffset = 240f;}},
+                    new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
+                        angleOffset = 90f;horiOffset = -18f;sinOffset = 0f;}},
+                    new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
+                        angleOffset = 90f;horiOffset = -22.5f;sinOffset = 120f;}},
+                    new DrawDefault()
+            );
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.blastCompound, 7, Items.pyratite, 11, Items.thorium, 13));
