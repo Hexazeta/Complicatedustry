@@ -29,7 +29,7 @@ public class modblocks {
     //stuff here
     smallHeatRedirector, SmallHeatRouter, surgeConveyor, diamondMultiMegaPress, surgeRouter,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
-    densifier, carbideFoundry, oilExtractor, forceCrucible, plastaniumMultiCompressor,
+    densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
     surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerMixer,
     supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor, omegalloyCrucible,
@@ -238,13 +238,19 @@ public class modblocks {
             heatRequirement = 14f;
         }};
 
-        oilExtractor = new GenericCrafter("oil-extractor"){{
+        advancedOilExtractor = new GenericCrafter("advanced-oil-extractor"){{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            size = 3;
+            size = 4;
             itemCapacity = 30;
             liquidCapacity = 90;
             craftTime = 12f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.water),
+                    new DrawLiquidRegion(Liquids.oil),
+                    new DrawRegion("-spinner",-2f){{spinSprite = true;}},
+                    new DrawPistons(){{sinMag = 2.75f; sinOffset = 0f; lenOffset = -1f;}},
+                    new DrawDefault(), new DrawRegion("-top")
+            );
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 18f / 60f);
@@ -331,17 +337,17 @@ public class modblocks {
             craftTime = 96f;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = 0f;sinOffset = 120f;}},
+                        angleOffset = 90f;horiOffset = 0f;sinOffset = 0f;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -4.5f;sinOffset = 0f;}},
+                        angleOffset = 90f;horiOffset = -4.5f;sinOffset = 60f;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -9f;sinOffset = 240f;}},
+                        angleOffset = 90f;horiOffset = -9f;sinOffset = 120f;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -13.5f;sinOffset = 240f;}},
+                        angleOffset = 90f;horiOffset = -13.5f;sinOffset = 180f;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -18f;sinOffset = 0f;}},
+                        angleOffset = 90f;horiOffset = -18f;sinOffset = 240f;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -22.5f;sinOffset = 120f;}},
+                        angleOffset = 90f;horiOffset = -22.5f;sinOffset = 300f;}},
                     new DrawDefault()
             );
             hasPower = true;
