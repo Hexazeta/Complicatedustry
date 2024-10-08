@@ -517,7 +517,7 @@ public class modblocks {
             heatOutput = 40f;
             craftTime = 60f * 6f;
             ambientSound = Sounds.hum;
-            consumeItems(with(Items.phaseFabric, 1, Items.silicon, 2));
+            consumeItems(with(Items.phaseFabric, 2, Items.silicon, 3));
         }};
 
         quasiconstructor = new GenericCrafter("quasiconstructor"){{
