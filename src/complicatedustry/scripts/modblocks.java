@@ -346,15 +346,15 @@ public class modblocks {
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
                         angleOffset = 90f;horiOffset = 0f;sinOffset = 0f;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -4.5f;sinOffset = 60f;}},
+                        angleOffset = 90f;horiOffset = -4.5f;sinOffset = 60f * Mathf.degRad;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -9f;sinOffset = 120f;}},
+                        angleOffset = 90f;horiOffset = -9f;sinOffset = 120f * Mathf.degRad;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -13.5f;sinOffset = 180f;}},
+                        angleOffset = 90f;horiOffset = -13.5f;sinOffset = 180f * Mathf.degRad;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -18f;sinOffset = 240f;}},
+                        angleOffset = 90f;horiOffset = -18f;sinOffset = 240f * Mathf.degRad;}},
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
-                        angleOffset = 90f;horiOffset = -22.5f;sinOffset = 300f;}},
+                        angleOffset = 90f;horiOffset = -22.5f;sinOffset = 300f * Mathf.degRad;}},
                     new DrawDefault()
             );
             hasPower = true;
