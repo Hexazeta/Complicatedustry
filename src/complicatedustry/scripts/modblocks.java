@@ -14,7 +14,10 @@ import mindustry.world.blocks.distribution.StackConveyor;
 import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.blocks.power.ConsumeGenerator;
 import mindustry.world.blocks.production.*;
+import mindustry.world.consumers.ConsumeItemExplode;
+import mindustry.world.consumers.ConsumeItemFlammable;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BlockGroup;
@@ -27,22 +30,26 @@ public class modblocks {
     public static Block
 
     //stuff here
+    //crafters
     smallHeatRedirector, SmallHeatRouter, surgeConveyor, diamondMultiMegaPress, surgeRouter,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
-    cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter,
-    surgeFoundry, cryofluidMultiMixer, blastMultiMixer,fractionator, powerMixer,
-    supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor, omegalloyCrucible,
-    ultralloyCrucible;
+    cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter, surgeFoundry, cryofluidMultiMixer,
+    blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
+    omegalloyCrucible, ultralloyCrucible,
+    //power
+    boilerGenerator, triGenerationReactor, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator;
+    //todo unit constructors?
+
+
 
     public static void load() {
 
         surgeConveyor = new StackConveyor("surge-conveyor"){{
             requirements(Category.distribution, with(Items.surgeAlloy, 1, Items.titanium, 1));
             health = 130;
-            //TODO different base speed/item capacity?
-            speed = 5f / 60f;
-            itemCapacity = 30;
+            speed = 10f / 60f;
+            itemCapacity = 20;
 
             outputRouter = false;
             hasPower = true;
@@ -253,11 +260,11 @@ public class modblocks {
             );
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 18f / 60f);
+            consumeLiquid(Liquids.water, 36f / 60f);
             consumeItems(with(Items.sporePod, 2, Items.sand, 3));
             consumePower(2f / 3f);
             outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.oil, 90f / 60f);
+            outputLiquid = new LiquidStack(Liquids.oil, 150f / 60f);
         }};
 
         forceCrucible = new HeatCrafter("force-crucible") {{
@@ -300,14 +307,14 @@ public class modblocks {
             squareSprite = true;
             size = 3;
             itemCapacity = 30;
-            liquidCapacity = 50f;
+            liquidCapacity = 70f;
             craftTime = 40f;
             craftEffect = Fx.formsmoke;
             updateEffect = Fx.smeltsmoke;
             drawer = new DrawMulti(new DrawDefault(), new DrawFade());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.oil, 25f / 60f);
+            consumeLiquid(Liquids.oil, 35f / 60f);
             consumeItems(with(Items.titanium, 3));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.plastanium, 2);
@@ -428,7 +435,7 @@ public class modblocks {
                     new DrawHeatRegion(){{color = Color.valueOf("ff6060ff");}}, new DrawFlame() );
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.slag, 40f / 60f);
+            consumeLiquid(Liquids.slag, 50f / 60f);
             consumeItems(with(Items.copper, 7, Items.lead, 8, Items.titanium, 6, Items.silicon, 14));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.surgeAlloy, 4);
@@ -500,6 +507,14 @@ public class modblocks {
             size = 4;
             itemCapacity = 60;
             craftTime = 120f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),
+                    new DrawArcSmelt(),
+
+
+
+
+                    new DrawDefault(), new DrawHeatInput()
+            );
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.phaseFabric, 6, Items.plastanium, 7, Items.oxide, 8, Items.carbide, 7));
@@ -511,7 +526,6 @@ public class modblocks {
 
         phaseSuperHeater = new HeatProducer("phase-super-heater"){{
             requirements(Category.crafting, with(Items.graphite, 1));
-
             drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
             size = 3;
             heatOutput = 40f;
@@ -568,6 +582,6 @@ public class modblocks {
             heatRequirement = 40f;
             maxEfficiency = 6f;
         }};
-
+        //power
     }
 }
