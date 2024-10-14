@@ -9,20 +9,12 @@ import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.distribution.BufferedItemBridge;
 import mindustry.world.blocks.distribution.StackConveyor;
 import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
-import mindustry.world.blocks.power.ConsumeGenerator;
 import mindustry.world.blocks.production.*;
-import mindustry.world.consumers.ConsumeItemExplode;
-import mindustry.world.consumers.ConsumeItemFlammable;
 import mindustry.world.draw.*;
-import mindustry.world.meta.Attribute;
-import mindustry.world.meta.BlockGroup;
-import mindustry.world.meta.Env;
-
 import static mindustry.type.ItemStack.*;
 
 public class modblocks {
@@ -40,8 +32,6 @@ public class modblocks {
     //power
     boilerGenerator, triGenerationReactor, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator;
     //todo unit constructors?
-
-
 
     public static void load() {
 
@@ -509,12 +499,7 @@ public class modblocks {
             craftTime = 120f;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
                     new DrawArcSmelt(),
-
-
-
-
-                    new DrawDefault(), new DrawHeatInput()
-            );
+                    new DrawDefault(), new DrawHeatInput());
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.phaseFabric, 6, Items.plastanium, 7, Items.oxide, 8, Items.carbide, 7));
