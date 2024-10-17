@@ -23,7 +23,7 @@ public class modblocks {
 
     //stuff here
     //crafters
-    smallHeatRedirector, SmallHeatRouter, surgeConveyor, diamondMultiMegaPress, surgeRouter,
+    smallHeatRedirector, SmallHeatRouter, surgeConveyor, atmosphericCondeser, surgeRouter,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter, surgeFoundry, cryofluidMultiMixer,
@@ -130,18 +130,17 @@ public class modblocks {
             heatRequirement = 25f;
         }};
 
-        diamondMultiMegaPress = new HeatCrafter("diamond-multi-mega-press"){{
+        atmosphericCondeser = new HeatCrafter("atmosphericCondeser"){{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 4;
-            itemCapacity = 40;
+            liquidCapacity = 10f;
             craftTime = 60f;
             hasPower = true;
             hasLiquids = false;
-            consumeItems(with(Items.graphite, 21));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.diamond, 6);
-            heatRequirement = 40f;
+            outputLiquid = new LiquidStack(Liquids.nitrogen, 15f / 60f);
+            heatRequirement = 20f;
         }};
 
         forge = new GenericCrafter("forge") {{
@@ -240,7 +239,7 @@ public class modblocks {
             squareSprite = true;
             size = 4;
             itemCapacity = 30;
-            liquidCapacity = 90;
+            liquidCapacity = 250;
             craftTime = 12f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.water),
                     new DrawLiquidRegion(Liquids.oil),
@@ -310,20 +309,21 @@ public class modblocks {
             outputItem = new ItemStack(Items.plastanium, 2);
         }};
 
-        cyanogenCatalysis = new GenericCrafter("cyanogen-catalysis") {{
+        cyanogenCatalysis = new HeatCrafter("cyanogen-catalysis") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
-            size = 3;
+            size = 4;
             itemCapacity = 30;
             liquidCapacity = 200f;
             craftTime = 150f;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.arkycite, 70f / 60f);
-            consumeItems(with(Items.graphite, 2));
+            consumeLiquid(Liquids.arkycite, 130f / 60f);
+            consumeItems(with(Items.graphite, 2, Items.lead, 1));
             consumePower(2f / 3f);
             outputsLiquid = true;
             outputLiquid = new LiquidStack(Liquids.cyanogen, 6f / 60f);
+            heatRequirement = 12f;
         }};
 
         powerMixer = new GenericCrafter("power-mixer") {{

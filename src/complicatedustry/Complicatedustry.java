@@ -10,6 +10,7 @@ public class Complicatedustry extends Mod{
         modliquids.load();
         moditems.load();
         modblocks.load();
+        modunits.load();
     }
     public static class EntityRegistry { public static void register(){}}
 }
