@@ -5,6 +5,7 @@ import mindustry.Vars;
 import mindustry.ai.types.GroundAI;
 import mindustry.content.Fx;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.ContinuousFlameBulletType;
 import mindustry.gen.LegsUnit;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
@@ -20,80 +21,68 @@ public class modunits {
             constructor = LegsUnit::create;
             aiController = GroundAI::new;
 
-            weapons.add(new Weapon("complicatedustry-jack-cannon"){{
+            weapons.add(new Weapon("mod-complicatedustry-jack-cannon"){{
                 layerOffset = -0.00001f;
                 top = false;
-                x = -14;
+                x = -36;
                 y = 0;
-
-                recoil = 2f;
-                shake = 1f;
-                ejectEffect = Fx.casing3;
-                shoot.shots = 2;
-                shoot.shotDelay = 4f;
-                alternate = true;
+                shootY = 26;
+                recoil = 4f;
+                shake = 3f;
+                alternate = false;
                 mirror = false;
-                reload = 24f;
-                inaccuracy = 5f;
+                reload = 120f;
 
-                shootSound = Vars.tree.loadSound("pewpewpew");
-                bullet = new BasicBulletType(6f, 36){{
+                bullet = new BasicBulletType(10f, 210){{
                     hitEffect = Fx.blastExplosion;
-                    width = 11;
-                    height = 19;
-                    fragBullets = 5;
-                    fragLifeMin = 0f;
-                    fragRandomSpread = 60f;
+                    width = 23;
+                    height = 37;
                 }};
             }});
 
-            weapons.add(new Weapon("complicatedustry-jack-flamethrower"){{
+            weapons.add(new Weapon("mod-complicatedustry-jack-flamethrower"){{
                 layerOffset = -0.00001f;
                 top = false;
-                x = 14;
+                x = 36;
                 y = 0;
-
+                shootY = 24;
                 recoil = 2f;
                 shake = 1f;
-                ejectEffect = Fx.casing3;
-                shoot.shots = 2;
-                shoot.shotDelay = 4f;
-                alternate = true;
+                continuous = true;
+                alwaysContinuous = true;
+                alternate = false;
                 mirror = false;
-                reload = 24f;
-                inaccuracy = 5f;
 
-                shootSound = Vars.tree.loadSound("pewpewpew");
-                bullet = new BasicBulletType(6f, 36){{
+                bullet = new ContinuousFlameBulletType(){{
                     hitEffect = Fx.blastExplosion;
-                    width = 11;
-                    height = 19;
-                    fragBullets = 5;
-                    fragLifeMin = 0f;
-                    fragRandomSpread = 60f;
+                    width = 5;
+                    length = 160;
+                    flareLength = 32;
+                    flareWidth = 8;
+                    knockback = 5;
+                    pierceCap = 5;
+                    rangeOverride = 120;
                 }};
             }});
 
             legCount = 4;
-            legLength = 32f;
+            legLength = 64f;
             lockLegBase = true;
             legContinuousMove = true;
-            legExtension = -4f;
-            legBaseOffset = 1f;
-            legMaxLength = 1f;
-            legMinLength = 1f;
-            legLengthScl = 0.5f;
-            legForwardScl = 0.5f;
-            rippleScale = 0.5f;
+            legExtension = -7.5f;
+            legBaseOffset = 5.5f;
+            legLengthScl = 0.8f;
+            stepShake = 3f;
+            rippleScale = 2f;
             rotateToBuilding = true;
-            legMoveSpace = 2f;
+            legMoveSpace = 1f;
             allowLegStep = true;
             legPhysicsLayer = false;
 
-            speed = 1f;
+            speed = 0.25f;
             drag = 0.11f;
-            hitSize = 24f;
-            rotateSpeed = 3f;
+            hitSize = 50f;
+            rotateSpeed = 1f;
             health = 3600;
             armor = 100f;
 
