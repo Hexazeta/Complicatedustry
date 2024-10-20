@@ -23,7 +23,7 @@ public class modblocks {
 
     //stuff here
     //crafters
-    smallHeatRedirector, SmallHeatRouter, surgeConveyor, atmosphericCondeser, surgeRouter,
+    smallHeatRedirector, SmallHeatRouter, surgeConveyor, atmosphericCondenser, surgeRouter,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter, surgeFoundry, cryofluidMultiMixer,
@@ -130,17 +130,30 @@ public class modblocks {
             heatRequirement = 25f;
         }};
 
-        atmosphericCondeser = new HeatCrafter("atmosphericCondeser"){{
+        atmosphericCondenser = new HeatCrafter("atmospheric-condenser"){{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 4;
-            liquidCapacity = 10f;
+            liquidCapacity = 90f;
             craftTime = 60f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),
+                    new DrawLiquidTile(Liquids.nitrogen, 4.1f),
+                    new DrawDefault(), new DrawHeatInput(),
+                    new DrawParticles(){{
+                        color = Color.valueOf("d4f0ff");
+                        alpha = 0.8f;
+                        particleSize = 5f;
+                        particles = 150;
+                        particleRad = 15f;
+                        particleLife = 180f;
+                    }});
             hasPower = true;
             hasLiquids = false;
             consumePower(2f / 3f);
             outputLiquid = new LiquidStack(Liquids.nitrogen, 15f / 60f);
             heatRequirement = 20f;
+            ambientSound = Sounds.extractLoop;
+            ambientSoundVolume = 0.06f;
         }};
 
         forge = new GenericCrafter("forge") {{

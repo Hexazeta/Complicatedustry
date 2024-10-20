@@ -33,10 +33,12 @@ public class modunits {
                 mirror = false;
                 reload = 120f;
 
-                bullet = new BasicBulletType(10f, 210){{
+                bullet = new BasicBulletType(10f, 1120){{
                     hitEffect = Fx.blastExplosion;
                     width = 23;
                     height = 37;
+                    knockback = 15;
+                    pierceCap = 8;
                 }};
             }});
 
@@ -62,6 +64,7 @@ public class modunits {
                     knockback = 5;
                     pierceCap = 5;
                     rangeOverride = 120;
+                    damage = 970f/12f;
                 }};
             }});
 
@@ -79,12 +82,12 @@ public class modunits {
             allowLegStep = true;
             legPhysicsLayer = false;
 
-            speed = 0.25f;
+            speed = 0.35f;
             drag = 0.11f;
             hitSize = 50f;
             rotateSpeed = 1f;
-            health = 3600;
-            armor = 100f;
+            health = 9000;
+            armor = 185f;
 
             outlineColor = Color.valueOf("2b2626");
 
