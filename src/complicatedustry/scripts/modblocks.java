@@ -1,6 +1,7 @@
 package complicatedustry.scripts;
 
 import arc.graphics.Color;
+import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -16,6 +17,7 @@ import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
 import static mindustry.type.ItemStack.*;
+
 
 public class modblocks {
 
@@ -142,10 +144,10 @@ public class modblocks {
                     new DrawParticles(){{
                         color = Color.valueOf("d4f0ff");
                         alpha = 0.8f;
-                        particleSize = 5f;
-                        particles = 150;
+                        particleSize = 3f;
+                        particles = 30;
                         particleRad = 15f;
-                        particleLife = 180f;
+                        particleLife = 120f;
                     }});
             hasPower = true;
             hasLiquids = false;
@@ -329,6 +331,16 @@ public class modblocks {
             itemCapacity = 30;
             liquidCapacity = 200f;
             craftTime = 150f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),
+                    new DrawLiquidTile(Liquids.cyanogen),
+                    new DrawParticles(){{
+                        color = Color.valueOf("89e8b6");alpha = 0.4f;particleSize = 3f;
+                        particles = 30;particleRad = 10f;particleLife = 240f;reverse = true;
+                        particleSizeInterp = Interp.one;
+                    }}, new DrawDefault(), new DrawHeatInput(),
+                    new DrawHeatRegion("-heat-top")
+            );
+
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.arkycite, 130f / 60f);
@@ -345,6 +357,7 @@ public class modblocks {
             size = 4;
             itemCapacity = 40;
             craftTime = 96f;
+            updateEffect = Fx.coalSmeltsmoke;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
                     new DrawPistons(){{sinMag = 4f;sinScl = 5f;sides = 1;
                         angleOffset = 90f;horiOffset = 0f;sinOffset = 0f;}},
@@ -511,7 +524,7 @@ public class modblocks {
             itemCapacity = 60;
             craftTime = 120f;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
-                    new DrawArcSmelt(),
+                    new arcsmeltmodifier(){{}},
                     new DrawDefault(), new DrawHeatInput());
             hasPower = true;
             hasLiquids = false;
