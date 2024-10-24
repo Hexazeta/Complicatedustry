@@ -10,6 +10,8 @@ import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.*;
 import mindustry.world.*;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.distribution.Duct;
 import mindustry.world.blocks.distribution.StackConveyor;
 import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.HeatConductor;
@@ -30,28 +32,50 @@ public class modblocks {
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter, surgeFoundry, cryofluidMultiMixer,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
-    omegalloyCrucible, ultralloyCrucible,
+    omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, reinforcedDuct, platedConveyor,
+
     //power
     boilerGenerator, triGenerationReactor, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator;
     //todo unit constructors?
 
     public static void load() {
+        //payload transporter
+        {{
+            reinforcedConveyor = new StackConveyor("reinforced-conveyor"){{
+                requirements(Category.distribution, with(Items.copper, 3, Items.beryllium, 1));
+                health = 90;
+                speed = 4f / 60f;
+                itemCapacity = 5;
+            }};
+
+            reinforcedDuct = new Duct("reinforced-duct"){{
+                requirements(Category.distribution, with(Items.beryllium, 3, Items.copper, 1));
+                health = 140;
+                speed = 2f;
+                armored = true;
+            }};
+
+            platedConveyor = new StackConveyor("plated-conveyor"){{
+                requirements(Category.distribution, with(Items.copper, 3, Items.beryllium, 1));
+                health = 90;
+                speed = 5f / 60f;
+                itemCapacity = 14;
+            }};
+
+
 
         surgeConveyor = new StackConveyor("surge-conveyor"){{
             requirements(Category.distribution, with(Items.surgeAlloy, 1, Items.titanium, 1));
             health = 130;
             speed = 10f / 60f;
             itemCapacity = 20;
-
             outputRouter = false;
             hasPower = true;
             consumesPower = true;
             conductivePower = true;
-
             underBullets = true;
             baseEfficiency = 1f;
             consumePower(1f / 60f);
-            researchCost = with(Items.surgeAlloy, 30, Items.tungsten, 80);
         }};
 
         surgeRouter = new StackRouter("surge-router"){{
@@ -67,8 +91,9 @@ public class modblocks {
             underBullets = true;
             solid = false;
             consumePower(3f / 60f);
-        }};
-
+        }};}}
+        //production
+        {{
         smallHeatRedirector = new HeatConductor("small-heat-redirector"){{
             requirements(Category.crafting, with(Items.graphite, 1));
             size = 1;
@@ -175,7 +200,7 @@ public class modblocks {
         }};
 
         waterConcentrator = new GenericCrafter("water-concentrator") {{
-            requirements(Category.crafting, with( Items.graphite, 1));
+            requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
             liquidCapacity = 50f;
@@ -211,7 +236,7 @@ public class modblocks {
         }};
 
         densifier = new GenericCrafter("densifier") {{
-            requirements(Category.crafting, with( Items.graphite, 1));
+            requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
             itemCapacity = 30;
@@ -250,7 +275,7 @@ public class modblocks {
         }};
 
         advancedOilExtractor = new GenericCrafter("advanced-oil-extractor"){{
-            requirements(Category.crafting, with( Items.graphite, 1));
+            requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
             size = 4;
             itemCapacity = 30;
@@ -258,6 +283,7 @@ public class modblocks {
             craftTime = 12f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.water),
                     new DrawLiquidRegion(Liquids.oil),
+                    new DrawCultivator(){{spread = 8f; radius = 6f; bubbles = 25; sides = 20;}},
                     new DrawRegion("-spinner",-2f){{spinSprite = true;}},
                     new DrawPistons(){{sinMag = 2.75f; sinOffset = 0f; lenOffset = -1f;}},
                     new DrawDefault(), new DrawRegion("-top")
@@ -592,7 +618,7 @@ public class modblocks {
             outputItem = new ItemStack(moditems.ultralloy, 4);
             heatRequirement = 40f;
             maxEfficiency = 6f;
-        }};
+        }};}}
         //power
     }
 }

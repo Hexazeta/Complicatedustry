@@ -15,6 +15,6 @@ public class modliquids {
             }};
 
             supercooledfluid = new Liquid("supercooledfluid"){{
-                color = Color.valueOf("5ead98");
+                color = Color.valueOf("b2c9d6");
             }};
         }}
