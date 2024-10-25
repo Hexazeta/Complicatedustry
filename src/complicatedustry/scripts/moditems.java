@@ -31,7 +31,7 @@ public class moditems {
                 color = Color.valueOf("a3b7c7");
             }};
 
-            powerAlloy = new Item("power-alloy"){{
+            powerAlloy = new Item("power-compound"){{
                 color = Color.valueOf("73abff");
             }};
 

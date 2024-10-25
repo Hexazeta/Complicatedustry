@@ -6,8 +6,10 @@ import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.Conveyor;
@@ -16,29 +18,126 @@ import mindustry.world.blocks.distribution.StackConveyor;
 import mindustry.world.blocks.distribution.StackRouter;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.blocks.power.ConsumeGenerator;
+import mindustry.world.blocks.power.ThermalGenerator;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.Attribute;
+import mindustry.world.meta.BlockGroup;
+
 import static mindustry.type.ItemStack.*;
 
 
 public class modblocks {
 
     public static Block
-
     //stuff here
+    testBlock,
+    //drills and shit
+    hugePlasmaBore,innovatoryQuakeDrill,craterDrill,mountainCrusher,
     //crafters
-    smallHeatRedirector, SmallHeatRouter, surgeConveyor, atmosphericCondenser, surgeRouter,
+    smallHeatRedirector, SmallHeatRouter, atmosphericCondenser, surgeRouter, reinforcedDuct, platedConveyor,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
     cyanogenCatalysis, phaseCatalysis, largeMelter, reinforcedGlassSmelter, surgeFoundry, cryofluidMultiMixer,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
-    omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, reinforcedDuct, platedConveyor,
+    omegalloyCrucible, ultralloyCrucible, reinforcedConveyor,
 
     //power
-    boilerGenerator, triGenerationReactor, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator;
+    boilerGenerator, triGenerationReactor, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
+    heavyDutyTurbineCondenser;
     //todo unit constructors?
 
     public static void load() {
+        //testing
+        testBlock = new GenericCrafter("test-block"){{
+            requirements(Category.crafting, with(Items.copper, 30, Items.lead, 25));
+            craftEffect = Fx.smeltsmoke;
+            outputItem = new ItemStack(Items.silicon, 1);
+            craftTime = 40f;
+            size = 3;
+            hasPower = true;
+            hasLiquids = false;
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.07f;
+            isMultiblock();
+            consumeItems(with(Items.coal, 1, Items.sand, 2));
+            consumePower(1f);
+        }};
+        //drillers
+        {{
+                hugePlasmaBore = new BeamDrill("huge-plasma-bore") {{
+                    requirements(Category.production, with(Items.graphite, 1));
+                    consumePower(1.8f);
+                    drillTime = 40f;
+                    tier = 7;
+                    size = 4;
+                    range = 10;
+                    fogRadius = 6;
+                    laserWidth = 1f;
+                    itemCapacity = 30;
+                    consumeLiquid(Liquids.nitrogen, 4f / 60f);
+                    consumeLiquid(Liquids.cryofluid, 10f / 60f).boost();
+                }};
+
+                craterDrill = new BurstDrill("crater-drill") {{
+                    requirements(Category.production, with(Items.graphite, 1));
+                    drillTime = 60f * 6f;
+                    size = 6;
+                    hasPower = true;
+                    tier = 10;
+                    //TODO better effect
+                    //isnt this already good?
+                    drillEffect = new MultiEffect(
+                            Fx.mineImpact,
+                            Fx.drillSteam,
+                            Fx.dynamicSpikes.wrap(Liquids.nitrogen.color, 30f),
+                            Fx.mineImpactWave.wrap(Liquids.nitrogen.color, 45f)
+                    );
+                    shake = 5f;
+                    itemCapacity = 70;
+                    arrowOffset = 2f;
+                    arrowSpacing = 5f;
+                    arrows = 2;
+                    glowColor.a = 0.6f;
+                    fogRadius = 6;
+                    //TODO different requirements
+                    consumePower(16f);
+                    consumeLiquids(LiquidStack.with(Liquids.nitrogen, 9f / 60f));
+                }};
+
+                innovatoryQuakeDrill = new Drill("innovatory-quake-drill") {{
+                    requirements(Category.production, with(Items.graphite, 1));
+                    drillTime = 200;
+                    size = 4;
+                    drawRim = true;
+                    hasPower = true;
+                    tier = 5;
+                    updateEffect = Fx.pulverizeRed;
+                    updateEffectChance = 0.03f;
+                    drillEffect = Fx.mineHuge;
+                    rotateSpeed = 8f;
+                    warmupSpeed = 0.001f;
+                    itemCapacity = 50;
+                    //more than the laser drill
+                    //how much is the laser drill for this to be more
+                    liquidBoostIntensity = 2f;
+                    consumePower(13f);
+                    consumeLiquid(Liquids.cryofluid, 0.5f).boost();
+                }};
+
+                mountainCrusher = new WallCrafter("mountain-crusher") {{
+                    requirements(Category.production, with(Items.graphite, 1));
+                    consumePower(40f / 60f);
+                    drillTime = 26f;
+                    size = 3;
+                    attribute = Attribute.sand;
+                    output = Items.sand;
+                    fogRadius = 3;
+                    ambientSound = Sounds.drill;
+                    ambientSoundVolume = 0.04f;
+                }};
+            }}
         //payload transporter
         {{
             reinforcedConveyor = new StackConveyor("reinforced-conveyor"){{
@@ -55,28 +154,19 @@ public class modblocks {
                 armored = true;
             }};
 
-            platedConveyor = new StackConveyor("plated-conveyor"){{
-                requirements(Category.distribution, with(Items.copper, 3, Items.beryllium, 1));
+            platedConveyor = new StackConveyor("armored-surge-conveyor"){{
+                requirements(Category.distribution, with(Items.surgeAlloy, 5, moditems.forceAlloy, 2, Items.carbide, 3));
                 health = 90;
                 speed = 5f / 60f;
+                outputRouter = false;
                 itemCapacity = 14;
+                hasPower = true;
+                underBullets = true;
+                consumesPower = true;
+                conductivePower = true;
+                baseEfficiency = 1.5f;
+                consumePower(3f/60f);
             }};
-
-
-
-        surgeConveyor = new StackConveyor("surge-conveyor"){{
-            requirements(Category.distribution, with(Items.surgeAlloy, 1, Items.titanium, 1));
-            health = 130;
-            speed = 10f / 60f;
-            itemCapacity = 20;
-            outputRouter = false;
-            hasPower = true;
-            consumesPower = true;
-            conductivePower = true;
-            underBullets = true;
-            baseEfficiency = 1f;
-            consumePower(1f / 60f);
-        }};
 
         surgeRouter = new StackRouter("surge-router"){{
             requirements(Category.distribution, with(Items.surgeAlloy, 5, Items.titanium, 1));
@@ -149,12 +239,19 @@ public class modblocks {
             size = 3;
             itemCapacity = 30;
             craftTime = 120f;
+            craftEffect = Fx.smeltsmoke;
+            craftEffect = new RadialEffect(Fx.coalSmeltsmoke, 4, 90,0){{rotationOffset = 45f;}};
+            drawer = new DrawMulti(
+                    new DrawRegion("-spinner", 2f){{
+                        spinSprite = true;}},
+                    new DrawDefault(), new DrawHeatInput());
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.graphite, 7));
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.diamond, 3);
             heatRequirement = 25f;
+            maxEfficiency = 8f;
         }};
 
         atmosphericCondenser = new HeatCrafter("atmospheric-condenser"){{
@@ -181,6 +278,7 @@ public class modblocks {
             heatRequirement = 20f;
             ambientSound = Sounds.extractLoop;
             ambientSoundVolume = 0.06f;
+            maxEfficiency = 5f;
         }};
 
         forge = new GenericCrafter("forge") {{
@@ -232,7 +330,7 @@ public class modblocks {
             consumeItems(with(Items.copper, 2, Items.beryllium, 3));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.oxide, 7);
-            heatOutput = 8;
+            heatOutput = 20;
         }};
 
         densifier = new GenericCrafter("densifier") {{
@@ -258,7 +356,7 @@ public class modblocks {
             size = 4;
             itemCapacity = 30;
             liquidCapacity = 30f;
-            craftTime = 180f;
+            craftTime = 150f;
             updateEffect = Fx.pulverizeMedium;
             drawer = new DrawMulti(  new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
                 particles = 40; particleRad = 11f; particleSize = 3.5f; fadeMargin = 0.6f; rotateScl = 2f;}},
@@ -267,11 +365,11 @@ public class modblocks {
             ambientSoundVolume = 0.09f;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 10f / 60f);
+            consumeLiquid(Liquids.water, 15f / 60f);
             consumeItems(with(Items.tungsten, 6, Items.graphite, 8));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.carbide, 4);
-            heatRequirement = 14f;
+            outputItem = new ItemStack(Items.carbide, 5);
+            heatRequirement = 30f;
         }};
 
         advancedOilExtractor = new GenericCrafter("advanced-oil-extractor"){{
@@ -312,7 +410,7 @@ public class modblocks {
             consumeItems(with(Items.beryllium, 7, Items.tungsten, 6, Items.silicon, 8, Items.graphite, 7));
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.forceAlloy, 2);
-            heatRequirement = 10f;
+            heatRequirement = 20f;
         }};
 
         blastMultiMixer = new GenericCrafter("blast-multi-mixer") {{
@@ -366,14 +464,14 @@ public class modblocks {
                     }}, new DrawDefault(), new DrawHeatInput(),
                     new DrawHeatRegion("-heat-top")
             );
-
+            maxEfficiency = 5f;
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.arkycite, 130f / 60f);
             consumeItems(with(Items.graphite, 2, Items.lead, 1));
             consumePower(2f / 3f);
             outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.cyanogen, 6f / 60f);
+            outputLiquid = new LiquidStack(Liquids.cyanogen, 7f / 60f);
             heatRequirement = 12f;
         }};
 
@@ -430,7 +528,7 @@ public class modblocks {
             consumeItems(with(Items.thorium, 6,Items.silicon, 16));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.phaseFabric, 11);
-            heatRequirement = 12f;
+            heatRequirement = 32f;
         }};
 
         largeMelter = new HeatCrafter("large-melter"){{
@@ -481,7 +579,7 @@ public class modblocks {
             consumeItems(with(Items.copper, 7, Items.lead, 8, Items.titanium, 6, Items.silicon, 14));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.surgeAlloy, 4);
-            heatRequirement = 20f;
+            heatRequirement = 30f;
             maxEfficiency = 5f;
         }};
 
@@ -557,7 +655,7 @@ public class modblocks {
             consumeItems(with(Items.phaseFabric, 6, Items.plastanium, 7, Items.oxide, 8, Items.carbide, 7));
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.compoundAlloy, 3);
-            heatRequirement = 16f;
+            heatRequirement = 32f;
             maxEfficiency = 5f;
         }};
 
@@ -565,10 +663,13 @@ public class modblocks {
             requirements(Category.crafting, with(Items.graphite, 1));
             drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
             size = 3;
-            heatOutput = 40f;
+            heatOutput = 100f;
+            hasLiquids = true;
+            liquidCapacity = 10f;
             craftTime = 60f * 6f;
             ambientSound = Sounds.hum;
             consumeItems(with(Items.phaseFabric, 2, Items.silicon, 3));
+            consumeLiquid(Liquids.ozone, 10f/60f);
         }};
 
         quasiconstructor = new GenericCrafter("quasiconstructor"){{
@@ -616,9 +717,73 @@ public class modblocks {
             consumeLiquid(Liquids.cryofluid, 35f / 60f);
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.ultralloy, 4);
-            heatRequirement = 40f;
+            heatRequirement = 65f;
             maxEfficiency = 6f;
         }};}}
         //power
+        {{
+                chemicalReactionChamber = new ConsumeGenerator("chemical-reaction-chamber") {{
+                    requirements(Category.power, with(Items.graphite, 1));
+                    powerProduction = 50f;
+                    consumeLiquids(LiquidStack.with(Liquids.ozone, 6f / 60f, Liquids.arkycite, 130f / 60f, Liquids.hydrogen, 6f / 60f));
+                    outputLiquid = new LiquidStack(Liquids.water, 6f / 60f);
+                    outputsLiquid = true;
+                    size = 4;
+                    generateEffect = Fx.none;
+                    liquidCapacity = 400f;
+                    ambientSound = Sounds.smelter;
+                    ambientSoundVolume = 0.06f;
+                }};
+
+                advancedPyrolysisGenerator = new ConsumeGenerator("advanced-pyrolysis-generator") {{
+                    requirements(Category.power, with(Items.graphite, 1));
+                    powerProduction = 100f;
+                    consumeLiquids(LiquidStack.with(Liquids.slag, 1f, Liquids.arkycite, 130f / 60f));
+                    consumeItem(Items.titanium, 4);
+                    size = 4;
+                    liquidCapacity = 600f;
+                    outputLiquid = new LiquidStack(Liquids.cryofluid, 1f);
+                    generateEffect = Fx.none;
+                    ambientSound = Sounds.smelter;
+                    ambientSoundVolume = 0.06f;
+                    researchCostMultiplier = 0.4f;
+                }};
+
+                geothermalGenerator = new ThermalGenerator("geothermal-generator") {{
+                    requirements(Category.power, with(Items.graphite, 1));
+                    powerProduction = 20f;
+                    consumeLiquid(Liquids.cryofluid, 40f / 60f);
+                    generateEffect = Fx.redgeneratespark;
+                    effectChance = 0.1f;
+                    outputsLiquid = true;
+                    outputLiquid = new LiquidStack(Liquids.water, 30f / 60f);
+                    size = 3;
+                    floating = true;
+                    ambientSound = Sounds.hum;
+                    ambientSoundVolume = 0.06f;
+                }};
+
+                heavyDutyTurbineCondenser = new ThermalGenerator("heavy-duty-turbine-condenser") {{
+                    requirements(Category.power, with(Items.graphite, 1));
+                    attribute = Attribute.steam;
+                    group = BlockGroup.liquids;
+                    displayEfficiencyScale = 1f / 3f;
+                    minEfficiency = 9f - 0.0001f;
+                    powerProduction = 1f / 3f;
+                    displayEfficiency = false;
+                    generateEffect = Fx.turbinegenerate;
+                    effectChance = 0.04f;
+                    size = 5;
+                    ambientSound = Sounds.hum;
+                    ambientSoundVolume = 0.06f;
+                    hasLiquids = true;
+                    //if its already built why is it called a building
+                    //why the fuck is it is 1500 per float
+                    outputLiquid = new LiquidStack(Liquids.water, 3f / (60f * 5f));
+                    liquidCapacity = 60f;
+                    fogRadius = 5;
+                }};
+            }}
+
     }
 }

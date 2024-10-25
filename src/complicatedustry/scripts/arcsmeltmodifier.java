@@ -24,5 +24,5 @@ public class arcsmeltmodifier extends DrawArcSmelt {
     };
     //thanks alot to router, glenn and smol for helping
 
-
+    //how the fuck do i make a dynamic updater
 }
