@@ -5,12 +5,12 @@ import mindustry.type.Liquid;
 
 
 public class modliquids {
-
-    public static Liquid acid,supercooledfluid;
+    //todo more liquids
+    public static Liquid steam,supercooledfluid;
 
         public static void load() {
 
-            acid = new Liquid("acid"){{
+            steam = new Liquid("steam"){{
                 color = Color.valueOf("8ffe09");
             }};
 

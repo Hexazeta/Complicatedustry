@@ -1,12 +1,11 @@
-package complicatedustry.scripts;
+package complicatedustry.scripts.extensions;
 
 import arc.graphics.Color;
-import mindustry.world.blocks.production.HeatCrafter;
 import mindustry.world.draw.DrawArcSmelt;
 
-import static mindustry.world.meta.Stat.maxEfficiency;
-
 public class arcsmeltmodifier extends DrawArcSmelt {
+
+    //probably do this later
 
     // i want to kill myself
     public Color[] flameColor = {

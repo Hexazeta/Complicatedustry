@@ -32,8 +32,7 @@ public class modunits {
                 alternate = false;
                 mirror = false;
                 reload = 120f;
-
-                bullet = new BasicBulletType(10f, 1120){{
+                bullet = new BasicBulletType(10f, 1200){{
                     hitEffect = Fx.blastExplosion;
                     width = 23;
                     height = 37;
@@ -64,17 +63,17 @@ public class modunits {
                     knockback = 5;
                     pierceCap = 5;
                     rangeOverride = 120;
-                    damage = 970f/12f;
+                    damage = 980f/12f;
                 }};
             }});
-
+            //why the fuck are the upper legs not visible//not anymore
             legCount = 4;
-            legLength = 64f;
+            legLength = 52f;
             lockLegBase = true;
             legContinuousMove = true;
-            legExtension = -7.5f;
-            legBaseOffset = 5.5f;
-            legLengthScl = 0.8f;
+            legExtension = -1f;
+            legBaseOffset = 20f;
+            legLengthScl = 1f;
             stepShake = 3f;
             rippleScale = 2f;
             rotateToBuilding = true;
