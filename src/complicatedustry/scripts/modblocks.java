@@ -20,11 +20,12 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.LiquidTurret;
-import mindustry.world.blocks.distribution.Duct;
-import mindustry.world.blocks.distribution.StackConveyor;
-import mindustry.world.blocks.distribution.StackRouter;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.blocks.liquid.ArmoredConduit;
+import mindustry.world.blocks.liquid.Conduit;
+import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.UnitCargoLoader;
@@ -36,6 +37,7 @@ import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
 import static mindustry.Vars.tilesize;
+import static mindustry.content.Blocks.reinforcedConduit;
 import static mindustry.type.ItemStack.*;
 
 
@@ -50,7 +52,8 @@ public class modblocks {
     smallHeatRedirector, SmallHeatRouter, atmosphericCondenser, surgeRouter, reinforcedDuct, platedConveyor,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,
-    cyanogenCatalysis, phaseCatalysis,surgeFoundry, cryofluidMultiMixer, flood,
+    cyanogenCatalysis, phaseCatalysis,surgeFoundry, cryofluidMultiMixer, flood, reinforcedBridge,
+    platedConduit, platedBridgeConduit, platedLiquidContainer, platedLiquidTank,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
     unitPayloadUnloadPoint, overdriveStadium, constructMonolith, regenDome, blastwaveMonolith, mendDome,
@@ -252,6 +255,19 @@ public class modblocks {
                 consumePower(3f/60f);
             }};
 
+            reinforcedBridge = new ItemBridge("reinforced-bridge"){{
+                requirements(Category.distribution, with(Items.phaseFabric, 5, Items.silicon, 7, Items.lead, 10, Items.graphite, 10));
+                range = 16;
+                arrowPeriod = 0.9f;
+                arrowTimeScl = 2.75f;
+                hasPower = false;
+                itemCapacity = 30;
+                unloadable = true;
+                pulse = true;
+                envEnabled |= Env.space;
+                consumePower(0.30f);
+            }};
+
         surgeRouter = new StackRouter("surge-router"){{
             requirements(Category.distribution, with(Items.surgeAlloy, 5, Items.titanium, 1));
             health = 130;
@@ -282,6 +298,45 @@ public class modblocks {
                 size = 3;
                 itemCapacity = 300;
             }};
+
+            platedConduit = new ArmoredConduit("plated-conduit"){{
+                requirements(Category.liquid, with(Items.beryllium, 2));
+                botColor = Pal.darkestMetal;
+                leaks = false;
+                liquidCapacity = 60f;
+                liquidPressure = 1.5f;
+                health = 750;
+                researchCostMultiplier = 3;
+                underBullets = true;
+            }};
+
+            platedBridgeConduit = new DirectionLiquidBridge("plated-bridge-conduit"){{
+                requirements(Category.liquid, with(Items.graphite, 8, Items.beryllium, 20));
+                range = 16;
+                hasPower = false;
+                researchCostMultiplier = 1;
+                underBullets = true;
+                liquidCapacity = 30;
+                ((Conduit)reinforcedConduit).rotBridgeReplacement = this;
+            }};
+
+            platedLiquidContainer = new LiquidRouter("plated-liquid-container"){{
+                requirements(Category.liquid, with(Items.tungsten, 10, Items.beryllium, 16));
+                liquidCapacity = 3000f;
+                size = 2;
+                liquidPadding = 6f/4f;
+                researchCostMultiplier = 4;
+                solid = true;
+            }};
+
+            platedLiquidTank = new LiquidRouter("plated-liquid-tank"){{
+                requirements(Category.liquid, with(Items.tungsten, 40, Items.beryllium, 50));
+                size = 3;
+                solid = true;
+                liquidCapacity = 40000f;
+                liquidPadding = 2f;
+            }};
+
 
         }}
         //production
@@ -649,7 +704,7 @@ public class modblocks {
             itemCapacity = 70;
             liquidCapacity = 160f;
             craftTime = 120f;
-            craftEffect = Fx.smeltsmoke;
+            updateEffect = Fx.smeltsmoke;
             craftEffect = new RadialEffect(Fx.surgeCruciSmoke, 8, 45f, 9f);
             ambientSound = Sounds.smelter;
             ambientSoundVolume = 0.9f;
@@ -657,7 +712,9 @@ public class modblocks {
                 color = Color.valueOf("ffc073").a(0.24f);strokeMax = 2.5f; radius = 10f;amount = 3;}},
                     new DrawLiquidRegion(Liquids.slag), new DrawDefault(), new DrawHeatInput(),
                     new DrawHeatRegion("-vents"){{color.a = 1f;}},
-                    new DrawHeatRegion(){{color = Color.valueOf("ff6060ff");}}, new DrawFlame() );
+                    new DrawHeatRegion(){{color = Color.valueOf("ff6060ff");}},
+                    new DrawFlame(){{flameColor = Color.valueOf("dea471"); flameRadius = 3.5f;
+                        lightRadius = 70;}});
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.slag, 50f / 60f);
@@ -977,8 +1034,10 @@ public class modblocks {
             requirements(Category.effect, with(Items.graphite, 1));
             consumePower(30f);
             size = 5;
+            liquidCapacity = 90f;
+            itemCapacity = 30;
             range = 600f;
-            speedBoost = 4f;
+            speedBoost = 6f;
             useTime = 150f;
             hasBoost = false;
             consumeItems(with(Items.phaseFabric, 7, Items.silicon, 4));
