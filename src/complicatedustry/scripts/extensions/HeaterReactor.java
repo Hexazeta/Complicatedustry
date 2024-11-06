@@ -17,7 +17,7 @@ import mindustry.world.meta.StatUnit;
 
 public class HeaterReactor extends NuclearReactor {
 
-
+    //todo fix all of this shit
     public float heatOutput = 10f;
     public float warmupRate = 0.15f;
     public HeaterReactor(String name) {

@@ -6,7 +6,7 @@ import mindustry.type.Liquid;
 
 public class modliquids {
     //todo more liquids
-    public static Liquid steam,supercooledfluid;
+    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze;
 
         public static void load() {
 
@@ -17,4 +17,17 @@ public class modliquids {
             supercooledfluid = new Liquid("supercooledfluid"){{
                 color = Color.valueOf("b2c9d6");
             }};
+
+            helium = new Liquid("helium"){{
+                color = Color.valueOf("b2c9d6");
+            }};
+
+            sporeinfestedwater = new Liquid("spore-infested-water"){{
+                color = Color.valueOf("b2c9d6");
+            }};
+
+            antifreeze = new Liquid("antifreeze"){{
+                color = Color.valueOf("121212");
+            }};
+
         }}
