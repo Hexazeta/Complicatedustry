@@ -6,7 +6,7 @@ import mindustry.type.Item;
 
 public class moditems {
 
-    public static Item diamond,forceAlloy,sporeCluster, powerCompound,compoundAlloy,ultralloy,
+    public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,
             feldspar,carborundum,omegalloy,quantum;
 
         public static void load() {
@@ -25,13 +25,13 @@ public class moditems {
 
             powerCompound = new Item("power-compound"){{
                 color = Color.valueOf("73abff");
-                frames = 8;frameTime = 90;}};
+                frames = 8;frameTime = 45;}};
 
             compoundAlloy = new Item("compound-alloy"){{
                 color = Color.valueOf("c4417a");
             }};
 
-            sporeCluster = new Item("spore-cluster"){{
+            sporeReceptacle = new Item("spore-receptacle"){{
                 color = Color.valueOf("c4417a");
             }};
 

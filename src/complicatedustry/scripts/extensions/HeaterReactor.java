@@ -1,44 +1,88 @@
 package complicatedustry.scripts.extensions;
 
+import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.struct.EnumSet;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.content.Fx;
+import mindustry.content.Items;
+import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.logic.LAccess;
+import mindustry.type.Item;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.heat.HeatBlock;
-import mindustry.world.blocks.power.NuclearReactor;
+import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawHeatOutput;
 import mindustry.world.draw.DrawMulti;
+import mindustry.world.meta.BlockFlag;
+import mindustry.world.meta.Env;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static mindustry.Vars.*;
 
-public class HeaterReactor extends NuclearReactor {
-    //todo fix all of this
+public class HeaterReactor extends PowerGenerator {
+
+    public TextureRegion lightsRegion;
+
+    @Override
+    public void load() {
+        super.load();
+        lightsRegion = Core.atlas.find(name + "-lights");
+    }
+
+    public final int timerFuel = timers++;
+
+    public float itemDuration = 120;
+    public float heating = 0.01f;
+    public float smokeThreshold = 0.3f;
+    public float coolantPower = 0.5f;
+
+    public List<Item> fuelItems = new ArrayList<>();
+
     public float heatOutput = 10f;
     public float warmupRate = 0.15f;
-
     public float flashThreshold = 0.01f, flashAlpha = 0.4f, flashSpeed = 7f;
     public Color flashColor1 = Color.red, flashColor2 = Color.valueOf("89e8b6");
 
     public HeaterReactor(String name) {
         super(name);
+        //default items
+        fuelItems.add(Items.thorium);
+        fuelItems.add(Items.phaseFabric);
 
         drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
         rotateDraw = false;
         rotate = true;
         canOverdrive = false;
         drawArrow = true;
+        itemCapacity = 30;
+        liquidCapacity = 30;
+        hasItems = true;
+        hasLiquids = true;
+        rebuildable = false;
+        flags = EnumSet.of(BlockFlag.reactor, BlockFlag.generator);
+        schematicPriority = -5;
+        envEnabled = Env.any;
+
+        explosionShake = 6f;
+        explosionShakeDuration = 16f;
+        explosionRadius = 19;
+        explosionDamage = 1250 * 4;
+        explodeEffect = Fx.reactorExplosion;
+        explodeSound = Sounds.explosionbig;
 
     }
 
@@ -74,11 +118,15 @@ public class HeaterReactor extends NuclearReactor {
         public void updateTile() {
             super.updateTile();
 
-            int fuel = items.get(fuelItem); //will change later
-            float fullness = (float)fuel / itemCapacity;
+            int fuel = 0;
+            for (Item item : fuelItems) {
+                fuel += items.get(item);  // get the count of each fuel item
+            }
+            int amount = fuelItems.size();
+
+            float fullness = (float) fuel / ( itemCapacity * amount );
             productionEfficiency = fullness;
 
-            //for heat output, regardless of efficiency?
             heat = Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
 
             //instability and things
@@ -116,7 +164,12 @@ public class HeaterReactor extends NuclearReactor {
 
         @Override
         public boolean shouldExplode(){
-            return super.shouldExplode() && (items.get(fuelItem) >= 5 || instability >= 0.5f);
+            int totalFuel = 0;
+            for (Item item : fuelItems) {
+                totalFuel += items.get(item);  // counting items
+            }
+            int explosionThreshold = 5 * totalFuel;
+            return super.shouldExplode() && (totalFuel >= explosionThreshold || instability >= 0.5f);
         }
 
         public void draw(){
@@ -147,11 +200,14 @@ public class HeaterReactor extends NuclearReactor {
         public void write(Writes write){
             super.write(write);
             write.f(heat);
+            write.f(instability);
+            write.f(warmup);
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
             heat = read.f();
-
+            instability = read.f();
+            warmup = read.f();
     }}}
