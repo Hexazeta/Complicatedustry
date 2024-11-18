@@ -118,48 +118,56 @@ public class HeaterReactor extends PowerGenerator {
         public void updateTile() {
             super.updateTile();
 
-            int fuel = 0;
+            boolean allItemsAvailable = true;
+
             for (Item item : fuelItems) {
-                fuel += items.get(item);  // get the count of each fuel item
-            }
-            int amount = fuelItems.size();
-
-            float fullness = (float) fuel / ( itemCapacity * amount );
-            productionEfficiency = fullness;
-
-            heat = Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
-
-            //instability and things
-            warmup = Mathf.lerpDelta(warmup, productionEfficiency > 0 ? 1f : 0f, warmupRate);
-
-            if(instability >= 1f){
-                kill();
+                if (items.get(item) <= 0) {
+                    allItemsAvailable = false;
+                    break;
+                }
             }
 
-            if(fuel > 0 && enabled){
+            if (allItemsAvailable) {
+                int totalFuel = 0;
+                for (Item item : fuelItems) {
+                    totalFuel += items.get(item);
+                }
+
+                int totalRequired = itemCapacity * fuelItems.size();
+
+                float fullness = (float) totalFuel / totalRequired;
+                productionEfficiency = fullness;
+
+                heat = Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
+
+                warmup = Mathf.lerpDelta(warmup, productionEfficiency > 0 ? 1f : 0f, warmupRate);
+
+                if (instability >= 1f) {
+                    kill();
+                }
+
                 instability += fullness * heating * Math.min(delta(), 4f);
 
-                if(timer(timerFuel, itemDuration / timeScale)){
+                if (timer(timerFuel, itemDuration / timeScale)) {
                     consume();
                 }
-            }else{
+            } else {
                 productionEfficiency = 0f;
             }
 
-            if(instability > 0){
+            if (instability > 0) {
                 float maxUsed = Math.min(liquids.currentAmount(), instability / coolantPower);
                 instability -= maxUsed * coolantPower;
                 liquids.remove(liquids.current(), maxUsed);
             }
 
-            if(instability > smokeThreshold){
+            if (instability > smokeThreshold) {
                 float smoke = 1.0f + (instability - smokeThreshold) / (1f - smokeThreshold);
-                if(Mathf.chance(smoke / 20.0 * delta())){
+                if (Mathf.chance(smoke / 20.0 * delta())) {
                     Fx.reactorsmoke.at(x + Mathf.range(size * tilesize / 2f),
                             y + Mathf.range(size * tilesize / 2f));
                 }
             }
-
         }
 
         @Override

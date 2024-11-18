@@ -1,7 +1,7 @@
 package complicatedustry.scripts;
 
+import arc.graphics.Blending;
 import arc.graphics.Color;
-import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.struct.EnumSet;
@@ -13,7 +13,6 @@ import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
-import mindustry.entities.Effect;
 import mindustry.entities.bullet.LiquidBulletType;
 import mindustry.entities.bullet.MissileBulletType;
 import mindustry.entities.effect.MultiEffect;
@@ -44,7 +43,6 @@ import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
-import static arc.input.KeyCode.e;
 import static mindustry.Vars.tilesize;
 import static mindustry.content.Blocks.*;
 import static mindustry.type.ItemStack.*;
@@ -56,7 +54,7 @@ public class modblocks {
     //stuff here
     carborundumCrucible,mergedBlock1,mergedBlock2,mergedBlock3,mergedBlock4,
     //drills and shit
-    hugePlasmaBore,wallDrill,craterDrill,mountainCrusher,iceCrusher,
+    hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,
     //crafters
     smallHeatRedirector, SmallHeatRouter, atmosphericCondenser, surgeRouter, reinforcedDuct, platedConveyor,
     pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
@@ -66,7 +64,7 @@ public class modblocks {
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
     unitPayloadUnloadPoint, overdriveStadium, constructMonolith, regenDome, blastwaveMonolith, mendDome,
-    horde, sporeIncubator,
+    horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
 
 
     //power
@@ -357,10 +355,12 @@ public class modblocks {
                     size = 4;
                     range = 10;
                     fogRadius = 6;
-                    laserWidth = 1f;
+                    laserWidth = 0.75f;
                     itemCapacity = 60;
                     liquidCapacity = 30f;
-                    consumeLiquid(Liquids.nitrogen, 4f / 60f);
+                    //TODO more requirements?
+                    consumeLiquid(Liquids.ozone, 4f / 60f);
+                    consumeLiquid(Liquids.arkycite, 35f / 60f);
                     consumeLiquid(Liquids.cryofluid, 20f / 60f).boost();
                 }};
 
@@ -373,8 +373,6 @@ public class modblocks {
                     hasPower = true;
                     squareSprite = false;
                     tier = 10;
-                    //TODO better effect
-                    //isnt this already good?
                     drillEffect = new MultiEffect(
                             Fx.mineImpact,
                             Fx.drillSteam,
@@ -389,9 +387,9 @@ public class modblocks {
                     baseArrowColor = Color.valueOf("595a66");
                     glowColor.a = 0.6f;
                     fogRadius = 6;
-                    //TODO different requirements
                     consumePower(16f);
-                    consumeLiquids(LiquidStack.with(Liquids.nitrogen, 9f / 60f));
+                    consumeLiquids(LiquidStack.with(Liquids.nitrogen, 18f / 60f));
+                    consumeLiquids(LiquidStack.with(Liquids.cyanogen, 1f / 60f));
                 }};
 
             mountainCrusher = new WallCrafter("mountain-crusher") {{
@@ -608,12 +606,14 @@ public class modblocks {
             outputItem = new ItemStack(Items.metaglass, 4);
         }};
 
-        waterConcentrator = new GenericCrafter("water-concentrator") {{
+        waterConcentrator = new AttributeCrafter("water-concentrator") {{
             requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
             liquidCapacity = 50f;
             craftTime =19.2f;
+            attribute = Attribute.water;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.water), new DrawDefault());
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.ozone, 12f / 60f);
@@ -621,6 +621,8 @@ public class modblocks {
             consumePower(2f / 3f);
             outputsLiquid = true;
             outputLiquid = new LiquidStack(Liquids.water, 30f / 60f);
+            boostScale = 10f / 27f;
+            maxBoost = 2;
         }};
 
         densifier = new AttributeCrafter("densifier") {{
@@ -640,26 +642,30 @@ public class modblocks {
             consumeLiquid(Liquids.water, 75f / 60f);
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.sporePod, 7);
-            boostScale = 3f;
-            maxBoost = 4f;
+            boostScale = 10f / 27f;
+            maxBoost = 1f;
         }};
 
         sporeIncubator = new AttributeCrafter("spore-incubator") {{
                 requirements(Category.production, with( Items.graphite, 1));
                 squareSprite = true;
                 size = 3;
-                itemCapacity = 30;
+                itemCapacity = 60;
                 liquidCapacity = 90f;
                 craftTime = 60f;
+                updateEffect = Fx.smeltsmoke.wrap(Items.sporePod.color, 10f);
                 envRequired |= Env.spores;
                 attribute = Attribute.spores;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water),
+                    new DrawCultivator(){{spread = 6f; radius = 4.5f; bubbles = 18; sides = 12;}},
+                    new DrawDefault());
                 hasPower = true;
                 hasLiquids = true;
                 consumeLiquid(modliquids.sporeinfestedwater, 64f / 60f);
                 consumeItem(Items.sporePod, 9);
                 consumePower(2f / 3f);
                 outputItem = new ItemStack(moditems.sporeReceptacle, 1);
-                boostScale = 2f;
+                boostScale = 20f / 27f;
                 maxBoost = 3f;
             }};
 
@@ -919,8 +925,11 @@ public class modblocks {
                     Fx.shockwave.wrap(moditems.ultralloy.color, 60f)
             );
             drawer = new DrawMulti(new DrawRegion("-bottom"),
-                    new DrawRegion("-top"){{spinSprite = true; rotateSpeed = 1f;}},
-                    new DrawRegion("-middle"){{spinSprite = true; rotateSpeed = 0.75f;}},
+                    new DrawParticles(){{color = Color.valueOf("58cedb");
+                        alpha = 0.3f;particleSize = 6f;particles = 70;particleRad = 9f;
+                        fadeMargin = 1f;particleLife = 80f;blending = Blending.additive;}},
+                    new DrawRegion("-top"){{spinSprite = true; rotateSpeed = 0.625f;}},
+                    new DrawRegion("-middle"){{spinSprite = true; rotateSpeed = 0.46875f;}},
                     new DrawDefault(), new DrawHeatInput());
             hasPower = true;
             hasLiquids = true;
@@ -948,7 +957,74 @@ public class modblocks {
                 consumePower(1f);
             }};
 
+        mythratiteMixer = new GenericCrafter("mythratite-mixer") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 30;
+                craftTime = 120f;
+                craftEffect = Fx.coalSmeltsmoke;
+                updateEffect= Fx.coalSmeltsmoke;
+                hasPower = true;
+                hasLiquids = false;
+                consumeItems(with(Items.titanium, 7, Items.tungsten, 5, Items.lead, 8));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.mythratite, 5);
+            }};
 
+        pneumatiteMixer = new GenericCrafter("pnematite-mixer") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 4;
+                itemCapacity = 40;
+                craftTime = 60f;
+                hasPower = true;
+                hasLiquids = false;
+                consumeItems(with(moditems.mythratite, 5, Items.pyratite, 6, moditems.genesisMetal, 13));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.pneumatite, 3);
+            }};
+
+        bronzeSmelter = new GenericCrafter("bronze-smelter") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 20;
+                craftTime = 40f;
+                hasPower = true;
+                hasLiquids = false;
+                consumeItems(with(Items.copper, 7, moditems.tin, 3));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.bronze, 2);
+            }};
+
+        superConductorFurnace = new GenericCrafter("super-conductor-furnace") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 4;
+                itemCapacity = 40;
+                craftTime = 80f;
+                hasPower = true;
+                hasLiquids = false;
+                consumeItems(with(moditems.bronze, 10, moditems.platinum, 3, moditems.gold, 7));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.superConductiveMetal, 4);
+            }};
+
+        superConductorFurnace = new GenericCrafter("super-conductor-furnace") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 5;
+                itemCapacity = 60;
+                liquidCapacity = 30f;
+                craftTime = 60f;
+                hasPower = true;
+                hasLiquids = true;
+                consumeItems(with(moditems.pneumatite, 10, moditems.superConductiveMetal, 20, moditems.carborundum, 18));
+                consumeLiquid(Liquids.cyanogen, 22.5f / 60f);
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.hyperalloy, 4);
+            }};
 
         }}
         //power

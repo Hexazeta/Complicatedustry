@@ -7,44 +7,89 @@ import mindustry.type.Item;
 public class moditems {
 
     public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,
-            feldspar,carborundum,omegalloy,quantum;
+            platinum,carborundum,omegalloy,quantum,tin,bronze,hyperalloy,mythratite,pneumatite,genesisMetal,
+            gold,superConductiveMetal;
 
         public static void load() {
+            //normal
+            {{
+                diamond = new Item("diamond"){{
+                    color = Color.valueOf("caecfa");
+                }};
 
-            diamond = new Item("diamond"){{
-            color = Color.valueOf("caecfa");
-            }};
+                sporeReceptacle = new Item("spore-receptacle"){{
+                    color = Color.valueOf("7557cf");
+                }};
 
-            carborundum = new Item("carborundum"){{
-            color = Color.valueOf("3d3938")  ;
-            }};
+                platinum = new Item("platinum"){{
+                    color = Color.valueOf("ffffff");
+                }};
 
-            forceAlloy = new Item("force-alloy"){{
-                color = Color.valueOf("5cb55f");
-            }};
+                tin = new Item("tin"){{
+                    color = Color.valueOf("fffffa");
+                }};
 
-            powerCompound = new Item("power-compound"){{
-                color = Color.valueOf("73abff");
-                frames = 8;frameTime = 45;}};
+                bronze = new Item("bronze"){{
+                    color = Color.valueOf("fffffb");
+                }};
 
-            compoundAlloy = new Item("compound-alloy"){{
-                color = Color.valueOf("c4417a");
-            }};
+                gold = new Item("gold"){{
+                    color = Color.valueOf("fffffh");
+                }};
 
-            sporeReceptacle = new Item("spore-receptacle"){{
-                color = Color.valueOf("c4417a");
-            }};
+                genesisMetal = new Item("genesis-metal"){{
+                    color = Color.valueOf("fffffg");
+                }};
 
-            ultralloy = new Item("ultralloy"){{
-                color = Color.valueOf("58cedb");
-            }};
+                mythratite = new Item("mythratite"){{
+                    color = Color.valueOf("fffffd");
+                }};
+            }}
+            //normal but cooler
+            {{
+                carborundum = new Item("carborundum"){{
+                    color = Color.valueOf("3d3938");
+                }};
 
-            omegalloy = new Item("omegalloy"){{
-                color = Color.valueOf("c23673");
-            }};
+                forceAlloy = new Item("force-alloy"){{
+                    color = Color.valueOf("5cb55f");
+                }};
 
-            quantum = new Item("quantum"){{
-                color = Color.valueOf("22ab39");
-            }};
+                powerCompound = new Item("power-compound"){{
+                    color = Color.valueOf("73abff");
+                    frames = 8;frameTime = 45;}};
 
+                compoundAlloy = new Item("compound-alloy"){{
+                    color = Color.valueOf("c4417a");
+                }};
+
+                superConductiveMetal = new Item("super-conductive-metal"){{
+                    color = Color.valueOf("fffffi");
+                }};
+            }}
+            //cool stuff
+            {{
+                quantum = new Item("quantum"){{
+                    color = Color.valueOf("22ab39");
+                }};
+
+                pneumatite = new Item("pneumatite"){{
+                    color = Color.valueOf("fffffe");
+                }};
+            }}
+            //really cool stuff
+            {{
+                ultralloy = new Item("ultralloy"){{
+                    color = Color.valueOf("58cedb");
+                }};
+
+                omegalloy = new Item("omegalloy"){{
+                    color = Color.valueOf("c23673");
+                }};
+
+                hyperalloy = new Item("hyperalloy"){{
+                    color = Color.valueOf("fffffc");
+                }};
+
+            }}
     }}
