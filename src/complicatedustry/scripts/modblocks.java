@@ -972,17 +972,17 @@ public class modblocks {
                 outputItem = new ItemStack(moditems.mythratite, 5);
             }};
 
-        pneumatiteMixer = new GenericCrafter("pnematite-mixer") {{
+        pneumatiteMixer = new GenericCrafter("pneumatite-mixer") {{
                 requirements(Category.crafting, with( Items.graphite, 1));
                 squareSprite = true;
                 size = 4;
                 itemCapacity = 40;
-                craftTime = 60f;
+                craftTime = 80f;
                 hasPower = true;
                 hasLiquids = false;
-                consumeItems(with(moditems.mythratite, 5, Items.pyratite, 6, moditems.genesisMetal, 13));
+                consumeItems(with(moditems.mythratite, 10, Items.pyratite, 12, moditems.genesisMetal, 27));
                 consumePower(2f / 3f);
-                outputItem = new ItemStack(moditems.pneumatite, 3);
+                outputItem = new ItemStack(moditems.pneumatite, 7);
             }};
 
         bronzeSmelter = new GenericCrafter("bronze-smelter") {{
