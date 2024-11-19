@@ -1011,7 +1011,7 @@ public class modblocks {
                 outputItem = new ItemStack(moditems.superConductiveMetal, 4);
             }};
 
-        hyperalloyCrucible = new GenericCrafter(hyperalloy-crucible") {{
+        hyperalloyCrucible = new GenericCrafter("hyperalloy-crucible") {{
                 requirements(Category.crafting, with( Items.graphite, 1));
                 squareSprite = true;
                 size = 5;
