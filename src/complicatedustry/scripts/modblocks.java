@@ -5,10 +5,7 @@ import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.struct.EnumSet;
-import complicatedustry.scripts.extensions.HeaterReactor;
-import complicatedustry.scripts.extensions.MultiLiquidConsumeGenerator;
-import complicatedustry.scripts.extensions.RepairTurretTower;
-import complicatedustry.scripts.extensions.DrawArcSmeltModified;
+import complicatedustry.scripts.extensions.*;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
@@ -28,6 +25,7 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.environment.SteamVent;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.liquid.ArmoredConduit;
@@ -52,7 +50,7 @@ public class modblocks {
 
     public static Block
     //stuff here
-    carborundumCrucible,mergedBlock1,mergedBlock2,mergedBlock3,mergedBlock4,
+    carborundumCrucible,mergedBlock1,mergedBlock2,mergedBlock3,mergedBlock4,largeArkyicVent,
     //drills and shit
     hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,
     //crafters
@@ -73,6 +71,11 @@ public class modblocks {
     //todo unit constructors?
 
     public static void load() {
+        //enviroment
+        largeArkyicVent = new LargeSteamVent("large-arkyic-vent"){{
+            parent = blendGroup = arkyicStone;
+            attributes.set(Attribute.steam, 3f);
+        }};
         //trash
         {{
             cryofluidMultiMixer = new GenericCrafter("cryofluid-multi-mixer") {{
@@ -886,9 +889,13 @@ public class modblocks {
             size = 6;
             itemCapacity = 70;
             craftTime = 180f;
+            drawer = new DrawMulti( new DrawDefault(), new DrawPistonsAnimated());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 40f / 60f);
+            consumeLiquid(Liquids.water, 1f);
+            consumeLiquid(Liquids.arkycite, 80f / 60f);
+            consumeLiquid(Liquids.oil, 70f / 60f);
+            consumeLiquid(Liquids.slag, 50f / 60f);
             consumeItems(with(Items.copper, 17, Items.lead, 16, Items.sand, 15,
                     Items.titanium, 14, Items.graphite, 16, Items.thorium, 13,
                     Items.beryllium, 17, Items.tungsten, 15));
@@ -963,8 +970,8 @@ public class modblocks {
                 size = 3;
                 itemCapacity = 30;
                 craftTime = 120f;
-                craftEffect = Fx.coalSmeltsmoke;
-                updateEffect= Fx.coalSmeltsmoke;
+                craftEffect = Fx.smeltsmoke;
+                updateEffect= Fx.smeltsmoke;
                 hasPower = true;
                 hasLiquids = false;
                 consumeItems(with(Items.titanium, 7, Items.tungsten, 5, Items.lead, 8));
@@ -976,7 +983,7 @@ public class modblocks {
                 requirements(Category.crafting, with( Items.graphite, 1));
                 squareSprite = true;
                 size = 4;
-                itemCapacity = 40;
+                itemCapacity = 60;
                 craftTime = 80f;
                 hasPower = true;
                 hasLiquids = false;
@@ -1063,7 +1070,7 @@ public class modblocks {
                     ambientSoundVolume = 0.06f;
                 }};
 
-            advancedPyrolysisGenerator = new MultiLiquidConsumeGenerator("advanced-pyrolysis-generator") {{
+            advancedPyrolysisGenerator = new ConsumeGenerator("advanced-pyrolysis-generator") {{
                     requirements(Category.power, with(Items.graphite, 1));
                     powerProduction = 150f;
                     consumeLiquids(LiquidStack.with(Liquids.slag, 90f / 60f, Liquids.arkycite, 195f / 60f));
@@ -1071,12 +1078,11 @@ public class modblocks {
                     size = 4;
                     liquidCapacity = 600f;
                     itemCapacity = 20;
-                    outputLiquids = LiquidStack.with(Liquids.ozone, 10f / 60f, Liquids.cryofluid, 75f / 60f, Liquids.hydrogen, 15f / 60f);
+                    outputLiquid = new LiquidStack(Liquids.cryofluid, 90f / 60f);
                     generateEffect = Fx.none;
                     ambientSound = Sounds.smelter;
                     ambientSoundVolume = 0.06f;
                     researchCostMultiplier = 0.4f;
-                    liquidOutputDirections = new int[]{1, 2, 3};
                 }};
 
             geothermalGenerator = new ThermalGenerator("geothermal-generator") {{
