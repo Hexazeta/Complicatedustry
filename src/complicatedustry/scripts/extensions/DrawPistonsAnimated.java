@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.gen.Building;
 import mindustry.world.Block;
@@ -18,37 +19,41 @@ public class DrawPistonsAnimated extends DrawPistons {
     // Additional variables to track piston state
     private boolean isExtending = false;
     private boolean isRetracting = false;
+    private float currentLength = 0f; // Track current piston length
 
     @Override
     public void draw(Building build) {
         // Check if the building is producing or working (active progress)
         boolean isProducing = build.totalProgress() > 0 && build.totalProgress() < 1;
 
-        float len = 0f;
-
-        // If the building is producing, the piston should extend
+        // Handle extending piston when production is happening
         if (isProducing) {
-            // Piston extending logic
             if (!isExtending) {
+                // Start extending the piston if it was not already extending
                 isExtending = true;
                 isRetracting = false;
             }
-            // Extend piston smoothly
-            len = Mathf.absin(build.totalProgress() + sinOffset, sinScl, sinMag) + lenOffset;
-            if (len > maxDistance) {
-                len = maxDistance;
-            }
+
+            // Smoothly extend the piston, based on total progress of the building
+            currentLength = Mathf.lerp(currentLength, maxDistance, extendSpeed * Time.delta);
         } else {
-            // If the building stops producing, the piston should retract
+            // Handle retracting piston when production stops
             if (!isRetracting) {
+                // Start retracting the piston if it was not already retracting
                 isRetracting = true;
                 isExtending = false;
             }
-            // Retract piston smoothly
-            len = Mathf.absin(build.totalProgress() + sinOffset, sinScl, sinMag) - retractSpeed + lenOffset;
-            if (len < 0) {
-                len = 0; // Ensure the piston doesn't go beyond its initial position
-            }
+
+            // Smoothly retract the piston
+            currentLength = Mathf.lerp(currentLength, 0f, retractSpeed * Time.delta);
+        }
+
+        // Ensure the piston doesn't move beyond its bounds
+        if (currentLength > maxDistance) {
+            currentLength = maxDistance;
+        }
+        if (currentLength < 0) {
+            currentLength = 0f;
         }
 
         // Handle piston movement in a loop for all sides
@@ -62,7 +67,7 @@ public class DrawPistonsAnimated extends DrawPistons {
             }
 
             // Move the piston based on the angle and length (corrected the `trns()` method usage)
-            Tmp.v1.trns(angle, len - horiOffset); // Correcting to pass the distance as the second argument
+            Tmp.v1.trns(angle, currentLength - horiOffset); // Correcting to pass the distance as the second argument
             Draw.rect(reg, build.x + Tmp.v1.x, build.y + Tmp.v1.y, angle);
 
             Draw.yscl = 1f;
@@ -83,3 +88,4 @@ public class DrawPistonsAnimated extends DrawPistons {
         return new TextureRegion[]{iconRegion};
     }
 }
+
