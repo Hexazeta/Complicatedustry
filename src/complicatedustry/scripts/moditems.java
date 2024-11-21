@@ -42,7 +42,7 @@ public class moditems {
                 }};
 
                 mythratite = new Item("mythratite"){{
-                    color = Color.valueOf("fffffd");
+                    color = Color.valueOf("ade080");
                 }};
             }}
             //normal but cooler
@@ -74,7 +74,7 @@ public class moditems {
                 }};
 
                 pneumatite = new Item("pneumatite"){{
-                    color = Color.valueOf("fffffe");
+                    color = Color.valueOf("70e0d0");
                 }};
             }}
             //really cool stuff

@@ -985,8 +985,10 @@ public class modblocks {
                 size = 4;
                 itemCapacity = 60;
                 craftTime = 80f;
+                craftEffect = new MultiEffect(Fx.coalSmeltsmoke.wrap(moditems.pneumatite.color), Fx.smeltsmoke.wrap(moditems.pneumatite.color));
                 hasPower = true;
                 hasLiquids = false;
+                drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner"){{spinSprite = true; rotateSpeed = -1f;}});
                 consumeItems(with(moditems.mythratite, 10, Items.pyratite, 12, moditems.genesisMetal, 27));
                 consumePower(2f / 3f);
                 outputItem = new ItemStack(moditems.pneumatite, 7);
