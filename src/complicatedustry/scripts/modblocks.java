@@ -63,10 +63,10 @@ public class modblocks {
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
     unitPayloadUnloadPoint, overdriveStadium, constructMonolith, regenDome, blastwaveMonolith, mendDome,
     horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
-
+    fluxProcessor,antifreezeFabricator,
 
     //power
-    boilerGenerator, triGenerationReactor, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
+    boilerGenerator, hyperneoplasiaGenerator, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
     heavyDutyTurbineCondenser, radiativeReactor, TitanReactor,neoplasiaHyperReactor, chronoReactor, behemothReactor;
     //todo unit constructors?
 
@@ -263,7 +263,7 @@ public class modblocks {
         }};}}
         //testing
         {{
-        mergedBlock1 = new HeatProducer("idkwhattonamethisyet"){{
+        mergedBlock1 = new HeatProducer("catalytic-chamber"){{
             requirements(Category.crafting, with(Items.graphite, 1));
             size = 5;
             researchCostMultiplier = 1.2f;
@@ -892,15 +892,15 @@ public class modblocks {
             drawer = new DrawMulti( new DrawDefault(), new DrawPistonsAnimated());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 1f);
-            consumeLiquid(Liquids.arkycite, 80f / 60f);
-            consumeLiquid(Liquids.oil, 70f / 60f);
-            consumeLiquid(Liquids.slag, 50f / 60f);
-            consumeItems(with(Items.copper, 17, Items.lead, 16, Items.sand, 15,
-                    Items.titanium, 14, Items.graphite, 16, Items.thorium, 13,
-                    Items.beryllium, 17, Items.tungsten, 15));
+            consumeLiquid(Liquids.water, 110f / 60f);
+            consumeLiquid(Liquids.arkycite, 150f / 60f);
+            consumeLiquid(Liquids.oil, 130f / 60f);
+            consumeLiquid(Liquids.slag, 90f / 60f);
+            consumeItems(with(Items.copper, 19, Items.lead, 18, Items.sand, 17,
+                    Items.titanium, 16, Items.graphite, 18, Items.thorium, 15,
+                    Items.beryllium, 19, Items.tungsten, 17));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.omegalloy, 8);
+            outputItem = new ItemStack(moditems.omegalloy, 12);
         }};
 
         quasiconstructor = new GenericCrafter("quasi-constructor"){{
@@ -908,7 +908,7 @@ public class modblocks {
                 squareSprite = true;
                 size = 4;
                 liquidCapacity = 80f;
-                craftTime = 6.9f;
+                craftTime = 30f;
                 hasPower = true;
                 hasLiquids = true;
                 hasItems = true;
@@ -1033,6 +1033,42 @@ public class modblocks {
                 consumeLiquid(Liquids.cyanogen, 22.5f / 60f);
                 consumePower(2f / 3f);
                 outputItem = new ItemStack(moditems.hyperalloy, 4);
+            }};
+
+        fluxProcessor = new GenericCrafter("flux-processor") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 20;
+                liquidCapacity = 200f;
+                craftTime = 60f;
+                hasPower = true;
+                hasLiquids = true;
+                consumeItem(Items.copper, 5);
+                consumeLiquid(Liquids.hydrogen, 30f / 60f);
+                consumeLiquid(Liquids.oil, 70f / 60f);
+                consumePower(2f / 3f);
+                outputLiquid = new LiquidStack(modliquids.aeroflux, 50f / 60f);
+            }};
+
+        antifreezeFabricator = new GenericCrafter("antifreeze-fabricator") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 30;
+                liquidCapacity = 300f;
+                craftTime = 60f;
+                hasPower = true;
+                hasLiquids = true;
+                consumeItem(Items.tungsten, 7);
+                consumeLiquid(Liquids.arkycite, 45f / 60f);
+                consumeLiquid(modliquids.aeroflux, 70f / 60f);
+                consumePower(2f / 3f);
+                rotate = true;
+                invertFlip = true;
+                regionRotated1 = 3;
+                outputLiquids = LiquidStack.with(modliquids.aeroflux, 20f / 60f, modliquids.antifreeze, 1f);
+                liquidOutputDirections = new int[]{1, 2};
             }};
 
         }}
@@ -1182,7 +1218,7 @@ public class modblocks {
                 itemCapacity = 20;
                 explosionRadius = 30;
                 explosionDamage = 7500;
-                explodeEffect = new MultiEffect(Fx.bigShockwave, new WrapEffect(Fx.titanSmoke, Liquids.neoplasm.color), Fx.neoplasmSplat);
+                explodeEffect = new MultiEffect(Fx.bigShockwave, Fx.dynamicWave, new WrapEffect(Fx.titanSmoke, Liquids.neoplasm.color), Fx.smokeCloud, Fx.neoplasmSplat);
                 explodeSound = Sounds.largeExplosion;
                 powerProduction = 1000f;
                 ambientSound = Sounds.bioLoop;
@@ -1191,6 +1227,33 @@ public class modblocks {
                 explosionPuddleRange = tilesize * 11f;
                 explosionPuddleLiquid = Liquids.neoplasm;
                 explosionPuddleAmount = 450f;
+                explosionMinWarmup = 0.5f;
+            }};
+
+            hyperneoplasiaGenerator = new HeaterGenerator("hyperneoplasia-generator"){{
+                requirements(Category.power, with(Items.graphite, 1));
+                size = 6;
+                liquidCapacity = 400f;
+                outputLiquid = new LiquidStack(modliquids.hyperneoplasm, 42f / 60f);
+                explodeOnFull = true;
+                heatOutput = 400f;
+                warmupRate = 0.9f;
+                consumeLiquid(Liquids.neoplasm, 154f / 60f);
+                consumeLiquid(Liquids.slag, 185f / 60f);
+                consumeItem(moditems.quantum, 1);
+                itemDuration = 60f * 3f;
+                itemCapacity = 10;
+                explosionRadius = 10;
+                explosionDamage = 2500;
+                explodeEffect = new MultiEffect(Fx.bigShockwave, new WrapEffect(Fx.titanSmoke, Liquids.neoplasm.color), Fx.neoplasmSplat);
+                explodeSound = Sounds.largeExplosion;
+                powerProduction = 300f;
+                ambientSound = Sounds.bioLoop;
+                ambientSoundVolume = 0.2f;
+                explosionPuddles = 20;
+                explosionPuddleRange = tilesize * 9f;
+                explosionPuddleLiquid = Liquids.neoplasm;
+                explosionPuddleAmount = 150f;
                 explosionMinWarmup = 0.5f;
             }};
         }}
