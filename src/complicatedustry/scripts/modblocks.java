@@ -25,7 +25,6 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.distribution.*;
-import mindustry.world.blocks.environment.SteamVent;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.liquid.ArmoredConduit;
@@ -889,7 +888,8 @@ public class modblocks {
             size = 6;
             itemCapacity = 70;
             craftTime = 180f;
-            drawer = new DrawMulti( new DrawDefault(), new DrawPistonsAnimated());
+            drawer = new DrawMulti( new DrawDefault(), new DrawFlame(){{flameRadius = 9;
+                lightRadius = 180;flameRadiusScl = 2.5f;flameColor = Color.valueOf("a3e3ff");}});
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 110f / 60f);
@@ -1234,7 +1234,7 @@ public class modblocks {
                 requirements(Category.power, with(Items.graphite, 1));
                 size = 6;
                 liquidCapacity = 400f;
-                outputLiquid = new LiquidStack(modliquids.hyperneoplasm, 42f / 60f);
+                outputLiquid = new LiquidStack(modliquids.hyperplasm, 42f / 60f);
                 explodeOnFull = true;
                 heatOutput = 400f;
                 warmupRate = 0.9f;

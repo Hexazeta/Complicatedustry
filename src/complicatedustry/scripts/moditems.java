@@ -14,19 +14,19 @@ public class moditems {
             //normal
             {{
                 diamond = new Item("diamond"){{
-                    color = Color.valueOf("caecfa");
+                    color = Color.valueOf("caecfa");healthScaling = 6;
                 }};
 
                 sporeReceptacle = new Item("spore-receptacle"){{
-                    color = Color.valueOf("7557cf");
+                    color = Color.valueOf("7557cf");flammability = 3.5f;
                 }};
 
                 platinum = new Item("platinum"){{
-                    color = Color.valueOf("ffffff");
+                    color = Color.valueOf("b5bfc7");
                 }};
 
                 tin = new Item("tin"){{
-                    color = Color.valueOf("fffffa");
+                    color = Color.valueOf("adb2ba");
                 }};
 
                 bronze = new Item("bronze"){{
@@ -34,61 +34,66 @@ public class moditems {
                 }};
 
                 gold = new Item("gold"){{
-                    color = Color.valueOf("fffffh");
+                    color = Color.valueOf("c79d00");
                 }};
 
                 genesisMetal = new Item("genesis-metal"){{
-                    color = Color.valueOf("fffffg");
+                    color = Color.valueOf("81838f");healthScaling = 1.2f;
                 }};
 
                 mythratite = new Item("mythratite"){{
                     color = Color.valueOf("ade080");
+                    flammability = 1.05f;explosiveness = 0.5f;
                 }};
             }}
             //normal but cooler
             {{
                 carborundum = new Item("carborundum"){{
-                    color = Color.valueOf("3d3938");
+                    color = Color.valueOf("3d3938");healthScaling = 8f;
                 }};
 
                 forceAlloy = new Item("force-alloy"){{
-                    color = Color.valueOf("5cb55f");
+                    color = Color.valueOf("5cb55f");healthScaling = 3; flammability = 0.1f;
                 }};
 
                 powerCompound = new Item("power-compound"){{
                     color = Color.valueOf("73abff");
-                    frames = 8;frameTime = 45;}};
+                    frames = 8;frameTime = 45;radioactivity = 2f;explosiveness = 2f;flammability = 3f;}};
 
                 compoundAlloy = new Item("compound-alloy"){{
-                    color = Color.valueOf("c4417a");
+                    color = Color.valueOf("c4417a");explosiveness = 0.1f;
+                    flammability = 0.05f;radioactivity = 0.3f;healthScaling = 1.5f;
                 }};
 
                 superConductiveMetal = new Item("super-conductive-metal"){{
-                    color = Color.valueOf("fffffi");
+                    color = Color.valueOf("fffffi");charge = 1.5f;
                 }};
             }}
             //cool stuff
             {{
                 quantum = new Item("quantum"){{
-                    color = Color.valueOf("22ab39");
+                    color = Color.valueOf("22ab39");radioactivity = 0.4f;
                 }};
 
                 pneumatite = new Item("pneumatite"){{
-                    color = Color.valueOf("70e0d0");
+                    color = Color.valueOf("70e0d0");explosiveness = 1;flammability = 2.5f;healthScaling = 0.8f;
                 }};
             }}
             //really cool stuff
             {{
                 ultralloy = new Item("ultralloy"){{
-                    color = Color.valueOf("58cedb");
+                    color = Color.valueOf("58cedb");radioactivity = 4.5f;explosiveness = 1.1f;
+                    flammability = 2.1f;healthScaling = 2.5f;charge = 0.5f;
                 }};
 
                 omegalloy = new Item("omegalloy"){{
-                    color = Color.valueOf("c23673");
+                    color = Color.valueOf("c23673");flammability = 0.8f;explosiveness = 0.7f;radioactivity = 0.8f;
+                    healthScaling = 0.7f;
                 }};
 
                 hyperalloy = new Item("hyperalloy"){{
-                    color = Color.valueOf("fffffc");
+                    color = Color.valueOf("fffffc");explosiveness = 3;
+                    flammability = 2f;healthScaling = 10f;charge = 2.5f;
                 }};
 
             }}
