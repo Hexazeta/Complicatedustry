@@ -34,6 +34,7 @@ import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
+import mindustry.world.consumers.ConsumeItemRadioactive;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BlockFlag;
@@ -62,7 +63,7 @@ public class modblocks {
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
     unitPayloadUnloadPoint, overdriveStadium, constructMonolith, regenDome, blastwaveMonolith, mendDome,
     horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
-    fluxProcessor,antifreezeFabricator,
+    fluxProcessor,antifreezeFabricator,rtgCoreGenerator,
 
     //power
     boilerGenerator, hyperneoplasiaGenerator, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
@@ -889,7 +890,7 @@ public class modblocks {
             itemCapacity = 70;
             craftTime = 180f;
             drawer = new DrawMulti( new DrawDefault(), new DrawFlame(){{flameRadius = 9;
-                lightRadius = 180;flameRadiusScl = 2.5f;flameColor = Color.valueOf("a3e3ff");}});
+                lightRadius = 180;flameRadiusIn = 3;flameColor = Color.valueOf("a3e3ff");}});
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 110f / 60f);
@@ -1125,9 +1126,10 @@ public class modblocks {
 
             geothermalGenerator = new ThermalGenerator("geothermal-generator") {{
                     requirements(Category.power, with(Items.graphite, 1));
-                    powerProduction = 20f;
+                    powerProduction = 60f;
                     consumeLiquid(Liquids.cryofluid, 40f / 60f);
                     generateEffect = Fx.redgeneratespark;
+                    liquidCapacity = 70f;
                     effectChance = 0.1f;
                     outputsLiquid = true;
                     outputLiquid = new LiquidStack(Liquids.water, 30f / (60f * 9));
@@ -1136,6 +1138,18 @@ public class modblocks {
                     ambientSound = Sounds.hum;
                     ambientSoundVolume = 0.06f;
                 }};
+
+            rtgCoreGenerator = new ConsumeGenerator("rtg-core-generator"){{
+                requirements(Category.power, with(Items.graphite, 1));
+                size = 5;
+                powerProduction = 192f;
+                itemDuration = 60 * 2f;
+                envEnabled = Env.any;
+                generateEffect = new MultiEffect(Fx.sparkExplosion, Fx.generatespark);
+
+                drawer = new DrawMulti(new DrawDefault(), new DrawWarmupRegion());
+                consume(new ConsumeItemRadioactive());
+            }};
 
             TitanReactor = new HeaterReactor("titan-reactor"){{
                 requirements(Category.power, with(Items.graphite, 1));
@@ -1234,12 +1248,12 @@ public class modblocks {
                 requirements(Category.power, with(Items.graphite, 1));
                 size = 6;
                 liquidCapacity = 400f;
-                outputLiquid = new LiquidStack(modliquids.hyperplasm, 42f / 60f);
+                outputLiquid = new LiquidStack(modliquids.hyperplasm, 70f / 60f);
                 explodeOnFull = true;
                 heatOutput = 400f;
                 warmupRate = 0.9f;
-                consumeLiquid(Liquids.neoplasm, 154f / 60f);
-                consumeLiquid(Liquids.slag, 185f / 60f);
+                consumeLiquid(Liquids.neoplasm, 210f / 60f);
+                consumeLiquid(Liquids.slag, 150f / 60f);
                 consumeItem(moditems.quantum, 1);
                 itemDuration = 60f * 3f;
                 itemCapacity = 10;

@@ -87,7 +87,7 @@ public class moditems {
                 }};
 
                 omegalloy = new Item("omegalloy"){{
-                    color = Color.valueOf("c23673");flammability = 0.8f;explosiveness = 0.7f;radioactivity = 0.8f;
+                    color = Color.valueOf("c23673");flammability = 0.8f;explosiveness = 15f;radioactivity = 0.8f;
                     healthScaling = 0.7f;
                 }};
 
