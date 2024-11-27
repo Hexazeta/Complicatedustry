@@ -270,8 +270,13 @@ public class modblocks {
             hasItems = true;
             hasLiquids = true;
             craftTime = 60f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.ozone),
+                    new DrawMultiWeave(){{glowColor = new Color(1f, 0.4f, 0.4f, 0.8f);}},
+                    new DrawRegion(), new DrawHeatOutput(),
+                    new DrawHeatRegion("-glow"){{color = new Color(1f, 0.4f, 0.3f, 1f);}});
             invertFlip = false;
             itemCapacity = 70;
+            liquidCapacity = 200f;
             consumePower(1f);
             consumeLiquid(Liquids.ozone, 70f / 60f);
             consumeItems(ItemStack.with(Items.silicon, 26, Items.beryllium, 7, Items.thorium, 9));
@@ -889,8 +894,8 @@ public class modblocks {
             size = 6;
             itemCapacity = 70;
             craftTime = 180f;
-            drawer = new DrawMulti( new DrawDefault(), new DrawFlame(){{flameRadius = 9;
-                lightRadius = 180;flameRadiusIn = 3;flameColor = Color.valueOf("a3e3ff");}});
+            drawer = new DrawMulti( new DrawDefault(), new DrawFlame(){{flameRadius = 12;
+                lightRadius = 180;flameRadiusIn = 4;flameColor = Color.valueOf("a3e3ff");}});
             hasPower = true;
             hasLiquids = true;
             consumeLiquid(Liquids.water, 110f / 60f);
@@ -1142,8 +1147,9 @@ public class modblocks {
             rtgCoreGenerator = new ConsumeGenerator("rtg-core-generator"){{
                 requirements(Category.power, with(Items.graphite, 1));
                 size = 5;
-                powerProduction = 192f;
+                powerProduction = 96f;
                 itemDuration = 60 * 2f;
+                itemCapacity = 20;
                 envEnabled = Env.any;
                 generateEffect = new MultiEffect(Fx.sparkExplosion, Fx.generatespark);
 
