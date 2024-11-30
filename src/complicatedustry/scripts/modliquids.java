@@ -9,7 +9,7 @@ import static mindustry.content.Liquids.*;
 
 public class modliquids {
     //todo more liquids
-    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,mythril, hyperplasm,aeroflux;
+    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,mythril,hyperplasm,aeroflux;
 
         public static void load() {
 
@@ -18,7 +18,7 @@ public class modliquids {
             }};
 
             supercooledfluid = new Liquid("supercooledfluid"){{
-                color = Color.valueOf("b2c9d6");flammability = 0.5f;heatCapacity = 2f;
+                color = Color.valueOf("b2c9d6");heatCapacity = 2f;
                 viscosity = 0.75f;temperature = 0.1f;
             }};
 
