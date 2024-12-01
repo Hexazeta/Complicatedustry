@@ -18,7 +18,7 @@ public class modliquids {
             }};
 
             supercooledfluid = new Liquid("supercooledfluid"){{
-                color = Color.valueOf("b2c9d6");heatCapacity = 2f;
+                color = Color.valueOf("b2c9d6");heatCapacity = 2.5f;
                 viscosity = 0.75f;temperature = 0.1f;
             }};
 
@@ -32,7 +32,7 @@ public class modliquids {
             }};
 
             antifreeze = new Liquid("antifreeze"){{
-                color = Color.valueOf("1eabc7");
+                color = Color.valueOf("1eabc7");heatCapacity = 1;
             }};
 
             mythril = new Liquid("mythril"){{
@@ -56,6 +56,6 @@ public class modliquids {
             }};
 
             aeroflux = new Liquid("aeroflux"){{
-                color = Color.valueOf("97a5f7");
+                color = Color.valueOf("97a5f7");heatCapacity = 0.6f;
             }};
         }}

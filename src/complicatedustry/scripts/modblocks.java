@@ -63,7 +63,7 @@ public class modblocks {
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
     unitPayloadUnloadPoint, overdriveStadium, constructMonolith, regenDome, blastwaveMonolith, mendDome,
     horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
-    fluxProcessor,antifreezeFabricator,rtgCoreGenerator,surgeRefinery,
+    fluxProcessor,antifreezeFabricator,rtgCoreGenerator,surgeRefinery,ultralloyConveyor,
 
     //power
     boilerGenerator, hyperneoplasiaGenerator, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
@@ -447,6 +447,20 @@ public class modblocks {
                 consumePower(3f/60f);
             }};
 
+        ultralloyConveyor = new StackConveyor("ultralloy-conveyor"){{
+                requirements(Category.distribution, with(moditems.ultralloy, 1));
+                health = 290;
+                speed = 6f / 60f;
+                outputRouter = false;
+                itemCapacity = 50;
+                hasPower = true;
+                underBullets = false;
+                consumesPower = true;
+                conductivePower = true;
+                baseEfficiency = 2f;
+                consumePower(40f/60f);
+            }};
+
         reinforcedBridge = new ItemBridge("reinforced-bridge"){{
                 requirements(Category.distribution, with(Items.phaseFabric, 5, Items.silicon, 7, Items.lead, 10, Items.graphite, 10));
                 range = 16;
@@ -718,11 +732,11 @@ public class modblocks {
             drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawPlasma(){{plasmas = 5;}},new DrawDefault(), new DrawHeatInput());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.hydrogen, 20f / 60f);
-            consumeItems(with(Items.beryllium, 7, Items.tungsten, 6, Items.silicon, 8, Items.graphite, 7));
+            consumeLiquid(Liquids.hydrogen, 35f / 60f);
+            consumeItems(with(Items.beryllium, 10, Items.tungsten, 9, Items.silicon, 12, Items.graphite, 10));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.forceAlloy, 2);
-            heatRequirement = 20f;
+            outputItem = new ItemStack(moditems.forceAlloy, 3);
+            heatRequirement = 30f;
             maxEfficiency = 6f;
         }};
 
@@ -760,7 +774,7 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = false;
             size = 4;
-            itemCapacity = 40;
+            itemCapacity = 50;
             craftTime = 160f;
             updateEffect = Fx.coalSmeltsmoke;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
@@ -780,10 +794,10 @@ public class modblocks {
             );
             hasPower = true;
             hasLiquids = false;
-            consumeItems(with(Items.blastCompound, 8, Items.pyratite, 12,
-                    Items.thorium, 16, moditems.sporeReceptacle, 20));
+            consumeItems(with(Items.blastCompound, 12, Items.pyratite, 18,
+                    Items.thorium, 24, moditems.sporeReceptacle, 30));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.powerCompound, 9);
+            outputItem = new ItemStack(moditems.powerCompound, 14);
         }};
 
         fractionator = new Separator("fractionator"){{
@@ -913,21 +927,22 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 6;
-            itemCapacity = 70;
+            itemCapacity = 90;
+            liquidCapacity = 400f;
             craftTime = 180f;
             drawer = new DrawMulti( new DrawDefault(), new DrawFlame(){{flameRadius = 12;
                 lightRadius = 180;flameRadiusIn = 4;flameColor = Color.valueOf("a3e3ff");}});
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 110f / 60f);
-            consumeLiquid(Liquids.arkycite, 150f / 60f);
-            consumeLiquid(Liquids.oil, 130f / 60f);
-            consumeLiquid(Liquids.slag, 90f / 60f);
-            consumeItems(with(Items.copper, 19, Items.lead, 18, Items.sand, 17,
-                    Items.titanium, 16, Items.graphite, 18, Items.thorium, 15,
-                    Items.beryllium, 19, Items.tungsten, 17));
+            consumeLiquid(Liquids.water, 120f / 60f);
+            consumeLiquid(Liquids.arkycite, 170f / 60f);
+            consumeLiquid(Liquids.oil, 145f / 60f);
+            consumeLiquid(Liquids.slag, 95f / 60f);
+            consumeItems(with(Items.copper, 28, Items.lead, 27, Items.sand, 25,
+                    Items.titanium, 24, Items.graphite, 27, Items.thorium, 22,
+                    Items.beryllium, 28, Items.tungsten, 25));
             consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.omegalloy, 12);
+            outputItem = new ItemStack(moditems.omegalloy, 18);
         }};
 
         quasiconstructor = new GenericCrafter("quasi-constructor"){{
@@ -981,9 +996,16 @@ public class modblocks {
 
         carborundumCrucible = new GenericCrafter("carborundum-crucible"){{
                 requirements(Category.crafting, with(Items.graphite, 1));
-                craftEffect = Fx.smeltsmoke;
-                outputItem = new ItemStack(moditems.carborundum, 11);
-                itemCapacity = 50;
+                craftEffect = new MultiEffect(
+                        Fx.smokePuff.wrap(Color.white,80f),
+                        Fx.smokePuff.wrap(Color.white,60f),
+                        Fx.smokePuff.wrap(Color.white,40f),
+                        Fx.smokeCloud.wrap(Color.gray, 60f),
+                        Fx.smokeCloud.wrap(Color.gray, 45f),
+                        Fx.smokeCloud.wrap(Color.gray, 30f)
+                ).wrap(Color.gray,45f);
+                outputItem = new ItemStack(moditems.carborundum, 23);
+                itemCapacity = 90;
                 craftTime = 240f;
                 size = 5;
                 hasPower = true;
@@ -991,7 +1013,7 @@ public class modblocks {
                 ambientSound = Sounds.smelter;
                 ambientSoundVolume = 0.07f;
                 isMultiblock();
-                consumeItems(with(Items.carbide, 19, moditems.diamond, 9, Items.silicon , 25));
+                consumeItems(with(Items.carbide, 38, moditems.diamond, 18, Items.silicon, 50));
                 consumePower(1f);
             }};
 
@@ -1042,32 +1064,32 @@ public class modblocks {
 
         superConductorFurnace = new GenericCrafter("super-conductor-furnace") {{
                 requirements(Category.crafting, with( Items.graphite, 1));
-                squareSprite = true;
+                squareSprite = false;
                 size = 4;
-                itemCapacity = 50;
+                itemCapacity = 60;
                 craftTime = 80f;
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawMultiWeave(){{
-                    glowColor = new Color(1f, 0.4f, 0.4f, 0.6f);}}, new DrawDefault());
+                    glowColor = new Color(0.7f, 0.7f, 0.7f, 0.8f);}}, new DrawDefault());
                 hasPower = true;
                 hasLiquids = false;
-                consumeItems(with(moditems.bronze, 10, moditems.platinum, 3, moditems.gold, 7));
+                consumeItems(with(moditems.bronze, 20, moditems.platinum, 6, moditems.gold, 14));
                 consumePower(2f / 3f);
-                outputItem = new ItemStack(moditems.superConductiveMetal, 4);
+                outputItem = new ItemStack(moditems.superConductiveMetal, 9);
             }};
 
         hyperalloyCrucible = new GenericCrafter("hyperalloy-crucible") {{
                 requirements(Category.crafting, with( Items.graphite, 1));
                 squareSprite = true;
                 size = 5;
-                itemCapacity = 70;
-                liquidCapacity = 70f;
-                craftTime = 60f;
+                itemCapacity = 150;
+                liquidCapacity = 200f;
+                craftTime = 120f;
                 hasPower = true;
                 hasLiquids = true;
-                consumeItems(with(moditems.pneumatite, 10, moditems.superConductiveMetal, 20, moditems.carborundum, 18));
-                consumeLiquid(Liquids.cyanogen, 22.5f / 60f);
+                consumeItems(with(moditems.pneumatite, 30, moditems.superConductiveMetal, 60, moditems.carborundum, 54));
+                consumeLiquid(Liquids.cyanogen, 45f / 60f);
                 consumePower(2f / 3f);
-                outputItem = new ItemStack(moditems.hyperalloy, 4);
+                outputItem = new ItemStack(moditems.hyperalloy, 15);
             }};
 
         fluxProcessor = new GenericCrafter("flux-processor") {{
@@ -1323,14 +1345,14 @@ public class modblocks {
             requirements(Category.effect, with(Items.graphite, 1));
             consumePower(30f);
             size = 5;
-            liquidCapacity = 90f;
-            itemCapacity = 30;
+            liquidCapacity = 300f;
+            itemCapacity = 50;
             range = 600f;
             speedBoost = 6f;
             useTime = 150f;
             hasBoost = false;
-            consumeItems(with(Items.phaseFabric, 7, Items.silicon, 4));
-            consumeLiquid(Liquids.nitrogen, 45f / 60f);
+            consumeItems(with(moditems.quantum, 1, Items.phaseFabric, 7, Items.silicon, 31));
+            consumeLiquid(Liquids.nitrogen, 200f / 60f);
         }};
 
         constructMonolith = new BuildTurret("constructMonolith"){{
