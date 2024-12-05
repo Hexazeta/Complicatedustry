@@ -6,6 +6,7 @@ import mindustry.ai.types.GroundAI;
 import mindustry.content.Fx;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.ContinuousFlameBulletType;
+import mindustry.gen.CrawlUnit;
 import mindustry.gen.LegsUnit;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
@@ -14,7 +15,7 @@ import mindustry.type.Weapon;
 public class modunits {
     public static UnitType
             //meld exclusive unit
-            jack;
+            jack,kolle;
 
     public static void load() {
         jack = new UnitType("jack"){{
@@ -90,6 +91,15 @@ public class modunits {
 
             outlineColor = Color.valueOf("2b2626");
 
+    }};
+
+    kolle = new UnitType("kolle"){{
+        constructor = CrawlUnit::create;
+        aiController = GroundAI::new;
+
+        omniMovement = false;
+        segments = 8;
+        segmentScl = 32;
     }};
 
     }}

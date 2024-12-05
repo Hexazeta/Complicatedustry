@@ -8,7 +8,7 @@ public class moditems {
 
     public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,
             platinum,carborundum,omegalloy,quantum,tin,bronze,hyperalloy,mythratite,pneumatite,genesisMetal,
-            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy;
+            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium;
 
         public static void load() {
             //normal
@@ -30,7 +30,7 @@ public class moditems {
                 }};
 
                 bronze = new Item("bronze"){{
-                    color = Color.valueOf("fffffb");cost = 1.2f;
+                    color = Color.valueOf("f7cda3");cost = 1.2f;
                 }};
 
                 gold = new Item("gold"){{
@@ -103,8 +103,12 @@ public class moditems {
                 }};
 
                 hyperalloy = new Item("hyperalloy"){{
-                    color = Color.valueOf("fffffc");explosiveness = 3;
-                    flammability = 2f;healthScaling = 10f;charge = 2.5f;cost = 10;
+                    color = Color.valueOf("cfa24e");explosiveness = 3;
+                    flammability = 2f;healthScaling = 10f;charge = 3f;cost = 10;
+                }};
+
+                thunderium = new Item("thunderium"){{
+                    color = Color.valueOf("fffffc");healthScaling = 3f;charge = 10f;cost = 4;
                 }};
 
             }}

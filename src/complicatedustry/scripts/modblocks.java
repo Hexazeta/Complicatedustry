@@ -50,7 +50,7 @@ public class modblocks {
 
     public static Block
     //stuff here
-    carborundumCrucible,mergedBlock1,mergedBlock2,mergedBlock3,mergedBlock4,largeArkyicVent,
+    carborundumCrucible,mergedBlock1,mergedBlock2,mergedBlock3,mergedBlock4,largeArkyicVent,hyperalloyWall,hyperalloyWallLarge,
     //drills and shit
     hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,
     //crafters
@@ -320,13 +320,14 @@ public class modblocks {
             maxEfficiency = 6;
         }};
 
-        mergedBlock3 = new HeatCrafter("diamond-and-nitro"){{
+        mergedBlock3 = new HeatCrafter("atmospheric-crystallizer"){{
             requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = true;
+            squareSprite = false;
             size = 5;
             itemCapacity = 250;
             liquidCapacity = 1000f;
             craftTime = 240f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.nitrogen), new DrawDefault());
             hasPower = true;
             hasLiquids = true;
             consumeItems(with(Items.graphite, 25));
@@ -996,6 +997,7 @@ public class modblocks {
 
         carborundumCrucible = new GenericCrafter("carborundum-crucible"){{
                 requirements(Category.crafting, with(Items.graphite, 1));
+                squareSprite = false;
                 craftEffect = new MultiEffect(
                         Fx.smokePuff.wrap(Color.white,80f),
                         Fx.smokePuff.wrap(Color.white,60f),
@@ -1005,7 +1007,7 @@ public class modblocks {
                         Fx.smokeCloud.wrap(Color.gray, 30f)
                 ).wrap(Color.gray,45f);
                 outputItem = new ItemStack(moditems.carborundum, 23);
-                itemCapacity = 90;
+                itemCapacity = 120;
                 craftTime = 240f;
                 size = 5;
                 hasPower = true;
@@ -1403,165 +1405,186 @@ public class modblocks {
 
         }}
         //turrets
-        flood = new LiquidTurret("flood"){{
-            requirements(Category.turret, with(Items.graphite, 1));
-            ammo(
-                    Liquids.water, new LiquidBulletType(Liquids.water){{
-                        lifetime = 56f;
-                        speed = 9f;
-                        knockback = 3.5f;
-                        puddleSize = 18f;
-                        orbSize = 6f;
-                        drag = 0.005f;
-                        ammoMultiplier = 0.9f;
-                        statusDuration = 60f * 9f;
-                        damage = 0.5f;
-                        layer = Layer.bullet - 2f;
-                    }},
-                    Liquids.slag,  new LiquidBulletType(Liquids.slag){{
-                        lifetime = 56f;
-                        speed = 9f;
-                        knockback = 2.8f;
-                        puddleSize = 18f;
-                        orbSize = 6f;
-                        damage = 10f;
-                        drag = 0.005f;
-                        ammoMultiplier = 0.9f;
-                        statusDuration = 60f * 9f;
-                    }},
-                    Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
-                        lifetime = 56f;
-                        speed = 9f;
-                        knockback = 2.8f;
-                        puddleSize = 18f;
-                        orbSize = 6f;
-                        drag = 0.005f;
-                        ammoMultiplier = 0.9f;
-                        statusDuration = 60f * 9f;
-                        damage = 0.5f;
-                    }},
-                    Liquids.oil, new LiquidBulletType(Liquids.oil){{
-                        lifetime = 56f;
-                        speed = 9f;
-                        knockback = 2.8f;
-                        puddleSize = 18f;
-                        orbSize = 6f;
-                        drag = 0.005f;
-                        ammoMultiplier = 0.9f;
-                        statusDuration = 60f * 9f;
-                        damage = 0.5f;
-                        layer = Layer.bullet - 2f;
-                    }},
-                    modliquids.supercooledfluid, new LiquidBulletType(modliquids.supercooledfluid){{
-                        lifetime = 56f;
-                        speed = 9f;
-                        knockback = 3.5f;
-                        puddleSize = 18f;
-                        orbSize = 6f;
-                        drag = 0.005f;
-                        ammoMultiplier = 0.9f;
-                        statusDuration = 60f * 9f;
-                        damage = 2f;
-                    }}
-            );
-            size = 4;
-            reload = 3f;
-            shoot.shots = 4;
-            velocityRnd = 0.1f;
-            inaccuracy = 9f;
-            recoil = 1.5f;
-            shootCone = 60f;
-            liquidCapacity = 70f;
-            shootEffect = Fx.shootLiquid;
-            range = 390f;
-            scaledHealth = 250;
-            flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
-        }};
+        {{
+        flood = new LiquidTurret("flood") {{
+                    requirements(Category.turret, with(Items.graphite, 1));
+                    ammo(
+                            Liquids.water, new LiquidBulletType(Liquids.water) {{
+                                lifetime = 56f;
+                                speed = 9f;
+                                knockback = 3.5f;
+                                puddleSize = 18f;
+                                orbSize = 6f;
+                                drag = 0.005f;
+                                ammoMultiplier = 0.9f;
+                                statusDuration = 60f * 9f;
+                                damage = 0.5f;
+                                layer = Layer.bullet - 2f;
+                            }},
+                            Liquids.slag, new LiquidBulletType(Liquids.slag) {{
+                                lifetime = 56f;
+                                speed = 9f;
+                                knockback = 2.8f;
+                                puddleSize = 18f;
+                                orbSize = 6f;
+                                damage = 10f;
+                                drag = 0.005f;
+                                ammoMultiplier = 0.9f;
+                                statusDuration = 60f * 9f;
+                            }},
+                            Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid) {{
+                                lifetime = 56f;
+                                speed = 9f;
+                                knockback = 2.8f;
+                                puddleSize = 18f;
+                                orbSize = 6f;
+                                drag = 0.005f;
+                                ammoMultiplier = 0.9f;
+                                statusDuration = 60f * 9f;
+                                damage = 0.5f;
+                            }},
+                            Liquids.oil, new LiquidBulletType(Liquids.oil) {{
+                                lifetime = 56f;
+                                speed = 9f;
+                                knockback = 2.8f;
+                                puddleSize = 18f;
+                                orbSize = 6f;
+                                drag = 0.005f;
+                                ammoMultiplier = 0.9f;
+                                statusDuration = 60f * 9f;
+                                damage = 0.5f;
+                                layer = Layer.bullet - 2f;
+                            }},
+                            modliquids.supercooledfluid, new LiquidBulletType(modliquids.supercooledfluid) {{
+                                lifetime = 56f;
+                                speed = 9f;
+                                knockback = 3.5f;
+                                puddleSize = 18f;
+                                orbSize = 6f;
+                                drag = 0.005f;
+                                ammoMultiplier = 0.9f;
+                                statusDuration = 60f * 9f;
+                                damage = 2f;
+                            }}
+                    );
+                    size = 4;
+                    reload = 3f;
+                    shoot.shots = 4;
+                    velocityRnd = 0.1f;
+                    inaccuracy = 9f;
+                    recoil = 1.5f;
+                    shootCone = 60f;
+                    liquidCapacity = 70f;
+                    shootEffect = Fx.shootLiquid;
+                    range = 390f;
+                    scaledHealth = 250;
+                    flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
+                }};
 
-        unitRepairTurret = new RepairTurretTower("repair-turret"){{
-            requirements(Category.units, with(Items.graphite, 1));
-            size = 3;
-            length = 9f;
-            repairSpeed = 25f;
-            repairRadius = 150f;
-            powerUse = 24f;
-            beamWidth = 1.5f;
-            pulseRadius = 7.5f;
-            consumeLiquid(Liquids.ozone, 12);
-        }};
+        unitRepairTurret = new RepairTurretTower("repair-turret") {{
+                    requirements(Category.units, with(Items.graphite, 1));
+                    size = 3;
+                    length = 9f;
+                    repairSpeed = 25f;
+                    repairRadius = 150f;
+                    powerUse = 24f;
+                    beamWidth = 1.5f;
+                    pulseRadius = 7.5f;
+                    consumeLiquid(Liquids.ozone, 12);
+                }};
 
-        horde = new ItemTurret("horde"){{
-            requirements(Category.turret, with(Items.graphite, 1));
-            ammo(
-                    Items.blastCompound, new MissileBulletType(7.5f, 20){{
-                        width = 16f;
-                        height = 16f;
-                        shrinkY = 0f;
-                        splashDamageRadius = 60f;
-                        splashDamage = 60f * 3f;
-                        ammoMultiplier = 10f;
-                        hitEffect = Fx.blastExplosion;
-                        despawnEffect = Fx.blastExplosion;
+        horde = new ItemTurret("horde") {{
+                    requirements(Category.turret, with(Items.graphite, 1));
+                    ammo(
+                            Items.blastCompound, new MissileBulletType(7.5f, 20) {{
+                                width = 16f;
+                                height = 16f;
+                                shrinkY = 0f;
+                                splashDamageRadius = 60f;
+                                splashDamage = 60f * 3f;
+                                ammoMultiplier = 10f;
+                                hitEffect = Fx.blastExplosion;
+                                despawnEffect = Fx.blastExplosion;
 
-                        status = StatusEffects.blasted;
-                        statusDuration = 120f;
-                    }},
-                    Items.pyratite, new MissileBulletType(7.5f, 25){{
-                        frontColor = Pal.lightishOrange;
-                        backColor = Pal.lightOrange;
-                        width = 14f;
-                        height = 16f;
-                        shrinkY = 0f;
-                        homingPower = 0.16f;
-                        splashDamageRadius = 40f;
-                        splashDamage = 60f * 3f;
-                        makeFire = true;
-                        ammoMultiplier = 10f;
-                        hitEffect = Fx.blastExplosion;
-                        status = StatusEffects.burning;
-                    }},
-                    Items.surgeAlloy, new MissileBulletType(7.5f, 36){{
-                        width = 16f;
-                        height = 16f;
-                        shrinkY = 0f;
-                        splashDamageRadius = 50f;
-                        splashDamage = 50f * 3.5f;
-                        hitEffect = Fx.blastExplosion;
-                        despawnEffect = Fx.blastExplosion;
-                        ammoMultiplier = 8f;
-                        lightningDamage = 20;
-                        lightning = 4;
-                        lightningLength = 20;
-                    }}
-            );
+                                status = StatusEffects.blasted;
+                                statusDuration = 120f;
+                            }},
+                            Items.pyratite, new MissileBulletType(7.5f, 25) {{
+                                frontColor = Pal.lightishOrange;
+                                backColor = Pal.lightOrange;
+                                width = 14f;
+                                height = 16f;
+                                shrinkY = 0f;
+                                homingPower = 0.16f;
+                                splashDamageRadius = 40f;
+                                splashDamage = 60f * 3f;
+                                makeFire = true;
+                                ammoMultiplier = 10f;
+                                hitEffect = Fx.blastExplosion;
+                                status = StatusEffects.burning;
+                            }},
+                            Items.surgeAlloy, new MissileBulletType(7.5f, 36) {{
+                                width = 16f;
+                                height = 16f;
+                                shrinkY = 0f;
+                                splashDamageRadius = 50f;
+                                splashDamage = 50f * 3.5f;
+                                hitEffect = Fx.blastExplosion;
+                                despawnEffect = Fx.blastExplosion;
+                                ammoMultiplier = 8f;
+                                lightningDamage = 20;
+                                lightning = 4;
+                                lightningLength = 20;
+                            }}
+                    );
 
-            shoot = new ShootBarrel(){{
-                barrels = new float[]{
-                        -8, -1.25f, 0,
-                        0, 0, 0,
-                        8, -1.25f, 0,
-                        -8, -2.5f, 0,
-                        0, -1.25f, 0,
-                        8, -2.5f, 0
-                };
-                shots = 6;
-                shotDelay = 7f;
+                    shoot = new ShootBarrel() {{
+                        barrels = new float[]{
+                                -8, -1.25f, 0,
+                                0, 0, 0,
+                                8, -1.25f, 0,
+                                -8, -2.5f, 0,
+                                0, -1.25f, 0,
+                                8, -2.5f, 0
+                        };
+                        shots = 6;
+                        shotDelay = 7f;
+                    }};
+
+                    shootY = 4.5f;
+                    reload = 60f;
+                    inaccuracy = 30f;
+                    liquidCapacity = 100f;
+                    range = 360f;
+                    consumeAmmoOnce = false;
+                    size = 3;
+                    scaledHealth = 600;
+                    shootSound = Sounds.missile;
+                    envEnabled |= Env.space;
+
+                    limitRange(10f);
+                    coolant = consumeCoolant(0.6f);
+                }};
+        }}
+        //walls
+        {{
+            int wallHealthMultiplier = 6;
+
+            hyperalloyWall = new Wall("hyperalloy-wall"){{
+                requirements(Category.defense, with(moditems.hyperalloy, 4));
+                health = 360 * wallHealthMultiplier;
+                size = 2;lightningColor = moditems.hyperalloy.color;
+                lightningChance = 0.25f;lightningDamage = 50;lightningLength = 25;
             }};
 
-            shootY = 4.5f;
-            reload = 60f;
-            inaccuracy = 30f;
-            liquidCapacity = 100f;
-            range = 360f;
-            consumeAmmoOnce = false;
-            size = 3;
-            scaledHealth = 600;
-            shootSound = Sounds.missile;
-            envEnabled |= Env.space;
+            hyperalloyWallLarge = new Wall("hyperalloy-wall-large"){{
+                requirements(Category.defense, ItemStack.mult(hyperalloyWall.requirements, 4));
+                health = 360 * 4 * wallHealthMultiplier;
+                size = 3;lightningColor = moditems.hyperalloy.color;
+                lightningChance = 0.25f;lightningDamage = 50;lightningLength = 25;
+            }};
 
-            limitRange(10f);
-            coolant = consumeCoolant(0.6f);
-        }};
 
+        }}
     }
 }
