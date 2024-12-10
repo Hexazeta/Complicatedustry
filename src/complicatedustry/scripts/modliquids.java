@@ -9,7 +9,7 @@ import static mindustry.content.Liquids.*;
 
 public class modliquids {
     //todo more liquids
-    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,mythril,hyperplasm,aeroflux;
+    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,sporeMass,hyperplasm,aeroflux;
 
         public static void load() {
 
@@ -19,11 +19,11 @@ public class modliquids {
 
             supercooledfluid = new Liquid("supercooledfluid"){{
                 color = Color.valueOf("b2c9d6");heatCapacity = 2.5f;
-                viscosity = 0.75f;temperature = 0.1f;
+                viscosity = 0.75f;temperature = -0.1f;
             }};
 
             helium = new Liquid("helium"){{
-                color = Color.valueOf("b2c9d6");
+                color = Color.valueOf("b2c9d6");flammability = 2f;
             }};
 
             sporeinfestedwater = new Liquid("spore-infested-water"){{
@@ -32,10 +32,10 @@ public class modliquids {
             }};
 
             antifreeze = new Liquid("antifreeze"){{
-                color = Color.valueOf("1eabc7");heatCapacity = 1;
+                color = Color.valueOf("1eabc7");heatCapacity = 1;temperature = -30f;
             }};
 
-            mythril = new Liquid("mythril"){{
+            sporeMass = new CellLiquid("spore-mass"){{
                 color = Color.valueOf("121212");
             }};
 
@@ -56,6 +56,6 @@ public class modliquids {
             }};
 
             aeroflux = new Liquid("aeroflux"){{
-                color = Color.valueOf("97a5f7");heatCapacity = 0.6f;
+                color = Color.valueOf("97a5f7");heatCapacity = 0.6f;temperature = 0f;
             }};
         }}

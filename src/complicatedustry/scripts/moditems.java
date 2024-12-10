@@ -8,7 +8,7 @@ public class moditems {
 
     public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,
             platinum,carborundum,omegalloy,quantum,tin,bronze,hyperalloy,mythratite,pneumatite,genesisMetal,
-            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium;
+            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium,sporeHeart;
 
         public static void load() {
             //normal
@@ -53,7 +53,7 @@ public class moditems {
                 }};
 
                 forceAlloy = new Item("force-alloy"){{
-                    color = Color.valueOf("5cb55f");healthScaling = 3; flammability = 0.1f;cost = 1.5f;
+                    color = Color.valueOf("5cb55f");healthScaling = 3;cost = 1.5f;
                 }};
 
                 powerCompound = new Item("power-compound"){{
@@ -62,8 +62,7 @@ public class moditems {
                 }};
 
                 compoundAlloy = new Item("compound-alloy"){{
-                    color = Color.valueOf("c4417a");explosiveness = 0.1f;cost = 2;
-                    flammability = 0.05f;radioactivity = 0.3f;healthScaling = 1.5f;
+                    color = Color.valueOf("c4417a");cost = 2;healthScaling = 1.5f;
                 }};
 
                 superConductiveMetal = new Item("super-conductive-metal"){{
@@ -88,6 +87,10 @@ public class moditems {
 
                 pneumatite = new Item("pneumatite"){{
                     color = Color.valueOf("70e0d0");explosiveness = 1;flammability = 2.5f;healthScaling = 0.8f;
+                }};
+
+                sporeHeart = new Item("spore-heart"){{
+                    color = Color.valueOf("ffffff");flammability = 5f;explosiveness = 3f;
                 }};
             }}
             //really cool stuff

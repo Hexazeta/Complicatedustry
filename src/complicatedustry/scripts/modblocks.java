@@ -54,10 +54,10 @@ public class modblocks {
     //drills and shit
     hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,
     //crafters
-    smallHeatRedirector, SmallHeatRouter, atmosphericCondenser, surgeRouter, reinforcedDuct, platedConveyor,
-    pyratiteMultiMixer, siliconFoundry, diamondMegaPress, forge, waterConcentrator, advancedOxidationChamber,
+    smallHeatRedirector, SmallHeatRouter, surgeRouter, reinforcedDuct, platedConveyor, infestationChamber,
+    pyratiteMultiMixer, siliconFoundry,  forge, waterConcentrator, bioSynthesizer,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,godConveyor,
-    cyanogenCatalysis, phaseCatalysis,surgeFoundry, cryofluidMultiMixer, flood, reinforcedBridge,
+    surgeFoundry, flood, reinforcedBridge,
     platedConduit, platedBridgeConduit, platedLiquidContainer, platedLiquidTank, unitRepairTurret,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
@@ -78,299 +78,27 @@ public class modblocks {
         }};
         //trash
         {{
-            cryofluidMultiMixer = new GenericCrafter("cryofluid-multi-mixer") {{
-                requirements(Category.logic, with( Items.graphite, 1));
-                squareSprite = true;
-                size = 3;
-                itemCapacity = 30;
-                liquidCapacity = 75f;
-                craftTime =180f;
-                craftEffect = Fx.steam;
-                updateEffect = Fx.steam;
-                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.hydrogen),
-                        new DrawLiquidRegion(Liquids.ozone), new DrawLiquidRegion(Liquids.cryofluid), new DrawDefault());
-                hasPower = true;
-                hasLiquids = true;
-                consumeLiquid(Liquids.ozone, 12f / 60f);
-                consumeLiquid(Liquids.hydrogen, 18f / 60f);
-                consumeItems(with(Items.titanium, 2));
-                consumePower(2f / 3f);
-                outputsLiquid = true;
-                outputLiquid = new LiquidStack(Liquids.cryofluid, 30f / 60f);
-            }};
 
-        diamondMegaPress = new HeatCrafter("diamond-mega-press"){{
-            requirements(Category.logic, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 3;
-            itemCapacity = 30;
-            craftTime = 120f;
-            craftEffect = Fx.smeltsmoke;
-            craftEffect = new RadialEffect(Fx.coalSmeltsmoke, 4, 90,0){{rotationOffset = 45f;}};
-            drawer = new DrawMulti(
-                    new DrawRegion("-spinner", 2f){{
-                        spinSprite = true;}},
-                    new DrawDefault(), new DrawHeatInput());
-            hasPower = true;
-            hasLiquids = false;
-            consumeItems(with(Items.graphite, 7));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.diamond, 3);
-            heatRequirement = 25f;
-            maxEfficiency = 8f;
-        }};
-
-        atmosphericCondenser = new HeatCrafter("atmospheric-condenser"){{
-            requirements(Category.logic, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 4;
-            liquidCapacity = 90f;
-            craftTime = 60f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"),
-                    new DrawLiquidTile(Liquids.nitrogen, 4.1f),
-                    new DrawDefault(), new DrawHeatInput(),
-                    new DrawParticles(){{
-                        color = Color.valueOf("d4f0ff");
-                        alpha = 0.8f;
-                        particleSize = 3f;
-                        particles = 30;
-                        particleRad = 15f;
-                        particleLife = 120f;
-                    }});
-            hasPower = true;
-            hasLiquids = false;
-            consumePower(2f / 3f);
-            outputLiquid = new LiquidStack(Liquids.nitrogen, 15f / 60f);
-            heatRequirement = 20f;
-            ambientSound = Sounds.extractLoop;
-            ambientSoundVolume = 0.06f;
-            maxEfficiency = 5f;
-        }};
-
-        advancedOxidationChamber = new HeatProducer("advanced-oxidation-chamber") {{
-            requirements(Category.logic, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 4;
-            itemCapacity = 30;
-            liquidCapacity = 20f;
-            craftTime = 150f;
-            updateEffect = Fx.smeltsmoke;
-            rotateDraw = false;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(), new DrawDefault(), new DrawHeatOutput());
-            ambientSound = Sounds.extractLoop;
-            ambientSoundVolume = 0.08f;
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.ozone, 12f / 60f);
-            consumeItems(with(Items.copper, 2, Items.beryllium, 3));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.oxide, 7);
-            heatOutput = 20;
-        }};
-
-        carbideFoundry = new HeatCrafter("carbide-foundry") {{
-            requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 4;
-            itemCapacity = 40;
-            liquidCapacity = 70f;
-            craftTime = 150f;
-            updateEffect = Fx.pulverizeMedium;
-            drawer = new DrawMulti(  new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
-                particles = 40; particleRad = 11f; particleSize = 3.5f; fadeMargin = 0.6f; rotateScl = 2f;}},
-                    new DrawDefault(), new DrawHeatInput());
-            ambientSound = Sounds.smelter;
-            ambientSoundVolume = 0.09f;
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.oil, 40f / 60f);
-            consumeItems(with(Items.tungsten, 11, Items.graphite, 13));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.carbide, 9);
-            heatRequirement = 45f;
-        }};
-
-        plastaniumMultiCompressor = new GenericCrafter("plastanium-multi-compressor") {{
-            requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 3;
-            itemCapacity = 50;
-            liquidCapacity = 200f;
-            craftTime = 60f;
-            craftEffect = Fx.formsmoke;
-            updateEffect = Fx.smeltsmoke;
-            drawer = new DrawMulti(new DrawDefault(), new DrawFade());
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.oil, 80f / 60f);
-            consumeItems(with(Items.titanium, 15, Items.sporePod, 4));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.plastanium, 13);
-        }};
-
-        cyanogenCatalysis = new HeatCrafter("cyanogen-catalysis") {{
-            requirements(Category.logic, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 4;
-            itemCapacity = 30;
-            liquidCapacity = 200f;
-            craftTime = 150f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"),
-                    new DrawLiquidTile(Liquids.cyanogen),
-                    new DrawParticles(){{
-                        color = Color.valueOf("89e8b6");alpha = 0.4f;particleSize = 3f;
-                        particles = 30;particleRad = 10f;particleLife = 240f;reverse = true;
-                        particleSizeInterp = Interp.one;
-                    }}, new DrawDefault(), new DrawHeatInput(),
-                    new DrawHeatRegion("-heat-top")
-            );
-            maxEfficiency = 5f;
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.arkycite, 130f / 60f);
-            consumeItems(with(Items.graphite, 2, Items.lead, 1));
-            consumePower(2f / 3f);
-            outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.cyanogen, 7f / 60f);
-            heatRequirement = 12f;
-        }};
-
-        phaseCatalysis = new HeatCrafter("phase-catalysis") {{
-            requirements(Category.logic, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 4;
-            itemCapacity = 40;
-            liquidCapacity = 10f;
-            craftTime = 165f;
-            craftEffect = Fx.smeltsmoke;
-            updateEffect = Fx.smeltsmoke;
-            ambientSound = Sounds.techloop;
-            ambientSoundVolume = 0.02f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpikes(){{
-                radius = 8.5f; length = 6.7f; color = Color.valueOf("ffd59e"); stroke = 1.5f;
-                layers = 4; amount = 10; rotateSpeed = 0.5f; layerSpeed = -0.9f;}},
-                    new DrawMultiWeave(){{glowColor = new Color(1f, 0.4f, 0.4f, 0.8f);}},
-                    new DrawDefault(), new DrawHeatInput(), new DrawHeatRegion("-vents"){{
-                color = new Color(1f, 0.4f, 0.3f, 1f);}}
-            );
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.ozone, 9f / 60f);
-            consumeItems(with(Items.thorium, 6,Items.silicon, 16));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.phaseFabric, 11);
-            heatRequirement = 32f;
-        }};}}
+        }}
         //testing
         {{
-        mergedBlock1 = new HeatProducer("catalytic-chamber"){{
-            requirements(Category.crafting, with(Items.graphite, 1));
-            squareSprite = false;
-            size = 5;
-            researchCostMultiplier = 1.2f;
-            hasItems = true;
-            hasLiquids = true;
-            craftTime = 60f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.ozone),
-                    new DrawMultiWeave(){{glowColor = new Color(1f, 0.4f, 0.4f, 0.8f);}},
-                    new DrawRegion(), new DrawHeatOutput(),
-                    new DrawHeatRegion("-glow"){{color = new Color(1f, 0.4f, 0.3f, 1f);}});
-            invertFlip = false;
-            itemCapacity = 70;
-            liquidCapacity = 200f;
-            consumePower(1f);
-            consumeLiquid(Liquids.ozone, 70f / 60f);
-            consumeItems(ItemStack.with(Items.silicon, 26, Items.beryllium, 7, Items.thorium, 9));
-            outputItems = ItemStack.with(Items.oxide, 12, Items.phaseFabric, 20);
-            heatOutput = 60;
-        }};
 
-        mergedBlock2 = new HeatCrafter("dual-coolant-synthesizer"){{
-            requirements(Category.crafting, with(Items.graphite, 1));
-            size = 5;
-            researchCostMultiplier = 1.2f;
-            craftTime = 165f;
-            drawer = new DrawMulti(
-                    new DrawRegion("-bottom"),
-                    new DrawLiquidTile(Liquids.cryofluid, 3f),
-                    new DrawBubbles(Color.valueOf("7693e3")){{sides = 36;
-                        recurrence = 10f;spread = 10;radius = 5f;amount = 65;}},
-                    new DrawLiquidTile(Liquids.cyanogen),
-                    new DrawParticles(){{
-                        color = Color.valueOf("89e8b6");alpha = 0.4f;particleSize = 3f;
-                        particles = 30;particleRad = 10f;particleLife = 240f;reverse = true;
-                        particleSizeInterp = Interp.one;}},
-                    new DrawLiquidOutputs(),
-                    new DrawHeatInput()
-            );
-            rotate = true;
-            invertFlip = true;
-            hasLiquids = true;
-            hasItems = true;
-            itemCapacity = 40;
-            liquidCapacity = 50f;
-            consumeItems(ItemStack.with(Items.titanium, 5, Items.graphite, 3));
-            consumeLiquids(LiquidStack.with(Liquids.hydrogen, 30f / 60f,
-                    Liquids.ozone, 20f / 60f, Liquids.arkycite, 180f / 60f));
-            consumePower(1f);
-            regionRotated1 = 3;
-            outputLiquids = LiquidStack.with(Liquids.cryofluid, 1f, Liquids.cyanogen, 15f / 60f);
-            liquidOutputDirections = new int[]{1, 3};
-            heatRequirement = 30;
-            maxEfficiency = 6;
-        }};
-
-        mergedBlock3 = new HeatCrafter("atmospheric-crystallizer"){{
-            requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = false;
-            size = 5;
-            itemCapacity = 250;
-            liquidCapacity = 1000f;
-            craftTime = 240f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.nitrogen), new DrawDefault());
-            hasPower = true;
-            hasLiquids = true;
-            consumeItems(with(Items.graphite, 25));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(moditems.diamond, 11);
-            outputLiquid = new LiquidStack(Liquids.nitrogen, 25f / 60f);
-            heatRequirement = 60f;
-            maxEfficiency = 12f;
-        }};
-
-        mergedBlock4 = new HeatCrafter("plastand-carbide"){{
-            requirements(Category.crafting, with( Items.graphite, 1));
-            squareSprite = true;
-            size = 5;
-            itemCapacity = 50;
-            liquidCapacity = 1500f;
-            craftTime = 180f;
-            hasPower = true;
-            hasLiquids = true;
-            consumeLiquid(Liquids.oil, 300f / 60f);
-            consumeItems(with(Items.titanium, 24, Items.tungsten, 9, Items.graphite, 11));
-            consumePower(2f / 3f);
-            outputItems = ItemStack.with(Items.plastanium, 15, Items.carbide, 7);
-            heatRequirement = 40f;
-            maxEfficiency = 5f;
-        }};
         }}
         //drillers
         {{
             hugePlasmaBore = new BeamDrill("huge-plasma-bore") {{
                     requirements(Category.production, with(Items.graphite, 1));
                     consumePower(1.8f);
-                    drillTime = 40f;
+                    drillTime = 60f * (20f / 27f); //1f = 240/s
                     tier = 7;
                     size = 4;
                     range = 10;
                     fogRadius = 6;
                     laserWidth = 0.75f;
-                    itemCapacity = 60;
-                    liquidCapacity = 30f;
-                    //TODO more requirements?
-                    consumeLiquid(Liquids.ozone, 4f / 60f);
-                    consumeLiquid(Liquids.arkycite, 35f / 60f);
+                    itemCapacity = 90;
+                    liquidCapacity = 50f;
+                    consumeLiquids(LiquidStack.with(Liquids.nitrogen, 32f / 60f, Liquids.ozone, 20f / 60f));
+
                     consumeLiquid(Liquids.cryofluid, 20f / 60f).boost();
                 }};
 
@@ -378,7 +106,7 @@ public class modblocks {
 
             craterDrill = new BurstDrill("crater-drill") {{
                     requirements(Category.production, with(Items.graphite, 1));
-                    drillTime = 60f * 3f;
+                    drillTime = 60f * (12f / 5f); //1f = 2160/s
                     size = 6;
                     hasPower = true;
                     squareSprite = false;
@@ -386,20 +114,22 @@ public class modblocks {
                     drillEffect = new MultiEffect(
                             Fx.mineImpact,
                             Fx.drillSteam,
+                            Fx.steam,
                             Fx.dynamicSpikes.wrap(moditems.forceAlloy.color, 40f),
                             Fx.mineImpactWave.wrap(moditems.forceAlloy.color, 60f),
                             Fx.shockwave.wrap(moditems.forceAlloy.color, 80f)
                     );
                     shake = 5f;
-                    itemCapacity = 90;
-                    liquidCapacity = 15f;
+                    itemCapacity = 144;
+                    liquidCapacity = 80f;
                     arrowSpacing = 7.1f;
                     baseArrowColor = Color.valueOf("595a66");
                     glowColor.a = 0.6f;
                     fogRadius = 6;
                     consumePower(16f);
-                    consumeLiquids(LiquidStack.with(Liquids.nitrogen, 18f / 60f));
-                    consumeLiquids(LiquidStack.with(Liquids.cyanogen, 1f / 60f));
+                    consumeLiquids(LiquidStack.with(Liquids.nitrogen, 64f / 60f, Liquids.hydrogen, 30f / 60f));
+                    liquidBoostIntensity = 3;
+                    consumeLiquid(Liquids.cyanogen, 5f / 60f).boost();
                 }};
 
             mountainCrusher = new WallCrafter("mountain-crusher") {{
@@ -407,12 +137,14 @@ public class modblocks {
                     consumePower(40f / 60f);
                     drillTime = 52f;
                     size = 3;
-                    itemCapacity = 30;
+                    itemCapacity = 60;
+                    liquidCapacity = 10;
                     attribute = Attribute.sand;
                     output = Items.sand;
                     fogRadius = 3;
                     ambientSound = Sounds.drill;
                     ambientSoundVolume = 0.04f;
+                    consumeLiquid(Liquids.water, 15f / 60f).boost();
                 }};
 
             
@@ -430,7 +162,7 @@ public class modblocks {
         reinforcedDuct = new Duct("reinforced-duct"){{
                 requirements(Category.distribution, with(Items.beryllium, 3, Items.copper, 1));
                 health = 140;
-                speed = 1f;
+                speed = 60f / 100f;
                 armored = true;
             }};
 
@@ -453,7 +185,7 @@ public class modblocks {
                 health = 290;
                 speed = 6f / 60f;
                 outputRouter = false;
-                itemCapacity = 50;
+                itemCapacity = 75;
                 hasPower = true;
                 underBullets = false;
                 consumesPower = true;
@@ -577,6 +309,124 @@ public class modblocks {
             splitHeat = true;
         }};
 
+        carbideFoundry = new HeatCrafter("carbide-foundry") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 4;
+                itemCapacity = 40;
+                liquidCapacity = 70f;
+                craftTime = 150f;
+                updateEffect = Fx.pulverizeMedium;
+                drawer = new DrawMulti(  new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
+                    particles = 40; particleRad = 11f; particleSize = 3.5f; fadeMargin = 0.6f; rotateScl = 2f;}},
+                        new DrawDefault(), new DrawHeatInput());
+                ambientSound = Sounds.smelter;
+                ambientSoundVolume = 0.09f;
+                hasPower = true;
+                hasLiquids = true;
+                consumeLiquid(Liquids.oil, 40f / 60f);
+                consumeItems(with(Items.tungsten, 11, Items.graphite, 13));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(Items.carbide, 9);
+                heatRequirement = 45f;
+            }};
+
+        plastaniumMultiCompressor = new GenericCrafter("plastanium-multi-compressor") {{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 50;
+                liquidCapacity = 200f;
+                craftTime = 60f;
+                craftEffect = Fx.formsmoke;
+                updateEffect = Fx.smeltsmoke;
+                drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+                hasPower = true;
+                hasLiquids = true;
+                consumeLiquid(Liquids.oil, 80f / 60f);
+                consumeItems(with(Items.titanium, 15, Items.sporePod, 4));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(Items.plastanium, 13);
+            }};
+
+        mergedBlock1 = new HeatProducer("catalytic-chamber"){{
+                requirements(Category.crafting, with(Items.graphite, 1));
+                squareSprite = false;
+                size = 5;
+                researchCostMultiplier = 1.2f;
+                hasItems = true;
+                hasLiquids = true;
+                craftTime = 60f;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.ozone),
+                        new DrawMultiWeave(){{glowColor = new Color(1f, 0.4f, 0.4f, 0.8f);}},
+                        new DrawRegion(), new DrawHeatOutput(),
+                        new DrawHeatRegion("-glow"){{color = new Color(1f, 0.4f, 0.3f, 1f);}});
+                invertFlip = false;
+                itemCapacity = 300;
+                liquidCapacity = 400f;
+                consumePower(1f);
+                consumeLiquid(Liquids.ozone, 100f / 60f);
+                consumeItems(ItemStack.with(Items.silicon, 26, Items.beryllium, 19, Items.thorium, 12));
+                outputItems = ItemStack.with(Items.oxide, 30, Items.phaseFabric, 20);
+                heatOutput = 60;
+            }};
+
+        mergedBlock2 = new HeatCrafter("dual-coolant-synthesizer"){{
+                requirements(Category.crafting, with(Items.graphite, 1));
+                size = 5;
+                researchCostMultiplier = 1.2f;
+                craftTime = 165f;
+                drawer = new DrawMulti(
+                        new DrawRegion("-bottom"),
+                        new DrawLiquidTile(Liquids.cryofluid, 3f),
+                        new DrawBubbles(Color.valueOf("7693e3")){{sides = 36;
+                            recurrence = 10f;spread = 10;radius = 5f;amount = 65;}},
+                        new DrawLiquidTile(Liquids.cyanogen),
+                        new DrawParticles(){{
+                            color = Color.valueOf("89e8b6");alpha = 0.4f;particleSize = 3f;
+                            particles = 30;particleRad = 10f;particleLife = 240f;reverse = true;
+                            particleSizeInterp = Interp.one;}},
+                        new DrawLiquidOutputs(),
+                        new DrawHeatInput()
+                );
+                rotate = true;
+                invertFlip = true;
+                hasLiquids = true;
+                hasItems = true;
+                itemCapacity = 40;
+                liquidCapacity = 50f;
+                consumeItems(ItemStack.with(Items.titanium, 5, Items.graphite, 3));
+                consumeLiquids(LiquidStack.with(Liquids.hydrogen, 30f / 60f,
+                        Liquids.ozone, 20f / 60f, Liquids.arkycite, 180f / 60f));
+                consumePower(1f);
+                regionRotated1 = 3;
+                outputLiquids = LiquidStack.with(Liquids.cryofluid, 1f, Liquids.cyanogen, 15f / 60f);
+                liquidOutputDirections = new int[]{1, 3};
+                heatRequirement = 30;
+                maxEfficiency = 6;
+            }};
+
+        mergedBlock3 = new HeatCrafter("atmospheric-crystallizer"){{
+                requirements(Category.crafting, with( Items.graphite, 1));
+                squareSprite = false;
+                size = 5;
+                itemCapacity = 250;
+                liquidCapacity = 1000f;
+                craftTime = 240f;
+                craftEffect = Fx.steam;
+                updateEffect = Fx.steam;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.nitrogen),
+                        new DrawDefault(), new DrawHeatInput());
+                hasPower = true;
+                hasLiquids = true;
+                consumeItems(with(Items.graphite, 25));
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.diamond, 11);
+                outputLiquid = new LiquidStack(Liquids.nitrogen, 25f / 60f);
+                heatRequirement = 60f;
+                maxEfficiency = 12f;
+            }};
+
         pyratiteMultiMixer = new GenericCrafter("pyratite-multi-mixer") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
@@ -653,8 +503,8 @@ public class modblocks {
             requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
-            itemCapacity = 30;
-            liquidCapacity = 90f;
+            itemCapacity = 40;
+            liquidCapacity = 120f;
             craftTime = 120f;
             envRequired |= Env.spores;
             attribute = Attribute.spores;
@@ -663,35 +513,58 @@ public class modblocks {
                     new DrawDefault());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 75f / 60f);
+            consumeLiquid(Liquids.water, 90f / 60f);
             consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.sporePod, 7);
-            boostScale = 10f / 27f;
-            maxBoost = 1f;
+            outputItem = new ItemStack(Items.sporePod, 8);
+            boostScale = 40f / 27f;
+            maxBoost = 4f;
         }};
 
         sporeIncubator = new AttributeCrafter("spore-incubator") {{
                 requirements(Category.production, with( Items.graphite, 1));
                 squareSprite = true;
                 size = 3;
-                itemCapacity = 60;
-                liquidCapacity = 90f;
+                itemCapacity = 80;
+                liquidCapacity = 180f;
                 craftTime = 60f;
                 updateEffect = Fx.smeltsmoke.wrap(Items.sporePod.color, 10f);
                 envRequired |= Env.spores;
                 attribute = Attribute.spores;
-                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water),
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(modliquids.sporeinfestedwater),
                     new DrawCultivator(){{spread = 6f; radius = 4.5f; bubbles = 18; sides = 12;}},
                     new DrawDefault());
                 hasPower = true;
                 hasLiquids = true;
-                consumeLiquid(modliquids.sporeinfestedwater, 64f / 60f);
-                consumeItem(Items.sporePod, 9);
+                consumeLiquid(modliquids.sporeinfestedwater, 81f / 60f);
+                consumeItem(Items.sporePod, 16);
                 consumePower(2f / 3f);
-                outputItem = new ItemStack(moditems.sporeReceptacle, 1);
-                boostScale = 20f / 27f;
+                outputItem = new ItemStack(moditems.sporeReceptacle, 5);
+                boostScale = 30f / 27f;
                 maxBoost = 3f;
             }};
+
+        bioSynthesizer = new AttributeCrafter("bio-synthesizer") {{
+            requirements(Category.production, with( Items.graphite, 1));
+            squareSprite = true;
+            size = 4;
+            itemCapacity = 100;
+            liquidCapacity = 500f;
+            craftTime = 120f;
+            updateEffect = new MultiEffect(
+                    Fx.smeltsmoke.wrap(Items.sporePod.color, 30f),
+                    Fx.smokePuff.wrap(Items.sporePod.color, 20f)
+            );updateEffectChance = 0.07f;
+            envRequired |= Env.spores;
+            attribute = Attribute.spores;
+            hasPower = true;
+            hasLiquids = true;
+            consumeLiquids(LiquidStack.with(modliquids.sporeinfestedwater, 200f / 60f, Liquids.arkycite, 90f / 60f));
+            consumeItem(moditems.sporeReceptacle, 15);
+            consumePower(2f / 3f);
+            outputItem = new ItemStack(moditems.sporeHeart, 1);
+            boostScale = 1f;
+            maxBoost = 2f;
+        }};
 
         advancedOilExtractor = new AttributeCrafter("advanced-oil-extractor"){{
             requirements(Category.production, with( Items.graphite, 1));
@@ -775,7 +648,7 @@ public class modblocks {
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = false;
             size = 4;
-            itemCapacity = 50;
+            itemCapacity = 70;
             craftTime = 160f;
             updateEffect = Fx.coalSmeltsmoke;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
@@ -890,14 +763,14 @@ public class modblocks {
             consumeLiquid(Liquids.cryofluid, 100f / 60f);
             consumeLiquid(Liquids.cyanogen, 25f / 60f);
             consumePower(2f / 3f);
-            outputLiquid = new LiquidStack(modliquids.supercooledfluid, 10f/ 60f);
+            outputLiquid = new LiquidStack(modliquids.supercooledfluid, 20f/ 60f);
         }};
 
         compoundCrucible = new HeatCrafter("compound-crucible") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 4;
-            itemCapacity = 70;
+            itemCapacity = 120;
             craftTime = 400f;
             drawer = new DrawMulti(new DrawRegion("-bottom"),
                     new DrawArcSmeltModified(),
@@ -972,7 +845,7 @@ public class modblocks {
             size = 7;
             itemCapacity = 1000;
             liquidCapacity = 3000f;
-            craftTime = 120f;
+            craftTime = 360f;
             craftEffect = new MultiEffect(
                     Fx.dynamicSpikes.wrap(moditems.ultralloy.color, 90f),
                     Fx.dynamicWave.wrap(moditems.ultralloy.color, 120f),
@@ -1082,7 +955,7 @@ public class modblocks {
         hyperalloyCrucible = new GenericCrafter("hyperalloy-crucible") {{
                 requirements(Category.crafting, with( Items.graphite, 1));
                 squareSprite = true;
-                size = 5;
+                size = 6;
                 itemCapacity = 150;
                 liquidCapacity = 200f;
                 craftTime = 120f;
@@ -1348,13 +1221,13 @@ public class modblocks {
             consumePower(30f);
             size = 5;
             liquidCapacity = 300f;
-            itemCapacity = 50;
-            range = 600f;
-            speedBoost = 6f;
+            itemCapacity = 70;
+            range = 150f;
+            speedBoost = 10f;
             useTime = 150f;
             hasBoost = false;
-            consumeItems(with(moditems.quantum, 1, Items.phaseFabric, 7, Items.silicon, 31));
-            consumeLiquid(Liquids.nitrogen, 200f / 60f);
+            consumeItems(with(moditems.quantum, 2, Items.phaseFabric, 9, Items.silicon, 37));
+            consumeLiquids(LiquidStack.with(Liquids.nitrogen, 200f / 60f, modliquids.supercooledfluid, 10f / 60f));
         }};
 
         constructMonolith = new BuildTurret("constructMonolith"){{
@@ -1485,12 +1358,16 @@ public class modblocks {
                     requirements(Category.units, with(Items.graphite, 1));
                     size = 3;
                     length = 9f;
-                    repairSpeed = 25f;
-                    repairRadius = 150f;
+                    repairSpeed = 5f;
+                    repairRadius = 240f;
+                    liquidCapacity = 30f;
                     powerUse = 24f;
                     beamWidth = 1.5f;
                     pulseRadius = 7.5f;
-                    consumeLiquid(Liquids.ozone, 12);
+                    consumeItem(Items.silicon, 1);
+                    consumeLiquid(Liquids.ozone, 15f / 60f);
+                    coolantMultiplier = 2.5f;
+                    acceptCoolant = true;
                 }};
 
         horde = new ItemTurret("horde") {{
