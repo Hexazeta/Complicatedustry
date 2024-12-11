@@ -554,6 +554,13 @@ public class modblocks {
                     Fx.smeltsmoke.wrap(Items.sporePod.color, 30f),
                     Fx.smokePuff.wrap(Items.sporePod.color, 20f)
             );updateEffectChance = 0.07f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),
+                    new DrawLiquidTile(modliquids.sporeinfestedwater, 3){{padTop = 21f;}},
+                    new DrawLiquidTile(modliquids.sporeinfestedwater, 3){{padLeft = 21f;}},
+                    new DrawLiquidTile(modliquids.sporeinfestedwater, 3){{padRight = 21f;}},
+                    new DrawLiquidTile(modliquids.sporeinfestedwater, 3){{padBottom = 21f;}},
+            new DrawLiquidTile(Liquids.arkycite, 3f){{padTop = padLeft = padRight = padBottom = 10f;}},
+                    new DrawDefault());
             envRequired |= Env.spores;
             attribute = Attribute.spores;
             hasPower = true;
