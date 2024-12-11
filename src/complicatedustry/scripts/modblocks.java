@@ -516,8 +516,8 @@ public class modblocks {
             consumeLiquid(Liquids.water, 90f / 60f);
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.sporePod, 8);
-            boostScale = 40f / 27f;
-            maxBoost = 4f;
+            boostScale = 50f / 27f;
+            maxBoost = 5f;
         }};
 
         sporeIncubator = new AttributeCrafter("spore-incubator") {{
@@ -539,7 +539,7 @@ public class modblocks {
                 consumeItem(Items.sporePod, 16);
                 consumePower(2f / 3f);
                 outputItem = new ItemStack(moditems.sporeReceptacle, 5);
-                boostScale = 30f / 27f;
+                boostScale = 10f / 9f;
                 maxBoost = 3f;
             }};
 
@@ -562,7 +562,7 @@ public class modblocks {
             consumeItem(moditems.sporeReceptacle, 15);
             consumePower(2f / 3f);
             outputItem = new ItemStack(moditems.sporeHeart, 1);
-            boostScale = 1f;
+            boostScale = 5f / 12f;
             maxBoost = 2f;
         }};
 
@@ -571,8 +571,8 @@ public class modblocks {
             squareSprite = true;
             size = 4;
             itemCapacity = 30;
-            liquidCapacity = 250;
-            craftTime = 12f;
+            liquidCapacity = 400;
+            craftTime = 60f;
             updateEffect = Fx.pulverizeMedium;
             envRequired |= Env.groundOil;
             attribute = Attribute.oil;
@@ -585,14 +585,14 @@ public class modblocks {
             );
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 36f / 60f);
-            consumeItems(with(Items.sporePod, 2, Items.sand, 3));
+            consumeLiquid(Liquids.water, 64f / 60f);
+            consumeItems(with(Items.sporePod, 3, Items.sand, 5));
             consumePower(2f / 3f);
             outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.oil, 150f / 60f);
-            boostScale = 1f / 6f;
+            outputLiquid = new LiquidStack(Liquids.oil, 200f / 60f);
+            boostScale = 5f / 56f;
             baseEfficiency = 0f;
-            maxBoost = 4f;
+            maxBoost = 3f;
         }};
 
         forceCrucible = new HeatCrafter("force-crucible") {{
