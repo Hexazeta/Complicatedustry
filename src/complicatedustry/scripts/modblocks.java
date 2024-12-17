@@ -55,9 +55,9 @@ public class modblocks {
     hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,
     //crafters
     smallHeatRedirector, SmallHeatRouter, surgeRouter, reinforcedDuct, platedConveyor, infestationChamber,
-    pyratiteMultiMixer, siliconFoundry,  forge, waterConcentrator, bioSynthesizer,
+    pyratiteMultiMixer, siliconFoundry,  forge, waterConcentrator, bioSynthesizer, graphiteCentrifuge,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,godConveyor,
-    surgeFoundry, flood, reinforcedBridge,
+    surgeFoundry, flood, reinforcedBridge, armoredUnloader,
     platedConduit, platedBridgeConduit, platedLiquidContainer, platedLiquidTank, unitRepairTurret,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
@@ -128,8 +128,6 @@ public class modblocks {
                     fogRadius = 6;
                     consumePower(16f);
                     consumeLiquids(LiquidStack.with(Liquids.nitrogen, 64f / 60f, Liquids.hydrogen, 30f / 60f));
-                    liquidBoostIntensity = 3;
-                    consumeLiquid(Liquids.cyanogen, 5f / 60f).boost();
                 }};
 
             mountainCrusher = new WallCrafter("mountain-crusher") {{
@@ -159,11 +157,13 @@ public class modblocks {
                 itemCapacity = 10;
             }};
 
-        reinforcedDuct = new Duct("reinforced-duct"){{
-                requirements(Category.distribution, with(Items.beryllium, 3, Items.copper, 1));
-                health = 140;
-                speed = 60f / 100f;
-                armored = true;
+        armoredUnloader = new DirectionalUnloader("armored-unloader"){{
+                requirements(Category.distribution, with(Items.graphite, 1));
+                health = 360;
+                speed = 1.75f;
+                solid = false;
+                underBullets = true;
+                regionRotated1 = 1;
             }};
 
         platedConveyor = new StackConveyor("armored-surge-conveyor"){{
@@ -222,11 +222,11 @@ public class modblocks {
             consumePower(3f / 60f);
         }};
 
-        unitPayloadLoader = new UnitCargoLoader("unit-payload-loader"){{
+        unitPayloadLoader = new MultiUnitCargoLoader("unit-payload-loader"){{
                 requirements(Category.distribution, with(Items.graphite, 1));
                 size = 4;
                 buildTime = 60f * 16f;
-                unitCapModifier = 2;
+                unitCapModifier = 3;
                 consumePower(32f / 60f);
                 consumeLiquids(LiquidStack.with(Liquids.nitrogen, 35f / 60f, Liquids.arkycite, 10f / 60f));
                 itemCapacity = 1000;
@@ -235,7 +235,7 @@ public class modblocks {
         unitPayloadUnloadPoint = new UnitCargoUnloadPoint("unit-payload-unload-point"){{
                 requirements(Category.distribution, with(Items.graphite, 1));
                 size = 3;
-                itemCapacity = 300;
+                itemCapacity = 500;
             }};
 
         godConveyor = new StackConveyor("god-conveyor"){{
@@ -427,7 +427,7 @@ public class modblocks {
                 maxEfficiency = 12f;
             }};
 
-        pyratiteMultiMixer = new GenericCrafter("pyratite-multi-mixer") {{
+        pyratiteMultiMixer = new AttributeCrafter("pyratite-multi-mixer") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             size = 3;
@@ -442,9 +442,11 @@ public class modblocks {
             consumeLiquid(Liquids.oil, 10f / 60f);
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.pyratite, 6);
+            attribute = Attribute.oil;
+            boostScale = 5f / 126f;
         }};
 
-        siliconFoundry = new GenericCrafter("silicon-foundry") {{
+        siliconFoundry = new AttributeCrafter("silicon-foundry") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             craftEffect = Fx.smeltsmoke;
@@ -480,6 +482,20 @@ public class modblocks {
             outputItem = new ItemStack(Items.metaglass, 4);
         }};
 
+        graphiteCentrifuge = new GenericCrafter("graphite-centrifuge"){{
+                requirements(Category.crafting, with(Items.graphite, 1));
+                craftEffect = Fx.coalSmeltsmoke;
+                outputItem = new ItemStack(Items.graphite, 9);
+                craftTime = 67.5f;
+                itemCapacity = 30; liquidCapacity = 50f;
+                size = 3;
+                hasPower = hasItems = hasLiquids = true;
+                rotateDraw = false;
+                consumeItem(Items.sporePod, 2);
+                consumeLiquid(Liquids.oil, 0.7f);
+                consumePower(2.5f);
+            }};
+
         waterConcentrator = new AttributeCrafter("water-concentrator") {{
             requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
@@ -506,6 +522,7 @@ public class modblocks {
             itemCapacity = 40;
             liquidCapacity = 120f;
             craftTime = 120f;
+            updateEffect = Fx.smokePuff.wrap(Items.sporePod.color);updateEffectChance = 0.01f;
             envRequired |= Env.spores;
             attribute = Attribute.spores;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water),
@@ -1017,8 +1034,8 @@ public class modblocks {
                 requirements(Category.power, with(Items.graphite, 1));
                 attribute = Attribute.steam;
                 group = BlockGroup.liquids;
-                displayEfficiencyScale = 2f / 25f;
-                minEfficiency = 18f - 0.001f;
+                displayEfficiencyScale = 1f / 25f;
+                minEfficiency = 9f - 0.001f;
                 powerProduction = 3f;
                 displayEfficiency = false;
                 generateEffect = Fx.turbinegenerate;
@@ -1029,7 +1046,7 @@ public class modblocks {
                 hasLiquids = true;
                 //if its already built why is it called a building
                 //why the fuck is it is 1500 per float
-                outputLiquid = new LiquidStack(Liquids.water, 4f / (60f * 5f));
+                outputLiquid = new LiquidStack(Liquids.water, 15f / (60f * 5f));
                 liquidCapacity = 60f;
                 fogRadius = 5;
             }};
