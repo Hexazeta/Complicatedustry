@@ -6,9 +6,10 @@ import mindustry.type.Item;
 
 public class moditems {
 
-    public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,
+    public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,fieryCompound,
             platinum,carborundum,omegalloy,quantum,tin,bronze,hyperalloy,mythratite,pneumatite,genesisMetal,
-            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium,sporeHeart;
+            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium,sporeHeart,shockCompound,
+            calamatite,hellsDust;
 
         public static void load() {
             //normal
@@ -115,4 +116,6 @@ public class moditems {
                 }};
 
             }}
+            //epic shit
+            {{}}
     }}

@@ -9,7 +9,8 @@ import static mindustry.content.Liquids.*;
 
 public class modliquids {
     //todo more liquids
-    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,sporeMass,hyperplasm,aeroflux;
+    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,sporeMass,hyperplasm,aeroflux,
+    calatysm;
 
         public static void load() {
 

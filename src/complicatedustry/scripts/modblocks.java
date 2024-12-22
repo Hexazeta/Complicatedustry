@@ -1,5 +1,6 @@
 package complicatedustry.scripts;
 
+import arc.audio.Sound;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
@@ -10,11 +11,13 @@ import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
+import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.LiquidBulletType;
 import mindustry.entities.bullet.MissileBulletType;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.entities.effect.WrapEffect;
+import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
@@ -52,12 +55,12 @@ public class modblocks {
     //stuff here
     carborundumCrucible,mergedBlock1,mergedBlock2,mergedBlock3,mergedBlock4,largeArkyicVent,hyperalloyWall,hyperalloyWallLarge,
     //drills and shit
-    hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,
+    hugePlasmaBore,innovatoryDrill,craterDrill,mountainCrusher,iceCrusher,quakeDrill,
     //crafters
     smallHeatRedirector, SmallHeatRouter, surgeRouter, reinforcedDuct, platedConveyor, infestationChamber,
     pyratiteMultiMixer, siliconFoundry,  forge, waterConcentrator, bioSynthesizer, graphiteCentrifuge,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,godConveyor,
-    surgeFoundry, flood, reinforcedBridge, armoredUnloader,
+    surgeFoundry, flood, reinforcedBridge, armoredUnloader, gonzales,
     platedConduit, platedBridgeConduit, platedLiquidContainer, platedLiquidTank, unitRepairTurret,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
@@ -86,6 +89,15 @@ public class modblocks {
         }}
         //drillers
         {{
+            innovatoryDrill = new Drill("innovatory-drill"){{
+                requirements(Category.production, with(Items.graphite, 1));
+                tier = 2;
+                drillTime = 259;
+                size = 3;
+                liquidBoostIntensity = 1.7f;
+                consumeLiquid(Liquids.water, 0.08f).boost();
+            }};
+
             hugePlasmaBore = new BeamDrill("huge-plasma-bore") {{
                     requirements(Category.production, with(Items.graphite, 1));
                     consumePower(1.8f);
@@ -102,7 +114,26 @@ public class modblocks {
                     consumeLiquid(Liquids.cryofluid, 20f / 60f).boost();
                 }};
 
+            quakeDrill = new Drill("quake-drill"){{
+                requirements(Category.production, with(Items.graphite, 1));
+                drillTime = 210;
+                size = 5;
+                drawRim = true;
+                hasPower = true;
+                tier = 4;
+                updateEffect = Fx.pulverizeRed;
+                updateEffectChance = 0.07f;
+                drillEffect = Fx.mineHuge;
+                rotateSpeed = 10f;
+                warmupSpeed = 0.001f;
+                itemCapacity = 70;
 
+                //more than the blast drill
+                liquidBoostIntensity = 2f;
+
+                consumePower(10f);
+                consumeLiquid(Liquids.water, 0.3f).boost();
+            }};
 
             craterDrill = new BurstDrill("crater-drill") {{
                     requirements(Category.production, with(Items.graphite, 1));
@@ -446,14 +477,14 @@ public class modblocks {
             boostScale = 5f / 126f;
         }};
 
-        siliconFoundry = new AttributeCrafter("silicon-foundry") {{
+        siliconFoundry = new AttributeCrafter("silicon-arc-smelter") {{
             requirements(Category.crafting, with( Items.graphite, 1));
             squareSprite = true;
             craftEffect = Fx.smeltsmoke;
             updateEffect = Fx.smeltsmoke;
-            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(),
-                    new DrawDefault(),new DrawFlame(Color.valueOf("ffef99")),
-                    new DrawRegion("-center"));
+            drawer = new DrawMulti( new DrawRegion("-bottom"), new DrawArcSmelt(){{particles = 60;particleRad = 11;
+                circleSpace = 3;circleStroke = 2.25f;particleStroke = 1.5f;blending = Blending.additive;flameRad = 1.5f;
+            }}, new DrawDefault());
             size = 4;
             itemCapacity = 120;
             liquidCapacity = 35f;
@@ -464,6 +495,7 @@ public class modblocks {
             consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 4));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.silicon, 32);
+            ambientSound = Sounds.electricHum;
         }};
 
         forge = new GenericCrafter("forge") {{
@@ -487,7 +519,7 @@ public class modblocks {
                 craftEffect = Fx.coalSmeltsmoke;
                 outputItem = new ItemStack(Items.graphite, 9);
                 craftTime = 67.5f;
-                itemCapacity = 30; liquidCapacity = 50f;
+                liquidCapacity = itemCapacity = 50;
                 size = 3;
                 hasPower = hasItems = hasLiquids = true;
                 rotateDraw = false;
@@ -530,7 +562,7 @@ public class modblocks {
                     new DrawDefault());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 90f / 60f);
+            consumeLiquid(Liquids.water, 45f / 60f);
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.sporePod, 8);
             boostScale = 50f / 27f;
@@ -1034,20 +1066,25 @@ public class modblocks {
                 requirements(Category.power, with(Items.graphite, 1));
                 attribute = Attribute.steam;
                 group = BlockGroup.liquids;
-                displayEfficiencyScale = 1f / 25f;
-                minEfficiency = 9f - 0.001f;
-                powerProduction = 3f;
+                displayEfficiencyScale = 1f / 75f;
+                minEfficiency = 3f - 0.001f;
+                powerProduction = 1f / 9f;
                 displayEfficiency = false;
                 generateEffect = Fx.turbinegenerate;
-                effectChance = 0.04f;
+                effectChance = 0.12f;
                 size = 5;
+                drawer = new DrawMulti(new DrawRegion("-bottom"),
+                        new DrawDefault(),
+                        new DrawBlurSpin("-rotator", 0.9f * 9f){{blurThresh = 0.025f;}},
+                        new DrawRegion("-top")
+                );
                 ambientSound = Sounds.hum;
-                ambientSoundVolume = 0.06f;
+                ambientSoundVolume = 0.1f;
                 hasLiquids = true;
                 //if its already built why is it called a building
                 //why the fuck is it is 1500 per float
-                outputLiquid = new LiquidStack(Liquids.water, 15f / (60f * 5f));
-                liquidCapacity = 60f;
+                outputLiquid = new LiquidStack(Liquids.water, 5f / (60f * 2.5f));
+                liquidCapacity = 300f;
                 fogRadius = 5;
             }};
 
@@ -1466,6 +1503,34 @@ public class modblocks {
                     limitRange(10f);
                     coolant = consumeCoolant(0.6f);
                 }};
+
+        gonzales = new ItemTurret("gonzales"){{
+                requirements(Category.turret, with(Items.graphite, 1));
+                ammo(
+                        moditems.omegalloy, new BasicBulletType(25f, 1000){{
+                            hitSize = 25f;width = 17f;height = 41f;shootEffect = Fx.shootBig;ammoMultiplier = 21;
+                            reloadMultiplier = 9f;knockback = 5f;pierceCap = 25;pierceBuilding = true;
+                            splashDamage = 125f;splashDamageRadius = 225f;
+                        }}
+                );
+                reload = 35f;
+                recoilTime = reload * 5f;
+                coolantMultiplier = 2f;
+                ammoUseEffect = Fx.casing3Double.wrap(moditems.omegalloy.color, 30f);
+                range = 400f;
+                inaccuracy = 0f;
+                recoil = 5f;
+                shoot = new ShootAlternate(16f);
+                shake = 11f;
+                size = 8;
+                shootCone = 300f;
+                shootSound = Sounds.shootBig;
+
+                scaledHealth = 900;
+                coolant = consumeCoolant(10f);
+
+                limitRange();
+            }};
         }}
         //walls
         {{
