@@ -7,10 +7,7 @@ import arc.math.Interp;
 import arc.math.Mathf;
 import arc.struct.EnumSet;
 import complicatedustry.scripts.extensions.*;
-import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.content.Liquids;
-import mindustry.content.StatusEffects;
+import mindustry.content.*;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.LiquidBulletType;
 import mindustry.entities.bullet.MissileBulletType;
@@ -32,6 +29,7 @@ import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.liquid.ArmoredConduit;
 import mindustry.world.blocks.liquid.Conduit;
+import mindustry.world.blocks.liquid.LiquidBridge;
 import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
@@ -60,13 +58,14 @@ public class modblocks {
     smallHeatRedirector, SmallHeatRouter, surgeRouter, reinforcedDuct, platedConveyor, infestationChamber,
     pyratiteMultiMixer, siliconFoundry,  forge, waterConcentrator, bioSynthesizer, graphiteCentrifuge,
     densifier, carbideFoundry, advancedOilExtractor, forceCrucible, plastaniumMultiCompressor,godConveyor,
-    surgeFoundry, flood, reinforcedBridge, armoredUnloader, gonzales,
+    surgeFoundry, flood, reinforcedBridge, armoredUnloader, gonzales, infestor, sporeMultiPress,armoredBridge,
     platedConduit, platedBridgeConduit, platedLiquidContainer, platedLiquidTank, unitRepairTurret,
     blastMultiMixer,fractionator, powerMixer, supercooler, compoundCrucible, phaseSuperHeater, quasiconstructor,
     omegalloyCrucible, ultralloyCrucible, reinforcedConveyor, thermalOxidizer, unitPayloadLoader,
     unitPayloadUnloadPoint, overdriveStadium, constructMonolith, regenDome, blastwaveMonolith, mendDome,
     horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
-    fluxProcessor,antifreezeFabricator,rtgCoreGenerator,surgeRefinery,ultralloyConveyor,
+    fluxProcessor,antifreezeFabricator,rtgCoreGenerator,surgeRefinery,ultralloyConveyor,platedLiquidRouter,
+    reinforcedPowerNode,largeReinforcedPowerNode,hugeReinforcedPowerNode,platedContainer,platedVault,
 
     //power
     boilerGenerator, hyperneoplasiaGenerator, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
@@ -225,17 +224,29 @@ public class modblocks {
                 consumePower(40f/60f);
             }};
 
+        armoredBridge = new ItemBridge("armored-bridge"){{
+                requirements(Category.distribution, with(Items.graphite, 1));
+                range = 8;
+                arrowPeriod = 0.6f;
+                arrowTimeScl = 1.75f;
+                hasPower = false;
+                itemCapacity = 30;
+                unloadable = true;
+                pulse = false;
+                envEnabled |= Env.space;
+            }};
+
         reinforcedBridge = new ItemBridge("reinforced-bridge"){{
-                requirements(Category.distribution, with(Items.phaseFabric, 5, Items.silicon, 7, Items.lead, 10, Items.graphite, 10));
+                requirements(Category.distribution, with(Items.graphite, 1));
                 range = 16;
-                arrowPeriod = 0.9f;
-                arrowTimeScl = 2.75f;
+                arrowPeriod = 0.15f;
+                arrowTimeScl = 3.75f;
                 hasPower = true;
-                itemCapacity = 100;
+                itemCapacity = 90;
                 unloadable = true;
                 pulse = true;
                 envEnabled |= Env.space;
-                consumePower(0.30f);
+                consumePower(0.5f);
             }};
 
         surgeRouter = new StackRouter("surge-router"){{
@@ -253,12 +264,13 @@ public class modblocks {
             consumePower(3f / 60f);
         }};
 
-        unitPayloadLoader = new MultiUnitCargoLoader("unit-payload-loader"){{
+        unitPayloadLoader = new UnitCargoLoader("unit-payload-loader"){{
                 requirements(Category.distribution, with(Items.graphite, 1));
                 size = 4;
                 buildTime = 60f * 16f;
                 unitCapModifier = 3;
                 consumePower(32f / 60f);
+                unitType = UnitTypes.manifold;
                 consumeLiquids(LiquidStack.with(Liquids.nitrogen, 35f / 60f, Liquids.arkycite, 10f / 60f));
                 itemCapacity = 1000;
             }};
@@ -284,7 +296,7 @@ public class modblocks {
             }};
 
         platedConduit = new ArmoredConduit("plated-conduit"){{
-                requirements(Category.liquid, with(Items.beryllium, 2));
+                requirements(Category.liquid, with(Items.graphite, 1));
                 botColor = Pal.darkestMetal;
                 leaks = false;
                 liquidCapacity = 60f;
@@ -294,14 +306,21 @@ public class modblocks {
                 underBullets = true;
             }};
 
-        platedBridgeConduit = new DirectionLiquidBridge("plated-bridge-conduit"){{
-                requirements(Category.liquid, with(Items.graphite, 8, Items.beryllium, 20));
-                range = 16;
+        platedBridgeConduit = new LiquidBridge("plated-bridge-conduit"){{
+                requirements(Category.liquid, with(Items.graphite, 1));
+                range = 8;
                 hasPower = false;
                 researchCostMultiplier = 1;
                 underBullets = true;
                 liquidCapacity = 30;
-                ((Conduit)reinforcedConduit).rotBridgeReplacement = this;
+                fadeIn = moveArrows = false;
+            }};
+
+        platedLiquidRouter = new LiquidRouter("plated-liquid-router"){{
+                requirements(Category.liquid, with(Items.graphite, 1));
+                liquidCapacity = 200f;
+                underBullets = true;
+                solid = false;
             }};
 
         platedLiquidContainer = new LiquidRouter("plated-liquid-container"){{
@@ -320,7 +339,6 @@ public class modblocks {
                 liquidCapacity = 40000f;
                 liquidPadding = 2f;
             }};
-
 
         }}
         //production
@@ -622,6 +640,43 @@ public class modblocks {
             maxBoost = 2f;
         }};
 
+        infestor = new AttributeCrafter("infestor") {{
+                requirements(Category.production, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 30;
+                liquidCapacity = 120f;
+                craftTime = 90f;
+                attribute = Attribute.spores;
+                hasPower = true;
+                hasLiquids = true;
+                consumeItem(Items.sporePod, 2);
+                consumeLiquid(Liquids.water, 35f / 60f);
+                consumePower(2f / 3f);
+                outputLiquid = new LiquidStack(modliquids.sporeinfestedwater, 54f / 60f);
+                boostScale = 10f / 27f;
+                maxBoost = 1f;
+            }};
+
+        sporeMultiPress = new GenericCrafter("spore-multi-press"){{
+                requirements(Category.crafting, with(Items.graphite, 1));
+                liquidCapacity = 150f; itemCapacity = 30;
+                craftTime = 30f;
+                regionRotated1 = 3;
+                outputLiquids = LiquidStack.with(Liquids.oil, 84f / 60, Liquids.hydrogen, 30f / 60);
+                liquidOutputDirections = new int[]{1, 3};
+                rotate = true;
+                invertFlip = true;
+                group = BlockGroup.liquids;
+                size = 3;
+                health = 1000;
+                hasLiquids = true;
+                hasPower = true;
+                craftEffect = Fx.steam;
+                consumeItem(moditems.sporeReceptacle, 2);
+                consumePower(0.7f);
+            }};
+
         advancedOilExtractor = new AttributeCrafter("advanced-oil-extractor"){{
             requirements(Category.production, with( Items.graphite, 1));
             squareSprite = true;
@@ -694,7 +749,7 @@ public class modblocks {
             updateEffect = Fx.coalSmeltsmoke;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.hydrogen, 25f / 60f);
+            consumeLiquid(Liquids.hydrogen, 10f / 60f);
             consumeItems(with(Items.pyratite, 5, Items.sporePod, 8));
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.blastCompound, 6);
@@ -1062,6 +1117,25 @@ public class modblocks {
         }}
         //power
         {{
+            reinforcedPowerNode = new PowerNode("reinforced-node"){{
+                requirements(Category.power, with(Items.graphite, 1));
+                maxNodes = 5; consumesPower = outputsPower = true;
+                laserRange = 8; consumePowerBuffered(2500f);
+            }};
+
+            largeReinforcedPowerNode = new PowerNode("large-reinforced-node"){{
+                requirements(Category.power, with(Items.graphite, 1));
+                maxNodes = 10; consumesPower = outputsPower = true; size = 2;
+                laserRange = 19; consumePowerBuffered(45000f);
+            }};
+
+            hugeReinforcedPowerNode = new PowerNode("huge-reinforced-node"){{
+                requirements(Category.power, with(Items.graphite, 1));
+                maxNodes = 20; consumesPower = outputsPower = true; size = 3;
+                laserRange = 30; consumePowerBuffered(650000f);
+            }};
+
+
             heavyDutyTurbineCondenser = new ThermalGenerator("heavy-duty-turbine-condenser") {{
                 requirements(Category.power, with(Items.graphite, 1));
                 attribute = Attribute.steam;
