@@ -17,6 +17,7 @@ import mindustry.entities.effect.WrapEffect;
 import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.Sounds;
+import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
@@ -25,6 +26,7 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.liquid.ArmoredConduit;
@@ -66,6 +68,7 @@ public class modblocks {
     horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
     fluxProcessor,antifreezeFabricator,rtgCoreGenerator,surgeRefinery,ultralloyConveyor,platedLiquidRouter,
     reinforcedPowerNode,largeReinforcedPowerNode,hugeReinforcedPowerNode,platedContainer,platedVault,
+    genesisEnergyFloor, genesisEnergyFloorEmpty, genesisFloor, genesisProcessor,genesisEnergy,
 
     //power
     boilerGenerator, hyperneoplasiaGenerator, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
@@ -77,6 +80,29 @@ public class modblocks {
         largeArkyicVent = new LargeSteamVent("large-arkyic-vent"){{
             parent = blendGroup = arkyicStone;
             attributes.set(Attribute.steam, 3f);
+
+            genesisEnergyFloor = new Floor("genesis-energy-floor"){{
+                playerUnmineable = true;
+                attributes.set(modattribute.genesis, 0.75f);
+            }};
+
+            genesisEnergyFloorEmpty = new Floor("genesis-energy-empty-floor"){{
+                playerUnmineable = true;
+            }};
+
+            genesisFloor = new Floor("genesis-floor"){{
+                playerUnmineable = true; variants = 19;
+            }};
+
+            genesisEnergy = new Floor("genesis-energy"){{
+                status = StatusEffects.none;
+                variants = 0;
+                isLiquid = false;
+                attributes.set(modattribute.genesis, 2f);
+                emitLight = true;
+                lightRadius = 60f;
+                lightColor = Color.valueOf("96dcff").cpy().a(0.38f);
+            }};
         }};
         //trash
         {{
@@ -93,6 +119,7 @@ public class modblocks {
                 tier = 2;
                 drillTime = 259;
                 size = 3;
+                itemCapacity = 30;
                 liquidBoostIntensity = 1.7f;
                 consumeLiquid(Liquids.water, 0.08f).boost();
             }};
@@ -166,13 +193,11 @@ public class modblocks {
                     drillTime = 52f;
                     size = 3;
                     itemCapacity = 60;
-                    liquidCapacity = 10;
                     attribute = Attribute.sand;
                     output = Items.sand;
                     fogRadius = 3;
                     ambientSound = Sounds.drill;
                     ambientSoundVolume = 0.04f;
-                    consumeLiquid(Liquids.water, 15f / 60f).boost();
                 }};
 
             
@@ -426,24 +451,22 @@ public class modblocks {
                 researchCostMultiplier = 1.2f;
                 craftTime = 165f;
                 drawer = new DrawMulti(
-                        new DrawRegion("-bottom"),
-                        new DrawLiquidTile(Liquids.cryofluid, 3f),
+                        new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.cryofluid, 3f),
                         new DrawBubbles(Color.valueOf("7693e3")){{sides = 36;
                             recurrence = 10f;spread = 10;radius = 5f;amount = 65;}},
-                        new DrawLiquidTile(Liquids.cyanogen),
-                        new DrawParticles(){{
+                        new DrawLiquidTile(Liquids.cyanogen), new DrawParticles(){{
                             color = Color.valueOf("89e8b6");alpha = 0.4f;particleSize = 3f;
                             particles = 30;particleRad = 10f;particleLife = 240f;reverse = true;
-                            particleSizeInterp = Interp.one;}},
-                        new DrawLiquidOutputs(),
-                        new DrawHeatInput()
+                            particleSizeInterp = Interp.one;}}, new DrawRegion(),
+                        new DrawLiquidOutputs(), new DrawHeatInput()
                 );
                 rotate = true;
                 invertFlip = true;
                 hasLiquids = true;
                 hasItems = true;
+                group = BlockGroup.liquids;
                 itemCapacity = 40;
-                liquidCapacity = 50f;
+                liquidCapacity = 2000f;
                 consumeItems(ItemStack.with(Items.titanium, 5, Items.graphite, 3));
                 consumeLiquids(LiquidStack.with(Liquids.hydrogen, 30f / 60f,
                         Liquids.ozone, 20f / 60f, Liquids.arkycite, 180f / 60f));
@@ -531,6 +554,20 @@ public class modblocks {
             consumePower(2f / 3f);
             outputItem = new ItemStack(Items.metaglass, 4);
         }};
+
+        genesisProcessor = new AttributeCrafter("genesis-processor") {{
+                requirements(Category.production, with( Items.graphite, 1));
+                squareSprite = true;
+                size = 3;
+                itemCapacity = 30;
+                craftTime = 60f;
+                attribute = modattribute.genesis;
+                hasPower = true;
+                hasLiquids = false;
+                consumePower(2f / 3f);
+                outputItem = new ItemStack(moditems.genesisMetal, 3);
+                boostScale = 0.15f; baseEfficiency = 0; maxBoost = 3f;
+            }};
 
         graphiteCentrifuge = new GenericCrafter("graphite-centrifuge"){{
                 requirements(Category.crafting, with(Items.graphite, 1));
@@ -645,11 +682,13 @@ public class modblocks {
                 squareSprite = true;
                 size = 3;
                 itemCapacity = 30;
-                liquidCapacity = 120f;
+                liquidCapacity = 250f;
                 craftTime = 90f;
                 attribute = Attribute.spores;
                 hasPower = true;
                 hasLiquids = true;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water),
+                        new DrawLiquidTile(modliquids.sporeinfestedwater), new DrawDefault());
                 consumeItem(Items.sporePod, 2);
                 consumeLiquid(Liquids.water, 35f / 60f);
                 consumePower(2f / 3f);
@@ -660,14 +699,18 @@ public class modblocks {
 
         sporeMultiPress = new GenericCrafter("spore-multi-press"){{
                 requirements(Category.crafting, with(Items.graphite, 1));
-                liquidCapacity = 150f; itemCapacity = 30;
+                liquidCapacity = 350f; itemCapacity = 30;
                 craftTime = 30f;
-                regionRotated1 = 3;
+                regionRotated1 = 2;
                 outputLiquids = LiquidStack.with(Liquids.oil, 84f / 60, Liquids.hydrogen, 30f / 60);
                 liquidOutputDirections = new int[]{1, 3};
-                rotate = true;
                 invertFlip = true;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.hydrogen){{padRight = 15f;}},
+                        new DrawLiquidTile(Liquids.hydrogen){{padLeft = 15f;}},new DrawLiquidTile(Liquids.oil){{padding = 8f;}},
+                        new DrawRegion(), new DrawPistons(){{sinOffset = 10f; lenOffset = -2f; sinMag = 2f;}},
+                        new DrawRegion("-top"), new DrawLiquidOutputs());
                 group = BlockGroup.liquids;
+                rotate = true;
                 size = 3;
                 health = 1000;
                 hasLiquids = true;
@@ -1119,22 +1162,18 @@ public class modblocks {
         {{
             reinforcedPowerNode = new PowerNode("reinforced-node"){{
                 requirements(Category.power, with(Items.graphite, 1));
-                maxNodes = 5; consumesPower = outputsPower = true;
-                laserRange = 8; consumePowerBuffered(2500f);
+                maxNodes = 5;laserRange = 8;
             }};
 
             largeReinforcedPowerNode = new PowerNode("large-reinforced-node"){{
                 requirements(Category.power, with(Items.graphite, 1));
-                maxNodes = 10; consumesPower = outputsPower = true; size = 2;
-                laserRange = 19; consumePowerBuffered(45000f);
+                maxNodes = 10; size = 2;laserRange = 19;
             }};
 
             hugeReinforcedPowerNode = new PowerNode("huge-reinforced-node"){{
                 requirements(Category.power, with(Items.graphite, 1));
-                maxNodes = 20; consumesPower = outputsPower = true; size = 3;
-                laserRange = 30; consumePowerBuffered(650000f);
+                maxNodes = 20;size = 3;laserRange = 30;
             }};
-
 
             heavyDutyTurbineCondenser = new ThermalGenerator("heavy-duty-turbine-condenser") {{
                 requirements(Category.power, with(Items.graphite, 1));
@@ -1614,14 +1653,14 @@ public class modblocks {
                 requirements(Category.defense, with(moditems.hyperalloy, 4));
                 health = 360 * wallHealthMultiplier;
                 size = 2;lightningColor = moditems.hyperalloy.color;
-                lightningChance = 0.25f;lightningDamage = 50;lightningLength = 25;
+                lightningChance = 0.25f;lightningDamage = 70;lightningLength = 25;
             }};
 
             hyperalloyWallLarge = new Wall("hyperalloy-wall-large"){{
                 requirements(Category.defense, ItemStack.mult(hyperalloyWall.requirements, 4));
                 health = 360 * 4 * wallHealthMultiplier;
                 size = 3;lightningColor = moditems.hyperalloy.color;
-                lightningChance = 0.25f;lightningDamage = 50;lightningLength = 25;
+                lightningChance = 0.25f;lightningDamage = 70;lightningLength = 25;
             }};
 
 
