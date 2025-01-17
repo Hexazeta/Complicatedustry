@@ -68,7 +68,8 @@ public class modblocks {
     horde, sporeIncubator,mythratiteMixer,pneumatiteMixer,bronzeSmelter,superConductorFurnace,hyperalloyCrucible,
     fluxProcessor,antifreezeFabricator,rtgCoreGenerator,surgeRefinery,ultralloyConveyor,platedLiquidRouter,
     reinforcedPowerNode,largeReinforcedPowerNode,hugeReinforcedPowerNode,platedContainer,platedVault,
-    genesisEnergyFloor, genesisEnergyFloorEmpty, genesisFloor, genesisProcessor,genesisEnergy,
+    genesisEnergyFloor, genesisEnergyFloorEmpty, genesisFloor, genesisProcessor,genesisEnergy,largeShieldedWall,
+    largeForceProjector,
 
     //power
     boilerGenerator, hyperneoplasiaGenerator, chemicalReactionChamber, advancedPyrolysisGenerator, geothermalGenerator,
@@ -77,33 +78,36 @@ public class modblocks {
 
     public static void load() {
         //enviroment
-        largeArkyicVent = new LargeSteamVent("large-arkyic-vent"){{
-            parent = blendGroup = arkyicStone;
-            attributes.set(Attribute.steam, 3f);
+        {{
+            largeArkyicVent = new LargeSteamVent("large-arkyic-vent") {{
+                    parent = blendGroup = arkyicStone;
+                    attributes.set(Attribute.steam, 3f);
+                }};
 
-            genesisEnergyFloor = new Floor("genesis-energy-floor"){{
-                playerUnmineable = true;
-                attributes.set(modattribute.genesis, 0.75f);
-            }};
+            genesisEnergyFloor = new Floor("genesis-energy-floor") {{
+                    playerUnmineable = true;
+                    attributes.set(modattribute.genesis, 0.75f);
+                }};
 
-            genesisEnergyFloorEmpty = new Floor("genesis-energy-empty-floor"){{
-                playerUnmineable = true;
-            }};
+            genesisEnergyFloorEmpty = new Floor("genesis-energy-empty-floor") {{
+                    playerUnmineable = true;
+                }};
 
-            genesisFloor = new Floor("genesis-floor"){{
-                playerUnmineable = true; variants = 19;
-            }};
+            genesisFloor = new Floor("genesis-floor") {{
+                    playerUnmineable = true;
+                    variants = 19;
+                }};
 
-            genesisEnergy = new Floor("genesis-energy"){{
-                status = StatusEffects.none;
-                variants = 0;
-                isLiquid = false;
-                attributes.set(modattribute.genesis, 2f);
-                emitLight = true;
-                lightRadius = 60f;
-                lightColor = Color.valueOf("96dcff").cpy().a(0.38f);
-            }};
-        }};
+            genesisEnergy = new Floor("genesis-energy") {{
+                    status = StatusEffects.none;
+                    variants = 0;
+                    isLiquid = false;
+                    attributes.set(modattribute.genesis, 2f);
+                    emitLight = true;
+                    lightRadius = 60f;
+                    lightColor = Color.valueOf("96dcff").cpy().a(0.38f);
+                }};
+            }}
         //trash
         {{
 
@@ -190,14 +194,17 @@ public class modblocks {
             mountainCrusher = new WallCrafter("mountain-crusher") {{
                     requirements(Category.production, with(Items.graphite, 1));
                     consumePower(40f / 60f);
-                    drillTime = 52f;
-                    size = 3;
-                    itemCapacity = 60;
+                    drillTime = 18f;
+                    size = 4;
+                    itemCapacity = 90;
                     attribute = Attribute.sand;
                     output = Items.sand;
-                    fogRadius = 3;
+                    fogRadius = 5;
                     ambientSound = Sounds.drill;
-                    ambientSoundVolume = 0.04f;
+                    ambientSoundVolume = 0.08f;
+                    consumeLiquid(Liquids.nitrogen, 10f / 60f);
+                    //itemConsumer = consumeItem(Items.carbide).boost(); this isnt in this version yet
+                    //boostItemUseTime = 60f * 7f;
                 }};
 
             
@@ -1247,7 +1254,7 @@ public class modblocks {
             rtgCoreGenerator = new ConsumeGenerator("rtg-core-generator"){{
                 requirements(Category.power, with(Items.graphite, 1));
                 size = 5;
-                powerProduction = 96f;
+                powerProduction = 48f;
                 itemDuration = 60 * 2f;
                 itemCapacity = 20;
                 envEnabled = Env.any;
@@ -1354,7 +1361,7 @@ public class modblocks {
                 requirements(Category.power, with(Items.graphite, 1));
                 size = 6;
                 liquidCapacity = 400f;
-                outputLiquid = new LiquidStack(modliquids.hyperplasm, 70f / 60f);
+                outputLiquid = new LiquidStack(modliquids.hyperplasm, 1f);
                 explodeOnFull = true;
                 heatOutput = 400f;
                 warmupRate = 0.9f;
@@ -1372,14 +1379,14 @@ public class modblocks {
                 ambientSoundVolume = 0.2f;
                 explosionPuddles = 20;
                 explosionPuddleRange = tilesize * 9f;
-                explosionPuddleLiquid = Liquids.neoplasm;
+                explosionPuddleLiquid = modliquids.hyperplasm;
                 explosionPuddleAmount = 150f;
                 explosionMinWarmup = 0.5f;
             }};
         }}
         //core and effect shit idk
         {{
-            mendDome = new MendProjector("mend-Dome"){{
+        mendDome = new MendProjector("mend-Dome"){{
                 requirements(Category.effect, with(Items.graphite, 1));
                 consumePower(8f);
                 size = 3;
@@ -1396,11 +1403,11 @@ public class modblocks {
             size = 5;
             liquidCapacity = 300f;
             itemCapacity = 70;
-            range = 150f;
+            range = 500f;
             speedBoost = 10f;
             useTime = 150f;
             hasBoost = false;
-            consumeItems(with(moditems.quantum, 2, Items.phaseFabric, 9, Items.silicon, 37));
+            consumeItems(with(moditems.quantum, 2, moditems.carborundum, 23));
             consumeLiquids(LiquidStack.with(Liquids.nitrogen, 200f / 60f, modliquids.supercooledfluid, 10f / 60f));
         }};
 
@@ -1439,7 +1446,7 @@ public class modblocks {
             }});
         }};
 
-            blastwaveMonolith = new ShockwaveTower("blastwave-monolith"){{
+        blastwaveMonolith = new ShockwaveTower("blastwave-monolith"){{
                 requirements(Category.effect, with(Items.graphite, 1));
                 size = 4;
                 consumeLiquids(LiquidStack.with(Liquids.cyanogen, 10f / 60f));
@@ -1449,6 +1456,21 @@ public class modblocks {
                 bulletDamage = 240;
             }};
 
+        largeForceProjector = new ForceProjector("large-force-projector"){{
+                requirements(Category.effect, with(Items.graphite, 1));
+                size = 5;
+                phaseRadiusBoost = 225f;
+                radius = 200f;
+                shieldHealth = 6000f;
+                phaseShieldBoost = 2000f;
+                cooldownNormal = 5f;
+                sides = 8;
+                cooldownLiquid = 3.25f;
+                cooldownBrokenBase = 0.85f;
+                consumeLiquid(Liquids.ozone, 10f / 50f);
+                itemConsumer = consumeItem(Items.phaseFabric).boost();
+                consumePower(30f);
+            }};
 
         }}
         //turrets
@@ -1647,23 +1669,37 @@ public class modblocks {
         }}
         //walls
         {{
-            int wallHealthMultiplier = 6;
+            int wallHealthMultiplier = 9;
 
             hyperalloyWall = new Wall("hyperalloy-wall"){{
-                requirements(Category.defense, with(moditems.hyperalloy, 4));
+                requirements(Category.defense, with(moditems.hyperalloy, 9));
                 health = 360 * wallHealthMultiplier;
                 size = 2;lightningColor = moditems.hyperalloy.color;
                 lightningChance = 0.25f;lightningDamage = 70;lightningLength = 25;
             }};
 
             hyperalloyWallLarge = new Wall("hyperalloy-wall-large"){{
-                requirements(Category.defense, ItemStack.mult(hyperalloyWall.requirements, 4));
-                health = 360 * 4 * wallHealthMultiplier;
+                requirements(Category.defense, ItemStack.mult(hyperalloyWall.requirements, 9));
+                health = 360 * 6 * wallHealthMultiplier;
                 size = 3;lightningColor = moditems.hyperalloy.color;
                 lightningChance = 0.25f;lightningDamage = 70;lightningLength = 25;
             }};
 
+            largeShieldedWall = new ShieldWall("large-shielded-wall"){{
+                requirements(Category.defense, ItemStack.with(Items.graphite, 1));
+                consumePower(35f / 60f);
 
+                outputsPower = false;
+                hasPower = true;
+                consumesPower = true;
+                conductivePower = true;
+
+                chanceDeflect = 25f;
+                shieldHealth = 4500f;
+                health = 300 * wallHealthMultiplier * 9;
+                armor = 50f;
+                size = 3;
+            }};
         }}
     }
 }

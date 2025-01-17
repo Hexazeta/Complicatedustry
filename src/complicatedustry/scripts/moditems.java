@@ -19,11 +19,11 @@ public class moditems {
                 }};
 
                 sporeReceptacle = new Item("spore-receptacle"){{
-                    color = Color.valueOf("7557cf");flammability = 3.5f;
+                    color = Color.valueOf("7557cf");flammability = 9f;
                 }};
 
                 platinum = new Item("platinum"){{
-                    color = Color.valueOf("b5bfc7");hardness = 2;cost = 1.5f;
+                    color = Color.valueOf("b5bfc7");hardness = 2;cost = 1.5f;charge = 0.05f;
                 }};
 
                 tin = new Item("tin"){{
@@ -35,7 +35,7 @@ public class moditems {
                 }};
 
                 gold = new Item("gold"){{
-                    color = Color.valueOf("c79d00");cost = 0.2f;
+                    color = Color.valueOf("c79d00");cost = 0.2f;charge = 0.1f;
                 }};
 
                 genesisMetal = new Item("genesis-metal"){{
@@ -44,7 +44,7 @@ public class moditems {
 
                 mythratite = new Item("mythratite"){{
                     color = Color.valueOf("ade080");
-                    flammability = 1.05f;explosiveness = 0.5f;
+                    flammability = 1.12f;explosiveness = 0.5f;
                 }};
             }}
             //normal but cooler
@@ -59,7 +59,7 @@ public class moditems {
 
                 powerCompound = new Item("power-compound"){{
                     color = Color.valueOf("73abff");
-                    frames = 8;frameTime = 45;radioactivity = 2f;explosiveness = 2f;flammability = 3f;
+                    frames = 8;frameTime = 45;radioactivity = 2.5f;explosiveness = 1.9f;
                 }};
 
                 compoundAlloy = new Item("compound-alloy"){{
@@ -67,19 +67,19 @@ public class moditems {
                 }};
 
                 superConductiveMetal = new Item("super-conductive-metal"){{
-                    color = Color.valueOf("fffffi");charge = 1.5f;
+                    color = Color.valueOf("fffffi");charge = 2.5f;
                 }};
             }}
             //cool stuff
             {{
                 superSurgeAlloy = new Item("super-surge-alloy", Color.valueOf("f3e979")){{
                     cost = 4f;
-                    charge = 4f;
+                    charge = 12f;
                     healthScaling = 2f;
                 }};
 
                 superForceAlloy = new Item("super-force-alloy"){{
-                    color = Color.valueOf("5cb55f");healthScaling = 14f;cost = 6f;
+                    color = Color.valueOf("5cb55f");healthScaling = 29f;cost = 6f;
                 }};
 
                 quantum = new Item("quantum"){{
@@ -87,35 +87,35 @@ public class moditems {
                 }};
 
                 pneumatite = new Item("pneumatite"){{
-                    color = Color.valueOf("70e0d0");explosiveness = 1;flammability = 2.5f;healthScaling = 0.8f;
+                    color = Color.valueOf("70e0d0");explosiveness = 2.8f;flammability = 8f;healthScaling = 0.8f;
                 }};
 
                 sporeHeart = new Item("spore-heart"){{
-                    color = Color.valueOf("ffffff");flammability = 5f;explosiveness = 3f;
+                    color = Color.valueOf("ffffff");flammability = 210f;explosiveness = 50f;
                 }};
             }}
             //really cool stuff
             {{
                 ultralloy = new Item("ultralloy"){{
-                    color = Color.valueOf("58cedb");radioactivity = 4.5f;explosiveness = 1.1f;
-                    flammability = 2.1f;healthScaling = 2.5f;charge = 0.5f;cost = 5;
+                    color = Color.valueOf("58cedb");radioactivity = 7.5f;healthScaling = 2.5f;cost = 5;
                 }};
 
                 omegalloy = new Item("omegalloy"){{
-                    color = Color.valueOf("c23673");flammability = 0.8f;explosiveness = 15f;radioactivity = 0.8f;
-                    healthScaling = 0.7f;cost = 3;
+                    color = Color.valueOf("c23673");explosiveness = 30f;healthScaling = 0.7f;cost = 3;
                 }};
 
                 hyperalloy = new Item("hyperalloy"){{
-                    color = Color.valueOf("cfa24e");explosiveness = 3;
-                    flammability = 2f;healthScaling = 10f;charge = 3f;cost = 10;
+                    color = Color.valueOf("cfa24e");healthScaling = 10f;charge = 10f;cost = 10;
                 }};
-
-                thunderium = new Item("thunderium"){{
-                    color = Color.valueOf("fffffc");healthScaling = 3f;charge = 10f;cost = 4;
-                }};
-
             }}
             //epic shit
-            {{}}
+            {{
+                thunderium = new Item("thunderium"){{
+                    color = Color.valueOf("fffffc");healthScaling = 4000f;charge = 110f;cost = 1000;
+                }};
+
+                calamatite = new Item("calamatite"){{
+                    color = Color.valueOf("750006");explosiveness = 12000f;flammability = 5000f;
+                }};
+            }}
     }}

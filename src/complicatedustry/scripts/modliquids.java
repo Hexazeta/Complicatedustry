@@ -28,12 +28,12 @@ public class modliquids {
             }};
 
             sporeinfestedwater = new Liquid("spore-infested-water"){{
-                color = Color.valueOf("7557cf");flammability = 0.75f;alwaysUnlocked = true;
+                color = Color.valueOf("7557cf");flammability = 1.6f;alwaysUnlocked = true;
                 heatCapacity = 0.3f;boilPoint = 0.4f;
             }};
 
             antifreeze = new Liquid("antifreeze"){{
-                color = Color.valueOf("1eabc7");heatCapacity = 1;temperature = -30f;
+                color = Color.valueOf("1eabc7");heatCapacity = 1;temperature = -3f;
             }};
 
             sporeMass = new CellLiquid("spore-mass"){{
@@ -42,7 +42,7 @@ public class modliquids {
 
             hyperplasm = new CellLiquid("hyperplasm"){{
                 heatCapacity = 0.9f;
-                temperature = 1.75f;
+                temperature = 3.5f;
                 viscosity = 1f;
                 flammability = 0f;
                 capPuddles = false;
