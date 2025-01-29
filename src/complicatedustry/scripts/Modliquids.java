@@ -1,21 +1,30 @@
 package complicatedustry.scripts;
 
 import arc.graphics.Color;
+import mindustry.content.StatusEffects;
 import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
 import static mindustry.content.Liquids.*;
 
 
-public class modliquids {
+public class Modliquids {
     //todo more liquids
-    public static Liquid steam,supercooledfluid,helium,sporeinfestedwater,antifreeze,sporeMass,hyperplasm,aeroflux,
+    public static Liquid turboFuel,supercooledfluid,helium,sporeinfestedwater,antifreeze,sporeMass,hyperplasm, heavySlag,
     calatysm;
 
         public static void load() {
 
-            steam = new Liquid("steam"){{
-                color = Color.valueOf("8ffe09");
+            turboFuel = new Liquid("turbo-fuel"){{
+                viscosity = 0.5f;
+                flammability = 4f;
+                explosiveness = 3.75f;
+                heatCapacity = 2f;
+                barColor = Color.valueOf("ffffff");
+                effect = StatusEffects.tarred;
+                boilPoint = 0.975f;
+                gasColor = Color.grays(0.9f);
+                canStayOn.addAll(water, arkycite);
             }};
 
             supercooledfluid = new Liquid("supercooledfluid"){{
@@ -37,7 +46,9 @@ public class modliquids {
             }};
 
             sporeMass = new CellLiquid("spore-mass"){{
-                color = Color.valueOf("121212");
+                color = Color.valueOf("ffffff");flammability = 3.6f;viscosity = 0.75f;
+                heatCapacity = 0.75f;boilPoint = 1f;spreadTarget = neoplasm;
+                moveThroughBlocks = true;capPuddles = false;canStayOn.addAll(water, neoplasm, hyperplasm);
             }};
 
             hyperplasm = new CellLiquid("hyperplasm"){{
@@ -56,7 +67,10 @@ public class modliquids {
                 colorTo = Color.valueOf("821443");
             }};
 
-            aeroflux = new Liquid("aeroflux"){{
-                color = Color.valueOf("97a5f7");heatCapacity = 0.6f;temperature = 0f;
+            heavySlag = new Liquid("heavy-slag", Color.valueOf("ffa166")){{
+                temperature = 3f;
+                viscosity = 0.825f;
+                effect = StatusEffects.melting;
+                lightColor = Color.valueOf("f0511d").a(0.4f);
             }};
         }}

@@ -3,10 +3,8 @@ package complicatedustry.scripts;
 import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
 import arc.math.Interp;
-import mindustry.Vars;
 import mindustry.ai.types.GroundAI;
 import mindustry.content.Fx;
-import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
@@ -14,18 +12,15 @@ import mindustry.entities.effect.WaveEffect;
 import mindustry.gen.CrawlUnit;
 import mindustry.gen.LegsUnit;
 import mindustry.gen.Sounds;
-import mindustry.gen.Unit;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
-import mindustry.type.ammo.PowerAmmoType;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 
-public class modunits {
+public class Modunits {
     public static UnitType
             //meld exclusive unit
             jack,xelura,
@@ -157,8 +152,8 @@ public class modunits {
                                 Drawf.light(e.x, e.y, 29f, e.color, e.fout() * 0.9f);
                             }));
                             hitEffect = despawnEffect = new MultiEffect(
-                                    Fx.hitSquaresColor.wrap(moditems.ultralloy.color, 45f),
-                                    new WaveEffect(){{colorFrom = colorTo = moditems.ultralloy.color;
+                                    Fx.hitSquaresColor.wrap(Moditems.ultralloy.color, 45f),
+                                    new WaveEffect(){{colorFrom = colorTo = Moditems.ultralloy.color;
                                 sizeTo = splashDamageRadius - 64f;lifetime = 12f;strokeFrom = 3f;}});
                             knockback = 0.4f;
                             lifetime = 50f;
@@ -167,7 +162,7 @@ public class modunits {
                             ammoMultiplier = 3f;
                             splashDamageRadius = 37f;
                             splashDamage = 60f;
-                            frontColor = lightningColor = trailColor = backColor = hitColor = moditems.ultralloy.color;
+                            frontColor = lightningColor = trailColor = backColor = hitColor = Moditems.ultralloy.color;
                             lightning = 6;
                             lightningLength = 5;
                             smokeEffect = Fx.shootBigSmoke2;
@@ -205,8 +200,8 @@ public class modunits {
                 sapStrength = 1.75f;
                 length = 90f;
                 damage = 90;
-                shootEffect = Fx.hitSquaresColor.wrap(moditems.ultralloy.color, 45f);
-                hitColor = color = moditems.ultralloy.color;
+                shootEffect = Fx.hitSquaresColor.wrap(Moditems.ultralloy.color, 45f);
+                hitColor = color = Moditems.ultralloy.color;
                 despawnEffect = Fx.none;
                 width = 0.9f;
                 lifetime = 50f;

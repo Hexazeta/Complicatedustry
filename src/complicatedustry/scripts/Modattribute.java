@@ -2,7 +2,7 @@ package complicatedustry.scripts;
 
 import static mindustry.world.meta.Attribute.add;
 
-public class modattribute {
+public class Modattribute {
 
     public static mindustry.world.meta.Attribute
 

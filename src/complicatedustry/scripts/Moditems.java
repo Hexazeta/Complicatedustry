@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import mindustry.type.Item;
 
 
-public class moditems {
+public class Moditems {
 
     public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,fieryCompound,
             platinum,carborundum,omegalloy,quantum,tin,bronze,hyperalloy,mythratite,pneumatite,genesisMetal,
