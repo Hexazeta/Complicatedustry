@@ -36,6 +36,8 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
+import mindustry.world.consumers.ConsumeItemExplode;
+import mindustry.world.consumers.ConsumeItemFlammable;
 import mindustry.world.consumers.ConsumeItemRadioactive;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
@@ -427,7 +429,7 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeLiquid(Liquids.oil, 40f / 60f);
                 consumeItems(with(Items.tungsten, 11, Items.graphite, 13));
-                consumePower(2f / 3f);
+                consumePower(32f);
                 outputItem = new ItemStack(Items.carbide, 9);
                 heatRequirement = 45f;
             }};
@@ -446,7 +448,7 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeLiquid(Liquids.oil, 80f / 60f);
                 consumeItems(with(Items.titanium, 15, Items.sporePod, 4));
-                consumePower(2f / 3f);
+                consumePower(30f);
                 outputItem = new ItemStack(Items.plastanium, 13);
             }};
 
@@ -465,7 +467,7 @@ public class Modblocks {
                 invertFlip = false;
                 itemCapacity = 300;
                 liquidCapacity = 400f;
-                consumePower(1f);
+                consumePower(90f);
                 consumeLiquid(Liquids.ozone, 100f / 60f);
                 consumeItems(ItemStack.with(Items.silicon, 26, Items.beryllium, 19, Items.thorium, 12));
                 outputItems = ItemStack.with(Items.oxide, 30, Items.phaseFabric, 20);
@@ -497,7 +499,7 @@ public class Modblocks {
                 consumeItems(ItemStack.with(Items.titanium, 5, Items.graphite, 3));
                 consumeLiquids(LiquidStack.with(Liquids.hydrogen, 30f / 60f,
                         Liquids.ozone, 20f / 60f, Liquids.arkycite, 180f / 60f));
-                consumePower(1f);
+                consumePower(27f);
                 regionRotated1 = 3;
                 outputLiquids = LiquidStack.with(Liquids.cryofluid, 1f, Liquids.cyanogen, 15f / 60f);
                 liquidOutputDirections = new int[]{1, 3};
@@ -519,7 +521,7 @@ public class Modblocks {
                 hasPower = true;
                 hasLiquids = true;
                 consumeItems(with(Items.graphite, 25));
-                consumePower(2f / 3f);
+                consumePower(9);
                 outputItem = new ItemStack(Moditems.diamond, 11);
                 outputLiquid = new LiquidStack(Liquids.nitrogen, 25f / 60f);
                 heatRequirement = 60f;
@@ -539,7 +541,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeItems(with(Items.sand, 12, Items.graphite, 4, Items.lead, 7));
             consumeLiquid(Liquids.oil, 10f / 60f);
-            consumePower(2f / 3f);
+            consumePower(2f);
             outputItem = new ItemStack(Items.pyratite, 6);
             attribute = Attribute.oil;
             boostScale = 5f / 126f;
@@ -561,7 +563,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeLiquid(Liquids.oil, 30f / 60f);
             consumeItems(with(Items.sand, 18, Items.graphite, 8, Items.pyratite, 4));
-            consumePower(2f / 3f);
+            consumePower(48f);
             outputItem = new ItemStack(Items.silicon, 32);
             ambientSound = Sounds.electricHum;
             boostScale = 1f / 6f;
@@ -580,7 +582,7 @@ public class Modblocks {
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.sand, 4, Items.lead, 5, Items.pyratite, 1));
-            consumePower(2f / 3f);
+            consumePower(2f);
             outputItem = new ItemStack(Items.metaglass, 4);
         }};
 
@@ -593,7 +595,7 @@ public class Modblocks {
                 attribute = Modattribute.genesis;
                 hasPower = true;
                 hasLiquids = false;
-                consumePower(2f / 3f);
+                consumePower(1f);
                 outputItem = new ItemStack(Moditems.genesisMetal, 3);
                 boostScale = 0.15f; baseEfficiency = 0; maxBoost = 3f;
             }};
@@ -609,7 +611,7 @@ public class Modblocks {
                 rotateDraw = false;
                 consumeItem(Items.sporePod, 2);
                 consumeLiquid(Liquids.oil, 0.7f);
-                consumePower(2.5f);
+                consumePower(30f);
             }};
 
         waterConcentrator = new AttributeCrafter("water-concentrator") {{
@@ -624,9 +626,9 @@ public class Modblocks {
             hasLiquids = true;
             consumeLiquid(Liquids.ozone, 30f / 60f);
             consumeLiquid(Liquids.hydrogen, 45f / 60f);
-            consumePower(2f / 3f);
+            consumePower(10f);
             outputsLiquid = true;
-            outputLiquid = new LiquidStack(Liquids.water, 90f / 60f);
+            outputLiquid = new LiquidStack(Liquids.water, 100f / 60f);
             boostScale = 10f / 27f;
             maxBoost = 2;
         }};
@@ -646,9 +648,9 @@ public class Modblocks {
                     new DrawDefault());
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.water, 45f / 60f);
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(Items.sporePod, 8);
+            consumeLiquid(Liquids.water, 1f);
+            consumePower(60f);
+            outputItem = new ItemStack(Items.sporePod, 12);
             boostScale = 50f / 27f;
             maxBoost = 5f;
         }};
@@ -670,8 +672,8 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeLiquid(Modliquids.sporeinfestedwater, 81f / 60f);
                 consumeItem(Items.sporePod, 16);
-                consumePower(2f / 3f);
-                outputItem = new ItemStack(Moditems.sporeReceptacle, 5);
+                consumePower(40f);
+                outputItem = new ItemStack(Moditems.sporeReceptacle, 6);
                 boostScale = 10f / 9f;
                 maxBoost = 3f;
             }};
@@ -700,7 +702,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeLiquids(LiquidStack.with(Modliquids.sporeinfestedwater, 200f / 60f, Liquids.arkycite, 90f / 60f));
             consumeItem(Moditems.sporeReceptacle, 15);
-            consumePower(2f / 3f);
+            consumePower(200f);
             outputItem = new ItemStack(Moditems.sporeHeart, 1);
             boostScale = 5f / 12f;
             maxBoost = 2f;
@@ -720,7 +722,7 @@ public class Modblocks {
                         new DrawLiquidTile(Modliquids.sporeinfestedwater), new DrawDefault());
                 consumeItem(Items.sporePod, 2);
                 consumeLiquid(Liquids.water, 35f / 60f);
-                consumePower(2f / 3f);
+                consumePower(4f);
                 outputLiquid = new LiquidStack(Modliquids.sporeinfestedwater, 54f / 60f);
                 boostScale = 10f / 27f;
                 maxBoost = 1f;
@@ -731,7 +733,7 @@ public class Modblocks {
                 liquidCapacity = 350f; itemCapacity = 30;
                 craftTime = 40f;
                 regionRotated1 = 2;
-                outputLiquids = LiquidStack.with(Liquids.oil, 84f / 60, Liquids.hydrogen, 30f / 60);
+                outputLiquids = LiquidStack.with(Liquids.oil, 84f / 60, Liquids.hydrogen, 90f / 60);
                 liquidOutputDirections = new int[]{1, 3};
                 invertFlip = true;
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.hydrogen){{padRight = 15f;}},
@@ -746,7 +748,7 @@ public class Modblocks {
                 hasPower = true;
                 craftEffect = Fx.steam;
                 consumeItem(Moditems.sporeReceptacle, 2);
-                consumePower(0.7f);
+                consumePower(18f);
             }};
 
         advancedOilExtractor = new AttributeCrafter("advanced-oil-extractor"){{
@@ -770,7 +772,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeLiquid(Liquids.water, 64f / 60f);
             consumeItems(with(Items.sporePod, 3, Items.sand, 5));
-            consumePower(2f / 3f);
+            consumePower(45f);
             outputsLiquid = true;
             outputLiquid = new LiquidStack(Liquids.oil, 200f / 60f);
             boostScale = 5f / 56f;
@@ -791,7 +793,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeLiquid(Liquids.hydrogen, 35f / 60f);
             consumeItems(with(Items.beryllium, 10, Items.tungsten, 9, Items.silicon, 12, Items.graphite, 11));
-            consumePower(2f / 3f);
+            consumePower(8f);
             outputItem = new ItemStack(Moditems.forceAlloy, 6);
             heatRequirement = 30f;
             maxEfficiency = 6f;
@@ -809,7 +811,7 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeLiquid(Liquids.nitrogen, 110f / 60f);
                 consumeItems(with(Items.oxide, 32, Items.carbide, 12, Items.phaseFabric, 20));
-                consumePower(2f / 3f);
+                consumePower(80f);
             outputItems = ItemStack.with(Moditems.forceAlloy, 8, Moditems.superForceAlloy, 1);
                 heatRequirement = 100f;
                 maxEfficiency = 7f;
@@ -833,15 +835,15 @@ public class Modblocks {
             squareSprite = true;
             size = 3;
             itemCapacity = 30;
-            liquidCapacity = 40f;
+            liquidCapacity = 70f;
             craftTime = 120f;
             craftEffect = Fx.coalSmeltsmoke;
             updateEffect = Fx.coalSmeltsmoke;
             hasPower = true;
             hasLiquids = true;
-            consumeLiquid(Liquids.hydrogen, 10f / 60f);
-            consumeItems(with(Items.pyratite, 5, Items.sporePod, 8));
-            consumePower(2f / 3f);
+            consumeLiquid(Liquids.hydrogen, 30f / 60f);
+            consumeItems(with(Items.pyratite, 5, Items.sporePod, 7));
+            consumePower(2f);
             outputItem = new ItemStack(Items.blastCompound, 6);
         }};
 
@@ -870,9 +872,9 @@ public class Modblocks {
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.blastCompound, 12, Items.pyratite, 18,
-                    Items.thorium, 24, Moditems.sporeReceptacle, 30));
-            consumePower(2f / 3f);
-            outputItem = new ItemStack(Moditems.powerCompound, 14);
+                    Items.thorium, 24, Moditems.sporeReceptacle, 36));
+            consumePower(6f);
+            outputItem = new ItemStack(Moditems.powerCompound, 15);
         }};
 
         fractionator = new Separator("fractionator"){{
@@ -895,7 +897,7 @@ public class Modblocks {
                 size = 4;
                 itemCapacity = 30;
                 liquidCapacity = 40f;
-                consumePower(2f / 3f);
+                consumePower(12f);
                 consumeItem(Items.scrap, 3);
                 consumeLiquid(Liquids.slag, 15f / 60f);
                 consumeLiquid(Liquids.water, 6f / 60f);
@@ -923,7 +925,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeLiquid(Liquids.slag, 1f);
             consumeItems(with(Items.copper, 10, Items.lead, 12, Items.titanium, 9, Items.silicon, 21));
-            consumePower(2f / 3f);
+            consumePower(12f);
             outputItem = new ItemStack(Items.surgeAlloy, 6);
             heatRequirement = 45f;
             maxEfficiency = 6f;
@@ -943,7 +945,7 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeLiquid(Modliquids.heavySlag, 40f / 60f);
                 consumeItems(with(Moditems.bronze, 6, Items.metaglass, 10, Items.plastanium, 28, Items.phaseFabric, 30));
-                consumePower(2f / 3f);
+                consumePower(120f);
                 outputItems = ItemStack.with(Items.surgeAlloy, 21, Moditems.superSurgeAlloy, 1);
                 heatRequirement = 100f;
                 maxEfficiency = 7f;
@@ -963,7 +965,7 @@ public class Modblocks {
             consumeItems(with(Items.plastanium, 15)); //Al4Si3O8
             consumeLiquid(Liquids.cryofluid, 100f / 60f);
             consumeLiquid(Liquids.cyanogen, 25f / 60f);
-            consumePower(2f / 3f);
+            consumePower(3f);
             outputLiquid = new LiquidStack(Modliquids.supercooledfluid, 20f/ 60f);
         }};
 
@@ -979,7 +981,7 @@ public class Modblocks {
             hasPower = true;
             hasLiquids = false;
             consumeItems(with(Items.phaseFabric, 20, Items.plastanium, 25, Items.oxide, 30, Items.carbide, 25));
-            consumePower(2f / 3f);
+            consumePower(10f);
             outputItem = new ItemStack(Moditems.compoundAlloy, 10);
             heatRequirement = 32f;
             maxEfficiency = 6f;
@@ -1016,7 +1018,7 @@ public class Modblocks {
             consumeItems(with(Items.copper, 28, Items.lead, 27, Items.sand, 25,
                     Items.titanium, 24, Items.graphite, 27, Items.thorium, 22,
                     Items.beryllium, 28, Items.tungsten, 25));
-            consumePower(2f / 3f);
+            consumePower(36f);
             outputItem = new ItemStack(Moditems.omegalloy, 18);
         }};
 
@@ -1036,7 +1038,7 @@ public class Modblocks {
                 consumeLiquid(Liquids.hydrogen,50f / 60f);
                 consumeLiquid(Modliquids.supercooledfluid, 30f / 60f);
                 consumeItems(with(Items.phaseFabric, 10));
-                consumePower(2f / 3f);
+                consumePower(16f);
                 outputItem = new ItemStack(Moditems.quantum, 3);
             }};
 
@@ -1063,7 +1065,7 @@ public class Modblocks {
             hasLiquids = true;
             consumeItems(with(Items.surgeAlloy, 90, Moditems.forceAlloy, 30, Moditems.powerCompound, 15, Moditems.compoundAlloy, 45));
             consumeLiquid(Liquids.cryofluid, 150f / 60f);
-            consumePower(2f / 3f);
+            consumePower(144f);
             outputItem = new ItemStack(Moditems.ultralloy, 10);
             heatRequirement = 130f;
             maxEfficiency = 7f;
@@ -1080,7 +1082,7 @@ public class Modblocks {
                         Fx.smokeCloud.wrap(Color.gray, 45f),
                         Fx.smokeCloud.wrap(Color.gray, 30f)
                 ).wrap(Color.gray,45f);
-                outputItem = new ItemStack(Moditems.carborundum, 23);
+                outputItem = new ItemStack(Moditems.carborundum, 90);
                 itemCapacity = 120;
                 craftTime = 240f;
                 size = 5;
@@ -1089,8 +1091,8 @@ public class Modblocks {
                 ambientSound = Sounds.smelter;
                 ambientSoundVolume = 0.07f;
                 isMultiblock();
-                consumeItems(with(Items.carbide, 38, Moditems.diamond, 18, Items.silicon, 50));
-                consumePower(1f);
+                consumeItems(with(Items.carbide, 152, Moditems.diamond, 72, Items.silicon, 200));
+                consumePower(21f);
             }};
 
         mythratiteMixer = new GenericCrafter("mythratite-mixer") {{
@@ -1104,7 +1106,7 @@ public class Modblocks {
                 hasPower = true;
                 hasLiquids = false;
                 consumeItems(with(Items.titanium, 7, Items.tungsten, 5, Items.lead, 8));
-                consumePower(2f / 3f);
+                consumePower(3f);
                 outputItem = new ItemStack(Moditems.mythratite, 5);
             }};
 
@@ -1119,7 +1121,7 @@ public class Modblocks {
                 hasLiquids = false;
                 drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner"){{spinSprite = true; rotateSpeed = -1f;}});
                 consumeItems(with(Moditems.mythratite, 10, Items.pyratite, 12, Moditems.genesisMetal, 27));
-                consumePower(2f / 3f);
+                consumePower(9f);
                 outputItem = new ItemStack(Moditems.pneumatite, 7);
             }};
 
@@ -1134,7 +1136,7 @@ public class Modblocks {
                 hasPower = true;
                 hasLiquids = false;
                 consumeItems(with(Items.copper, 7, Moditems.tin, 3));
-                consumePower(2f / 3f);
+                consumePower(1f);
                 outputItem = new ItemStack(Moditems.bronze, 2);
             }};
 
@@ -1149,7 +1151,7 @@ public class Modblocks {
                 hasPower = true;
                 hasLiquids = false;
                 consumeItems(with(Moditems.bronze, 20, Moditems.platinum, 6, Moditems.gold, 14));
-                consumePower(2f / 3f);
+                consumePower(4f);
                 outputItem = new ItemStack(Moditems.superConductiveMetal, 9);
             }};
 
@@ -1164,7 +1166,7 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeItems(with(Moditems.pneumatite, 30, Moditems.superConductiveMetal, 60, Moditems.carborundum, 54));
                 consumeLiquid(Liquids.cyanogen, 45f / 60f);
-                consumePower(2f / 3f);
+                consumePower(100f);
                 outputItem = new ItemStack(Moditems.hyperalloy, 15);
             }};
 
@@ -1179,7 +1181,7 @@ public class Modblocks {
                 hasLiquids = true;
                 consumeItem(Moditems.genesisMetal, 1);
                 consumeLiquid(Liquids.slag, 300f / 60f);
-                consumePower(2f / 3f);
+                consumePower(2f);
                 outputLiquid = new LiquidStack(Modliquids.heavySlag, 1f);
             }};
 
@@ -1189,7 +1191,7 @@ public class Modblocks {
             size = 4;
             itemCapacity = 30;
             liquidCapacity = 2000f;
-            craftTime = 480f;
+            craftTime = 90f;
             hasPower = true;
             rotate = true;
             invertFlip = true;
@@ -1200,7 +1202,7 @@ public class Modblocks {
             consumeLiquid(Liquids.arkycite, 240f / 60f);
             consumeLiquid(Liquids.nitrogen, 30f / 60f);
             consumeLiquid(Liquids.oil, 90f / 60f);
-            consumePower(2f / 3f);
+            consumePower(7f);
             outputLiquids = LiquidStack.with(Modliquids.turboFuel, 30f / 60f, Liquids.ozone, 150f / 60f);
             regionRotated1 = 3;
             liquidOutputDirections = new int[]{1, 3};
@@ -1228,9 +1230,9 @@ public class Modblocks {
                 requirements(Category.power, with(Items.graphite, 1));
                 attribute = Attribute.steam;
                 group = BlockGroup.liquids;
-                displayEfficiencyScale = 1f / 75f;
+                displayEfficiencyScale = 2f / 75f;
                 minEfficiency = 3f - 0.001f;
-                powerProduction = 1f / 9f;
+                powerProduction = 2f / 9f;
                 displayEfficiency = false;
                 generateEffect = Fx.turbinegenerate;
                 effectChance = 0.12f;
@@ -1250,11 +1252,43 @@ public class Modblocks {
                 fogRadius = 5;
             }};
 
+            boilerGenerator = new ConsumeGenerator("boiler-generator"){{
+                requirements(Category.power, with(Items.graphite, 1));
+                powerProduction = 7f;
+                itemDuration = 45f;
+                itemCapacity = 30;
+                liquidCapacity = 600;
+                consumeLiquid(Liquids.water, 64f / 60f);
+                consumeLiquid(Liquids.oil, 40f / 60f);
+                outputLiquid = new LiquidStack(Liquids.arkycite, 5f / 60f);
+                hasLiquids = true;
+                size = 3;
+                generateEffect = Fx.generatespark;
+                effectChance = 0.25f;
+                generateEffectRange = 7.5f;
+                squareSprite = false;
+                ambientSound = Sounds.smelter;
+                ambientSoundVolume = 0.2f;
+
+                consume(new ConsumeItemFlammable());
+                consume(new ConsumeItemExplode());
+
+                drawer = new DrawMulti(
+                        new DrawRegion("-bottom"),
+                        new DrawLiquidTile(Liquids.water){{padding = 3f;}},
+                        new DrawRegion("-turbine2"){{rotateSpeed = 3f;}},
+                        new DrawDefault(),
+                        new DrawWarmupRegion(),
+                        new DrawRegion("-turbine1"){{rotateSpeed = -3f;}},
+                        new DrawRegion("-cap")
+                );
+            }};
+
             chemicalReactionChamber = new ConsumeGenerator("chemical-reaction-chamber") {{
                     requirements(Category.power, with(Items.graphite, 1));
                     powerProduction = 50f;
-                    consumeLiquids(LiquidStack.with(Liquids.ozone, 8f / 60f, Liquids.arkycite, 130f / 60f, Liquids.hydrogen, 6f / 60f));
-                    outputLiquid = new LiquidStack(Liquids.water, 5f / 60f);
+                    consumeLiquids(LiquidStack.with(Liquids.ozone, 16f / 60f, Liquids.arkycite, 140f / 60f, Liquids.hydrogen, 9f / 60f));
+                    outputLiquid = new LiquidStack(Liquids.water, 10f / 60f);
                     outputsLiquid = true;
                     size = 4;
                     generateEffect = Fx.none;
@@ -1263,7 +1297,7 @@ public class Modblocks {
                     ambientSoundVolume = 0.06f;
                 }};
 
-            advancedPyrolysisGenerator = new ConsumeGenerator("advanced-pyrolysis-generator") {{
+            advancedPyrolysisGenerator = new PowerGeneratorTest("advanced-pyrolysis-generator") {{
                     requirements(Category.power, with(Items.graphite, 1));
                     powerProduction = 150f;
                     consumeLiquids(LiquidStack.with(Liquids.slag, 90f / 60f, Liquids.arkycite, 195f / 60f));
@@ -1271,11 +1305,17 @@ public class Modblocks {
                     size = 4;
                     liquidCapacity = 600f;
                     itemCapacity = 20;
-                    outputLiquid = new LiquidStack(Liquids.cryofluid, 90f / 60f);
-                    generateEffect = Fx.none;
+                    outputLiquids = LiquidStack.with(Liquids.ozone, 12f / 60f,
+                            Liquids.cryofluid, 1f, Liquids.hydrogen, 18f / 60f);
                     ambientSound = Sounds.smelter;
                     ambientSoundVolume = 0.06f;
                     researchCostMultiplier = 0.4f;
+                rotate = true;
+                invertFlip = true;
+                hasLiquids = true;
+                hasItems = true;
+                liquidOutputDirections = new int[]{1, 2, 3};
+                regionRotated1 = 1;
                 }};
 
             geothermalGenerator = new ThermalGenerator("geothermal-generator") {{
@@ -1291,7 +1331,7 @@ public class Modblocks {
                     floating = true;
                     ambientSound = Sounds.hum;
                     ambientSoundVolume = 0.06f;
-                }};
+                }};//todo fi thi shi
 
             rtgCoreGenerator = new ConsumeGenerator("rtg-core-generator"){{
                 requirements(Category.power, with(Items.graphite, 1));
@@ -1380,9 +1420,9 @@ public class Modblocks {
                 explodeOnFull = true;
                 heatOutput = 600f;
                 warmupRate = 0.3f;
-                consumeLiquid(Liquids.arkycite, 300f / 60f);
-                consumeLiquid(Liquids.cryofluid, 45f / 60f);
-                consumeItems(with(Items.phaseFabric, 6, Items.silicon, 2));
+                consumeLiquid(Liquids.arkycite, 280f / 60f);
+                consumeLiquid(Liquids.cryofluid, 30f / 60f);
+                consumeItems(with(Items.phaseFabric, 5));
                 itemDuration = 60f * 3f;
                 itemCapacity = 20;
                 explosionRadius = 30;

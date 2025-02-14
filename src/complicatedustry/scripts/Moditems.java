@@ -6,10 +6,10 @@ import mindustry.type.Item;
 
 public class Moditems {
 
-    public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,fieryCompound,
+    public static Item diamond,forceAlloy, sporeReceptacle, powerCompound,compoundAlloy,ultralloy,emerald,
             platinum,carborundum,omegalloy,quantum,tin,bronze,hyperalloy,mythratite,pneumatite,genesisMetal,
-            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium,sporeHeart,shockCompound,
-            calamatite,hellsDust;
+            gold,superConductiveMetal,superSurgeAlloy,superForceAlloy,thunderium,sporeHeart,ruby,
+            calamatite,sapphire;
 
         public static void load() {
             //normal
@@ -92,6 +92,20 @@ public class Moditems {
 
                 sporeHeart = new Item("spore-heart"){{
                     color = Color.valueOf("ffffff");flammability = 210f;explosiveness = 50f;
+                }};
+            }}
+            //specialized
+            {{
+                emerald = new Item("emerald"){{
+                    color = Color.valueOf("111111");
+                }};
+
+                ruby = new Item("ruby"){{
+                    color = Color.valueOf("555555");
+                }};
+
+                sapphire = new Item("sapphire"){{
+                    color = Color.valueOf("999999");
                 }};
             }}
             //really cool stuff
